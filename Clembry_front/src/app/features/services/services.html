@@ -1,0 +1,23 @@
+<section class="features">
+
+  <h2>Perché scegliere iLearn?</h2>
+
+  <div class="cards">
+
+    @for(feature of features; track feature) {
+
+      <div class="card">
+
+        <h3>{{ feature.icon }}</h3>
+
+        <h4>{{ feature.title }}</h4>
+
+        <p>{{ feature.description }}</p>
+
+      </div>
+
+    }
+
+  </div>
+
+</section>
