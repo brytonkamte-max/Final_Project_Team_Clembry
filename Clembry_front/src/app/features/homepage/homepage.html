@@ -1,4 +1,38 @@
+<!-- Sezione principale della homepage -->
+<section class="hero">
+  <!-- Titolo principale -->
+  <h1>{{ titolo }}</h1>
 
-<app-hero></app-hero>
-<app-services></app-services>
+  <!-- Sottotitolo -->
+  <p>{{ sottotitolo }}</p>
 
+  <!-- Pulsanti principali -->
+  <div class="buttons">
+    <!-- Pulsante collegato al metodo cercaDocente() nel .ts -->
+    <button (click)="cercaDocente()">Trova un docente</button>
+
+  </div>
+</section>
+
+<!-- Sezione informativa -->
+<section class="features">
+  <h2>Perché scegliere iLearn?</h2>
+
+  <!-- Blocco 1 -->
+  <div class="feature">
+    <h3>📅 Calendario</h3>
+    <p>Gestisci le lezioni</p>
+  </div>
+
+  <!-- Blocco 2 -->
+  <div class="feature">
+    <h3>📚 Materiale</h3>
+    <p>Accedi ai documenti condivisi</p>
+  </div>
+
+  <!-- Blocco 3 -->
+  <div class="feature">
+    <h3>💳 Pagamenti</h3>
+    <p>Gestione dei pagamenti</p>
+  </div>
+</section>

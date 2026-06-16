@@ -1,0 +1,44 @@
+/* Sezione principale con sfondo e centratura */
+.hero {
+  text-align: center; /* Centra tutto il testo */
+  background-color: #e8f0fe; /* Colore di sfondo */
+  padding: 40px 20px; /* Spaziatura interna */
+}
+
+/* Stile del titolo principale */
+.hero h1 {
+  color: #1a73e8; /* Blu --> coerente con navbar */
+  font-size: 2em; /* Dimensione del testo */
+}
+
+/* Stile del sottotitolo */
+.hero p {
+  color: #333; /* Grigio scuro */
+  margin-bottom: 20px; /* Spazio sotto */
+}
+
+/* Contenitore dei pulsanti */
+.buttons button {
+  margin: 10px; /* Spazio tra i pulsanti */
+  padding: 10px 20px; /* Spaziatura interna */
+  border: none; /* Rimuove il bordo */
+  background-color: #1a73e8; /* Blu */
+  color: white; /* Testo bianco */
+
+}
+
+/* Sezione dei vantaggi */
+.features {
+  margin: 40px auto; /* Spazio sopra e sotto */
+  width: 80%; /* Larghezza contenuta */
+}
+
+/* Singolo blocco */
+.feature {
+  margin-bottom: 20px; /* Spazio tra i blocchi */
+}
+
+/* Titolo */
+.feature h3 {
+  color: #1a73e8; /* Blu */
+}
