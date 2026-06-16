@@ -1,0 +1,40 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: var(--primary-color);
+
+}
+
+ul {
+   display: flex;
+   list-style: none;
+   gap: 1rem;
+ }
+ .actions {
+   display: flex;
+   gap: 1rem;
+ }
+ li {
+   cursor: pointer;
+   color: white;
+
+ }
+
+ li:hover {
+   text-decoration: underline;
+   color: var(--primary-color);
+ }
+
+button{
+   background-color: #2563eb;
+   color: white;
+   padding: 10px 20px;
+   border-radius: 6px;
+   text-decoration: none;
+ }
+
+ img{
+   width: 100px;
+   height: 100px;
+ }
