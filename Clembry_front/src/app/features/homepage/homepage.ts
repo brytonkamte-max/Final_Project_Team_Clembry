@@ -8,7 +8,7 @@ import { Courses } from "../courses/courses";
 
 @Component({
   selector: 'app-homepage',
-  imports: [Navbar, Footer, Hero, Services, Courses],
+  imports: [  Hero, Services],
   templateUrl: './homepage.html',
   styleUrl: './homepage.css',
 })
