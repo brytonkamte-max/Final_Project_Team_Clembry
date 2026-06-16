@@ -1,0 +1,20 @@
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <div>
+    <label>username: </label>
+    <input formControlName="username"/>
+    @if(loginForm.get('username')?.invalid
+        && loginForm.get('username')?.touched){
+          <span>Username Obbligatorio</span>
+        }
+  </div>
+  <div>
+    <label>Password: </label>
+    <input formControlName="password" type="password"/>
+    @if (loginForm.get('password')?.errors?.['minlength']
+          && loginForm.get('password')?.touched)
+    {
+      <span>Password Obbligatoria. Minimo 6 caratteri</span>
+    }
+  </div>
+  <button type="submit" [disabled]="!loginForm.valid">Login</button>
+</form>
