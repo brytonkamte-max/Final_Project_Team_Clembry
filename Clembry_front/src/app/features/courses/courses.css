@@ -1,0 +1,314 @@
+/* =====================================================
+   TOKEN DI DESIGN
+   ===================================================== */
+:host {
+  --colore-sfondo:     #0F172A;
+  --colore-card:       #1E293B;
+  --colore-bordo:      #334155;
+  --colore-accent:     #7C3AED;
+  --colore-accent-soft:#A78BFA;
+  --colore-verde:      #10B981;
+  --testo-primario:    #F1F5F9;
+  --testo-secondario:  #94A3B8;
+  --testo-muted:       #64748B;
+  --raggio-card:       16px;
+  --raggio-btn:        999px;
+  --transizione:       0.25s ease;
+
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--colore-sfondo);
+  min-height: 100vh;
+  color: var(--testo-primario);
+}
+
+/* =====================================================
+   LAYOUT PRINCIPALE
+   ===================================================== */
+.catalogo-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 64px 24px 96px;
+}
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+.catalogo-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.header-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--colore-accent-soft);
+  margin-bottom: 14px;
+}
+
+.header-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--testo-primario);
+  margin: 0 0 16px;
+}
+
+.header-subtitle {
+  font-size: 1.05rem;
+  color: var(--testo-secondario);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* =====================================================
+   BARRA FILTRI
+   ===================================================== */
+.filtri-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.filtro-btn {
+  padding: 8px 20px;
+  border-radius: var(--raggio-btn);
+  border: 1.5px solid var(--colore-bordo);
+  background: transparent;
+  color: var(--testo-secondario);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--transizione),
+    border-color var(--transizione),
+    color var(--transizione);
+}
+
+.filtro-btn:hover {
+  border-color: var(--colore-accent-soft);
+  color: var(--colore-accent-soft);
+}
+
+.filtro-btn.active {
+  background: var(--colore-accent);
+  border-color: var(--colore-accent);
+  color: #fff;
+}
+
+/* =====================================================
+   GRIGLIA CARD
+   ===================================================== */
+.corsi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* =====================================================
+   CARD SINGOLA
+   ===================================================== */
+.corso-card {
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition:
+    transform var(--transizione),
+    box-shadow var(--transizione),
+    border-color var(--transizione);
+
+  /* Bordo superiore animato — la firma visiva del design */
+  border-top: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+.corso-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(124, 58, 237, 0.18);
+  border-top-color: var(--colore-accent);
+  border-color: var(--colore-bordo);
+}
+
+/* Top della card */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 0;
+}
+
+.corso-emoji {
+  font-size: 2.25rem;
+  line-height: 1;
+}
+
+.materia-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--colore-accent-soft);
+  background: rgba(124, 58, 237, 0.15);
+  padding: 4px 10px;
+  border-radius: var(--raggio-btn);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+}
+
+/* Corpo della card */
+.card-body {
+  padding: 18px 20px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.corso-titolo {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--testo-primario);
+  margin: 0;
+}
+
+.corso-docente {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--colore-verde);
+  margin: 0;
+}
+
+.corso-descrizione {
+  font-size: 0.875rem;
+  color: var(--testo-secondario);
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+.corso-stelle {
+  display: flex;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.stella {
+  color: #FBBF24;
+  font-size: 0.95rem;
+}
+
+/* Footer della card */
+.card-footer {
+  padding: 16px 20px 20px;
+  border-top: 1px solid var(--colore-bordo);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.corso-data {
+  font-size: 0.8rem;
+  color: var(--testo-muted);
+  margin: 0;
+}
+
+.card-azioni {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.corso-prezzo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--testo-primario);
+}
+
+.btn-prenota {
+  padding: 9px 20px;
+  border-radius: var(--raggio-btn);
+  border: none;
+  background: var(--colore-accent);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transizione),
+    transform var(--transizione);
+}
+
+.btn-prenota:hover {
+  background: #6D28D9;
+  transform: scale(1.03);
+}
+
+.btn-prenota:active {
+  transform: scale(0.98);
+}
+
+/* =====================================================
+   STATO VUOTO
+   ===================================================== */
+.stato-vuoto {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 72px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.vuoto-icona {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.vuoto-testo {
+  color: var(--testo-secondario);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.btn-reset {
+  margin-top: 4px;
+  padding: 9px 22px;
+  border-radius: var(--raggio-btn);
+  border: 1.5px solid var(--colore-accent);
+  background: transparent;
+  color: var(--colore-accent-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--transizione),
+    color var(--transizione);
+}
+
+.btn-reset:hover {
+  background: var(--colore-accent);
+  color: #fff;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 600px) {
+  .catalogo-container {
+    padding: 40px 16px 64px;
+  }
+
+  .corsi-grid {
+    grid-template-columns: 1fr;
+  }
+}

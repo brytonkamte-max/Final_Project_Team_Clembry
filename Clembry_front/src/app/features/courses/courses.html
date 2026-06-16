@@ -1,3 +1,91 @@
+<div class="catalogo-container">
 
-<p>Pagina Corsi</p>
+  <!-- Header -->
+  <header class="catalogo-header">
+    <p class="header-label">Aula Virtuale</p>
+    <h1 class="header-title">Corsi Disponibili</h1>
+    <p class="header-subtitle">
+      Esplora le lezioni programmate dai nostri docenti qualificati
+      e prenota il tuo posto prima che si esaurisca.
+    </p>
+  </header>
 
+  <!-- Barra filtri -->
+  <div class="filtri-bar">
+    <button
+      class="filtro-btn"
+      [class.active]="materiaSelezionata() === ''"
+      (click)="impostaFiltro('')">
+      Tutti
+    </button>
+    <button
+      class="filtro-btn"
+      [class.active]="materiaSelezionata() === 'Programmazione'"
+      (click)="impostaFiltro('Programmazione')">
+      💻 Programmazione
+    </button>
+    <button
+      class="filtro-btn"
+      [class.active]="materiaSelezionata() === 'Matematica'"
+      (click)="impostaFiltro('Matematica')">
+      📐 Matematica
+    </button>
+    <button
+      class="filtro-btn"
+      [class.active]="materiaSelezionata() === 'Lingue'"
+      (click)="impostaFiltro('Lingue')">
+      🌍 Lingue
+    </button>
+  </div>
+
+  <!-- Griglia dei corsi -->
+  <div class="corsi-grid">
+
+    @for (corso of corsiFiltrati(); track corso.id) {
+      <article class="corso-card">
+
+        <!-- Top: emoji + badge materia -->
+        <div class="card-top">
+          <span class="corso-emoji">{{ corso.immagine }}</span>
+          <span class="materia-badge">{{ corso.materia }}</span>
+        </div>
+
+        <!-- Corpo: titolo, docente, descrizione, stelle -->
+        <div class="card-body">
+          <h2 class="corso-titolo">{{ corso.titolo }}</h2>
+          <p class="corso-docente">{{ corso.docente }}</p>
+          <p class="corso-descrizione">{{ corso.descrizione }}</p>
+
+          <div class="corso-stelle">
+            @for (stella of [].constructor(corso.stelle); track $index) {
+              <span class="stella">★</span>
+            }
+          </div>
+        </div>
+
+        <!-- Footer: data, prezzo, pulsante -->
+        <div class="card-footer">
+          <p class="corso-data">📅 {{ corso.dataOra }}</p>
+          <div class="card-azioni">
+            <span class="corso-prezzo">{{ corso.prezzo }}€</span>
+            <button class="btn-prenota" (click)="iscrivitiAlCorso(corso.id)">
+              Prenota Posto
+            </button>
+          </div>
+        </div>
+
+      </article>
+    }
+
+    <!-- Stato vuoto -->
+    @empty {
+      <div class="stato-vuoto">
+        <span class="vuoto-icona">🔍</span>
+        <p class="vuoto-testo">Nessun corso disponibile in questa categoria.</p>
+        <button class="btn-reset" (click)="impostaFiltro('')">Mostra tutti i corsi</button>
+      </div>
+    }
+
+  </div>
+
+</div>

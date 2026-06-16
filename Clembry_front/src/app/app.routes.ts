@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { Homepage } from './features/homepage/homepage';
-import { Courses } from './features/courses/courses';
 import { Teachers } from './features/teachers/teachers';
+import { CoursesComponent } from './features/courses/courses';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: Homepage },
-  { path: 'courses', component: Courses },
+  { path: 'courses', component: CoursesComponent },
   { path: 'teachers', component: Teachers },
   // { path: 'howitworks', component: Homepage },
   // { path: 'contacts', component: Homepage },
