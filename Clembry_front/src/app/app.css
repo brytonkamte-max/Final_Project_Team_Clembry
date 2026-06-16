@@ -1,0 +1,15 @@
+body {
+  font-family: var(--font-main);
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
+  line-height: 1.6; /* Fondamentale per la leggibilità dei corsi */
+}
+
+
+.button-cta {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+}

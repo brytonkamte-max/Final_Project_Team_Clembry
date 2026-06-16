@@ -3,11 +3,12 @@ import { Navbar } from '../navbar/navbar';
 import { Footer } from '../footer/footer';
 import { Hero } from '../hero/hero';
 import { Services } from '../services/services';
+import { Courses } from "../courses/courses";
 
 
 @Component({
   selector: 'app-homepage',
-  imports: [Navbar,Footer,Hero,Services],
+  imports: [Navbar, Footer, Hero, Services, Courses],
   templateUrl: './homepage.html',
   styleUrl: './homepage.css',
 })
