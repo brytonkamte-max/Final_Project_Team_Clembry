@@ -7,7 +7,7 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: Homepage },
   { path: 'courses', component: Courses },
-  // { path: 'teachers', component: Teachers },
+  { path: 'teachers', component: Teachers },
   // { path: 'howitworks', component: Homepage },
   // { path: 'contacts', component: Homepage },
   // { path: 'about', component: Homepage },
