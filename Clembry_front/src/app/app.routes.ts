@@ -3,6 +3,7 @@ import { Homepage } from './features/homepage/homepage';
 import { Teachers } from './features/teachers/teachers';
 import { Login } from './features/login/login';
 import { Registration } from './features/registration/registration';
+import { CoursesComponent } from './features/courses/courses';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

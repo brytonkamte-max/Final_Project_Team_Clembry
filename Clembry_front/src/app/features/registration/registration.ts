@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registration',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './registration.html',
   styleUrl: './registration.css',
 })
