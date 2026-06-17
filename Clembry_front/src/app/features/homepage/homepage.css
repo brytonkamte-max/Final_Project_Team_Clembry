@@ -1,6 +1,6 @@
 /* Sezione principale con sfondo e centratura */
 .hero {
-  text-align: center; /* Centra tutto il testo */
+  text-align: center; /* Centrato tutto il testo */
   background-color: #e8f0fe; /* Colore di sfondo */
   padding: 40px 20px; /* Spaziatura interna */
 }
@@ -13,7 +13,7 @@
 
 /* Stile del sottotitolo */
 .hero p {
-  color: #333; /* Grigio scuro */
+  color: #333;
   margin-bottom: 20px; /* Spazio sotto */
 }
 
@@ -40,5 +40,64 @@
 
 /* Titolo */
 .feature h3 {
-  color: #1a73e8; /* Blu */
+  color: #1a73e8;
+}
+
+
+
+
+/* Background immagine per la sezione hero */
+.hero {
+  text-align: center;
+  background-size: cover; /* Adatta l'immagine */
+  background-position: center; /* Centra l'immagine */
+  color: #fff; /* Testo bianco per contrasto */
+  padding: 60px 20px;
+}
+
+/*Sezione cards */
+.cards {
+  text-align: center;
+  margin: 60px auto;
+  width: 90%;
+}
+
+/* Contenitore cards */
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px; /* Spazio tra le card */
+}
+
+/* Singola card */
+.card {
+  background-color: #f5f4f4;
+  border-radius: 20px;
+  border-color: black;
+  width: 250px;
+  padding: 20px;
+}
+
+/* Effetto hover */
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Immagine nella card */
+.card img {
+  width: 60px;
+  margin-bottom: 10px;
+}
+
+/* Titolo della card */
+.card h3 {
+  color: #1a73e8;
+  margin-bottom: 10px;
+}
+
+/* Testo della card */
+.card p {
+  color: #333;
+  font-size: 0.9em;
 }
