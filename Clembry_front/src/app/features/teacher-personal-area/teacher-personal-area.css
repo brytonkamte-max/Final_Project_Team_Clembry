@@ -1,0 +1,58 @@
+.dashboard-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  height: fit-content;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.profile-summary { text-align: center; margin-bottom: 2rem; }
+.profile-summary img { width: 100px; border-radius: 50%; margin-bottom: 1rem; }
+
+.nav-item {
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+  color: #636e72;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+.nav-item.active { background: #0984e3; color: white; }
+
+/* Main Content */
+.main-content { flex: 1; }
+
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.course-card { padding: 1.5rem; border: 1px solid #eee; border-radius: 12px; }
+
+/* Tabella */
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #0984e3;
+  color: white;
+}

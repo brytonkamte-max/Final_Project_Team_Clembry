@@ -1,0 +1,60 @@
+<div class="dashboard-container">
+
+  <aside class="sidebar">
+    <div class="profile-summary">
+      <img src="./img/avatar.png" alt="Profilo">
+      <h3>Prof. Mario Rossi</h3>
+      <p>Docente di Informatica</p>
+    </div>
+    <nav>
+      <a href="#" class="nav-item active">Dashboard</a>
+      <a href="#" class="nav-item">I miei Corsi</a>
+      <a href="#" class="nav-item">Calendario</a>
+      <a href="#" class="nav-item">Biografia</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <section id="bio" class="card">
+      <h2>Biografia</h2>
+      <p>Specializzato in architetture software e tecnologie Web. Appassionato di didattica innovativa.</p>
+      <button class="btn-secondary">Modifica Bio</button>
+    </section>
+
+    <section id="courses" class="card">
+      <h2>I miei Corsi</h2>
+      <div class="grid">
+        <div class="course-card">
+          <h4>Angular Avanzato</h4>
+          <span>Studenti: 45</span>
+        </div>
+        <div class="course-card">
+          <h4>TypeScript Basics</h4>
+          <span>Studenti: 120</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="calendar" class="card">
+      <h2>Calendario Lezioni</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Corso</th>
+            <th>Data</th>
+            <th>Aula</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Angular Avanzato</td>
+            <td>18 Giu, 10:00</td>
+            <td>Aula 4</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  <button class="btn-primary" (click)="logout()">Logout</button>
+  </main>
+</div>

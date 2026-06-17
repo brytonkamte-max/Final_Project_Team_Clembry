@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Auth } from '../../core/services/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-personal-area',
@@ -14,5 +16,12 @@ export class PersonalArea {
     { title: 'Fisica', description: 'Descrizione del corso di fisica.' },
     { title: 'Informatica', description: 'Descrizione del corso di informatica.' },
   ]
-  
+
+  authService = inject(Auth)
+  router = inject(Router)
+
+  logout() {
+    this.authService.logout()
+    this.router.navigateByUrl('/login')
+  }
 }

@@ -15,25 +15,31 @@ export class Login {
 
   loginForm: FormGroup = new FormGroup({
     username: new FormControl<string>('', Validators.required),
-    password: new FormControl<string>('', [Validators.required, Validators.minLength(6)]),
-    isTeacher: new FormControl<boolean>(false, Validators.required),
+    password: new FormControl<string>('', Validators.required),
+    isTeacher: new FormControl<boolean>(false),
   });
 
   onLogin(): void {
     if (!this.loginForm.valid) {
       return;
     }
-    const datiLogin = this.loginForm.getRawValue();
-    if (datiLogin.isTeacher) {
-      this.authServ.login('teacher', datiLogin.username, datiLogin.password);
-      console.log('login effettuato per', datiLogin.username, 'ruolo: ', datiLogin.role);
-      this.router.navigateByUrl('/teacherPersonalArea');
-      return;
-    } else {
-      this.authServ.login('user', datiLogin.username, datiLogin.password);
-      console.log('login effettuato per', datiLogin.username, 'ruolo: ', datiLogin.role);
-      this.router.navigateByUrl('/personalArea');
+
+    const { username, password, isTeacher } = this.loginForm.getRawValue();
+
+    // Determina il ruolo in base al checkbox (se è quello che usi)
+    const role: 'teacher' | 'user' = isTeacher ? 'teacher' : 'user';
+
+    const loginSuccess = this.authServ.login(role, username, password);
+
+    if (!loginSuccess) {
+      console.log('Login fallito');
+      this.loginForm.reset();
+      alert('Utente non registrato o credenziali errate');
       return;
     }
+
+    // Se siamo qui, il login è riuscito
+    const targetRoute = role === 'teacher' ? '/teacherPersonalArea' : '/personalArea';
+    this.router.navigateByUrl(targetRoute);
   }
 }
