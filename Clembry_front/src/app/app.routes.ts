@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: Homepage },
   { path: 'courses', component: Courses },
-  { path: 'teachers', component: Teachers ,canActivate: [userGuard] },
+  { path: 'teachers', component: Teachers  },
   // { path: 'howitworks', component: Homepage },
   { path: 'contacts', component: ContactsComponent },
   // { path: 'about', component: Homepage },
