@@ -1,0 +1,49 @@
+<form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Nome: </label>
+    <input formControlName="name"/>
+    @if(regForm.get('name')?.invalid
+        && regForm.get('name')?.touched){
+          <span>Nome Obbligatorio</span>
+        }
+  </div>
+    <div>
+    <label>Cognome: </label>
+    <input formControlName="surname"/>
+    @if(regForm.get('surname')?.invalid
+        && regForm.get('surname')?.touched){
+          <span>Cognome Obbligatorio</span>
+        }
+  </div>
+  <div>
+    <label>username: </label>
+    <input formControlName="username"/>
+    @if(regForm.get('username')?.invalid
+        && regForm.get('username')?.touched){
+          <span>Username Obbligatorio</span>
+        }
+  </div>
+  <div>
+    <label>email: </label>
+    <input formControlName="email"/>
+    @if(regForm.get('email')?.invalid
+        && regForm.get('email')?.touched){
+          <span>Email Obbligatoria</span>
+        }
+  </div>
+  <div>
+    <label>Password: </label>
+    <input formControlName="password" type="password"/>
+    @if (regForm.get('password')?.errors?.['minlength']
+          && regForm.get('password')?.touched)
+    {
+      <span>Password Obbligatoria. Minimo 6 caratteri</span>
+    }
+  </div>
+  <button type="submit" [disabled]="!regForm.valid">Login</button>
+</form>
+
+@if (submitted) {
+  <p>Registrazione effettuta</p>
+}
+
