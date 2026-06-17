@@ -16,6 +16,8 @@ export class Registration {
     username: new FormControl<string>('', Validators.required),
     password: new FormControl<string>('', [Validators.required, Validators.minLength(6)]),
     email: new FormControl<string>('', [Validators.required, Validators.email]),
+    role: new FormControl<string>('user', Validators.required),
+    terms: new FormControl<boolean>(false, Validators.requiredTrue),
   });
 
   onSubmit(): void {

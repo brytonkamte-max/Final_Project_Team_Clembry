@@ -1,49 +1,100 @@
-<form [formGroup]="regForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Nome: </label>
-    <input formControlName="name"/>
-    @if(regForm.get('name')?.invalid
-        && regForm.get('name')?.touched){
-          <span>Nome Obbligatorio</span>
+<div class="auth-page">
+  <form class="auth-card" [formGroup]="regForm" (ngSubmit)="onSubmit()">
+    <h2 class="auth-title">Crea il tuo account</h2>
+    <p class="auth-subtitle">Accedi ai corsi e inizia il tuo percorso</p>
+
+    <!-- NOME + COGNOME -->
+    <div class="row">
+      <div class="field">
+
+        <input formControlName="name"  placeholder="Nome"/>
+        @if (regForm.get('name')?.touched && regForm.get('name')?.invalid) {
+          <small>Nome obbligatorio</small>
         }
-  </div>
-    <div>
-    <label>Cognome: </label>
-    <input formControlName="surname"/>
-    @if(regForm.get('surname')?.invalid
-        && regForm.get('surname')?.touched){
-          <span>Cognome Obbligatorio</span>
+      </div>
+
+      <div class="field">
+
+        <input formControlName="surname" placeholder="Cognome" />
+        @if (regForm.get('surname')?.touched && regForm.get('surname')?.invalid) {
+          <small>Cognome obbligatorio</small>
         }
-  </div>
-  <div>
-    <label>username: </label>
-    <input formControlName="username"/>
-    @if(regForm.get('username')?.invalid
-        && regForm.get('username')?.touched){
-          <span>Username Obbligatorio</span>
-        }
-  </div>
-  <div>
-    <label>email: </label>
-    <input formControlName="email"/>
-    @if(regForm.get('email')?.invalid
-        && regForm.get('email')?.touched){
-          <span>Email Obbligatoria</span>
-        }
-  </div>
-  <div>
-    <label>Password: </label>
-    <input formControlName="password" type="password"/>
-    @if (regForm.get('password')?.errors?.['minlength']
-          && regForm.get('password')?.touched)
-    {
-      <span>Password Obbligatoria. Minimo 6 caratteri</span>
+      </div>
+    </div>
+
+    <!-- USERNAME -->
+    <div class="field">
+
+      <input formControlName="username" placeholder="Username"/>
+      @if (regForm.get('username')?.touched && regForm.get('username')?.invalid) {
+        <small>Username obbligatorio</small>
+      }
+    </div>
+
+    <!-- EMAIL -->
+    <div class="field">
+
+      <input formControlName="email" placeholder="Email"/>
+
+      @if (regForm.get('email')?.touched && regForm.get('email')?.errors?.['required']) {
+        <small>Email obbligatoria</small>
+      }
+      @if (regForm.get('email')?.touched && regForm.get('email')?.errors?.['email']) {
+        <small>Email non valida</small>
+      }
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="field">
+
+      <input type="password" formControlName="password" placeholder="Password" />
+
+      @if (regForm.get('password')?.touched && regForm.get('password')?.errors?.['required']) {
+        <small>Password obbligatoria</small>
+      }
+      @if (regForm.get('password')?.touched && regForm.get('password')?.errors?.['minlength']) {
+        <small>Minimo 6 caratteri</small>
+      }
+    </div>
+
+    <!-- RUOLO -->
+    <div class="field">
+      <label>Sei un:</label>
+
+      <div class="radio-group">
+        <label>
+          <input type="radio" formControlName="role" value="user" />
+          Studente
+        </label>
+
+        <label>
+          <input type="radio" formControlName="role" value="teacher" />
+          Docente
+        </label>
+      </div>
+
+      @if (regForm.get('role')?.touched && regForm.get('role')?.invalid) {
+        <small>Seleziona un ruolo</small>
+      }
+    </div>
+
+    <!-- TERMINI -->
+    <div class="field checkbox">
+      <label>
+        <input type="checkbox" formControlName="terms" />
+        Accetto termini e condizioni
+      </label>
+
+      @if (regForm.get('terms')?.touched && regForm.get('terms')?.invalid) {
+        <small>Devi accettare i termini</small>
+      }
+    </div>
+
+    <!-- SUBMIT -->
+    <button type="submit" [disabled]="regForm.invalid">Crea account</button>
+
+    @if (submitted) {
+      <p class="success">Account creato con successo ✔</p>
     }
-  </div>
-  <button type="submit" [disabled]="!regForm.valid">Login</button>
-</form>
-
-@if (submitted) {
-  <p>Registrazione effettuta</p>
-}
-
+  </form>
+</div>

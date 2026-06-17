@@ -1,0 +1,45 @@
+<div class="profile-container">
+  <nav class="profile-sidebar">
+    <div class="user-avatar">
+      <img src="./img/avatar.png" alt="Profilo">
+      <h3>{{ username }}</h3>
+    </div>
+    <ul>
+      <li><a href="#bio" class="active">Biografia</a></li>
+      <li><a href="#payments">Pagamenti</a></li>
+      <li><a href="#courses">Corsi seguiti</a></li>
+    </ul>
+  </nav>
+
+  <main class="profile-content">
+
+    <section id="bio" class="card">
+      <h2>Biografia</h2>
+      <p>Modifica le tue informazioni personali.</p>
+      <form>
+        <textarea placeholder="Scrivi qualcosa su di te..."></textarea>
+        <button type="submit" class="btn-primary">Salva modifiche</button>
+      </form>
+    </section>
+
+    <section id="payments" class="card">
+      <h2>Metodi di pagamento</h2>
+      <div class="payment-method">
+        <p>Visa terminante in 4242</p>
+        <button class="btn-secondary">Gestisci</button>
+      </div>
+      <button class="btn-primary">Aggiungi metodo</button>
+    </section>
+
+    <section id="courses" class="card">
+      <h2>I tuoi corsi</h2>
+      <div class="course-list">
+        <div class="course-item">
+          <span>Introduzione ad Angular</span>
+          <progress value="70" max="100"></progress>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>

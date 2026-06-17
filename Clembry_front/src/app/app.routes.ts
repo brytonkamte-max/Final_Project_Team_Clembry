@@ -14,5 +14,7 @@ export const routes: Routes = [
   // { path: 'contacts', component: Homepage },
   // { path: 'about', component: Homepage },
   { path: 'login', component: Login },
-  { path: 'register', component: Registration },
+  { path: 'registration', component: Registration },
+  { path: 'personalArea', component: Homepage },
+  { path: 'teacherPersonalArea', component: Homepage },
 ];

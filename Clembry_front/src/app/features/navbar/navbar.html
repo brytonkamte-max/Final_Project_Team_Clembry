@@ -1,23 +1,23 @@
-  <nav class="navbar">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<nav class="navbar">
 
-    <!-- Logo -->
-    <div class="logo">
-      <img src="./img/logo-img.png" alt="iClembry Learning"  />
-    </div>
+  <div class="logo">
+    <img src="./img/logo-img.png" alt="iClembry Learning" />
+  </div>
 
-    <!-- Link principali -->
-    <ul>
-      <li><a routerLink="/"         routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-      <li><a routerLink="/courses"  routerLinkActive="active">Corsi</a></li>
-      <li><a routerLink="/teachers" routerLinkActive="active">Docenti</a></li>
-      <li><a routerLink="/about"    routerLinkActive="active">Come funziona</a></li>
-      <li><a routerLink="/contacts" routerLinkActive="active">Contatti</a></li>
-    </ul>
+  <ul>
+    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+    <li><a routerLink="/courses" routerLinkActive="active">Corsi</a></li>
+    <li><a routerLink="/teachers" routerLinkActive="active">Docenti</a></li>
+    <li><a routerLink="/about" routerLinkActive="active">Come funziona</a></li>
+    <li><a routerLink="/registration" routerLinkActive="active">Contatti</a></li>
+  </ul>
 
-    <!-- Accedi / Registrati -->
-    <div class="actions">
-      <button routerLink="/login">Accedi</button>
-      <button routerLink="/register">Registrati</button>
-    </div>
+  <!-- Icona Login -->
+ <div class="actions">
+  <a routerLink="/login" class="login-icon">
+    <span class="material-icons">account_circle</span>
+  </a>
+</div>
 
-  </nav>
+</nav>

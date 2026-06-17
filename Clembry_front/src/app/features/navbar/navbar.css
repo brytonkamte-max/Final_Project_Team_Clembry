@@ -141,3 +141,14 @@
 .actions button:active {
   transform: translateY(0);
 }
+
+.actions .login-icon {
+  font-size: 1.8rem; /* Regola la dimensione dell'icona */
+  color: #333;       /* Colore dell'icona */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.actions .login-icon:hover {
+  color: #007bff;    /* Colore al passaggio del mouse */
+}
