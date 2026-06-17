@@ -1,6 +1,4 @@
-/* =====================================================
-   TOKEN DI DESIGN
-   ===================================================== */
+
 :host {
   --colore-sfondo:     #0F172A;
   --colore-card:       #1E293B;
@@ -311,4 +309,56 @@
   .corsi-grid {
     grid-template-columns: 1fr;
   }
+}
+/* =====================================================
+   BARRA DI RICERCA (.search-container)
+   ===================================================== */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.15rem;
+  color: var(--testo-secondario);
+  pointer-events: none;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 20px 14px 48px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  border: 1.5px solid var(--colore-bordo);
+  border-radius: var(--raggio-btn);
+  outline: none;
+  color: var(--testo-primario);
+  background-color: var(--colore-card);
+  transition: 
+    border-color var(--transizione),
+    box-shadow var(--transizione),
+    background-color var(--transizione);
+}
+
+/* Animazione di Focus allineata con i bottoni attivi */
+.search-box input:focus {
+  border-color: var(--colore-accent-soft);
+  background-color: #243149; /* Leggero schiarimento interno per profondità */
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
+}
+
+/* Stile segnaposto coerente */
+.search-box input::placeholder {
+  color: var(--testo-muted);
 }

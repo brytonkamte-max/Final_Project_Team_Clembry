@@ -1,1 +1,65 @@
-<p>teachers works!</p>
+<div class="teachers-container">
+
+  <div class="teachers-header">
+    <h1>I nostri Docenti</h1>
+    <p>Trova il tutor perfetto per le tue lezioni private online.</p>
+  </div>
+
+  <div class="search-container">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        placeholder="Cerca un docente per nome... (es. Edoardo)" 
+        [value]="ricercaNome()"
+        (input)="onSearchChange($event)"
+      />
+    </div>
+  </div>
+
+  <div class="filter-wrapper">
+    <button [class.active]="materiaSelezionata() === ''" (click)="aggiornaFiltro('')">Tutti i Docenti</button>
+    <button [class.active]="materiaSelezionata() === 'Programmazione'" (click)="aggiornaFiltro('Programmazione')">Programmazione</button>
+    <button [class.active]="materiaSelezionata() === 'Matematica'" (click)="aggiornaFiltro('Matematica')">Matematica</button>
+    <button [class.active]="materiaSelezionata() === 'Lingue straniere'" (click)="aggiornaFiltro('Lingue straniere')">Lingue</button>
+  </div>
+
+  <div class="teachers-grid">
+    @for (docente of docentiFiltrati(); track docente.id) {
+      <div class="teacher-card">
+        <div class="card-header-top">
+          @if (docente.disponibileOggi) {
+            <span class="status-badge online"><span class="dot"></span> Disponibile Oggi</span>
+          } @else {
+            <span class="status-badge offline">Occupato</span>
+          }
+          <div class="avatar-circle">{{ docente.avatar }}</div>
+        </div>
+
+        <div class="card-info">
+          <h2>{{ docente.nome }}</h2>
+          <p class="teacher-title">{{ docente.titolo }}</p>
+          <p class="teacher-bio">{{ docente.bio }}</p>
+          <div class="subjects-tags">
+            @for (materia of docente.materie; track materia) {
+              <span class="subject-tag">{{ materia }}</span>
+            }
+          </div>
+        </div>
+
+        <div class="card-action-footer">
+          <div class="price-box">
+            <span class="amount">{{ docente.tariffaOraria }}€</span>
+            <span class="unit">/ ora</span>
+          </div>
+          <button class="btn-contact" (click)="prenotaLezione(docente.nome)">Prenota Lezione</button>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <p>Nessun docente corrisponde ai criteri di ricerca selezionati.</p>
+      </div>
+    }
+  </div>
+
+</div>
