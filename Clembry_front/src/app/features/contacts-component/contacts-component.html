@@ -1,0 +1,83 @@
+<div class="contatti-container">
+
+  <!-- Header -->
+  <header class="contatti-header">
+    <p class="header-tag">Il Nostro Team</p>
+    <h1 class="header-main-title">Contatta i Nostri Sviluppatori</h1>
+    <p class="header-sub">
+      Mettiti in contatto diretto con i professionisti di iClembry Learning
+      per richiedere consulenze, assistenza o collaborazioni sui tuoi progetti software.
+    </p>
+  </header>
+
+  <!-- Griglia membri team -->
+  <div class="contatti-grid">
+
+    @for (membro of team(); track membro.id) {
+      <article class="membro-card">
+
+        <!-- Top: foto + info base -->
+        <div class="membro-top-header">
+          <div class="contenitore-foto">
+            <img [src]="membro.avatar" [alt]="membro.nome" class="avatar-sviluppatore" />
+            <span class="badge-online" title="Disponibile"></span>
+          </div>
+          <div class="info-base">
+            <h2>{{ membro.nome }}</h2>
+            <p class="etichetta-ruolo">{{ membro.ruolo }}</p>
+            <p class="testo-laurea">{{ membro.laurea }}</p>
+          </div>
+        </div>
+
+        <!-- Corpo: competenze, bio, recapiti -->
+        <div class="corpo-card-dettagli">
+
+          <div class="sezione-blocco">
+            <h3>Competenze IT</h3>
+            <div class="tag-competenze-container">
+              <span class="tag-tech">💻 {{ membro.competenze.web }}</span>
+              <span class="tag-tech">⚙️ {{ membro.competenze.strumenti }}</span>
+            </div>
+          </div>
+
+          @if (membro.bio) {
+            <div class="sezione-blocco blocco-presentazione">
+              <h3>Su di me</h3>
+              <p class="testo-presentazione">{{ membro.bio }}</p>
+            </div>
+          }
+
+          <div class="sezione-blocco">
+            <h3>Recapiti</h3>
+            <ul class="lista-recapiti-links">
+              <li>
+                <span class="icona-canale">📞</span>
+                <span class="valore-canale">{{ membro.recapiti.tel }}</span>
+              </li>
+              <li>
+                <span class="icona-canale">✉️</span>
+                <a [href]="'mailto:' + membro.recapiti.email" class="valore-canale link-click">
+                  {{ membro.recapiti.email }}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Footer: social -->
+        <div class="footer-social-azioni">
+          <a [href]="membro.recapiti.linkedin" target="_blank" rel="noopener" class="btn-social linkedin">
+            <span class="social-icon">in</span> LinkedIn
+          </a>
+          <a [href]="membro.recapiti.github" target="_blank" rel="noopener" class="btn-social github">
+            <span class="social-icon">⌥</span> GitHub
+          </a>
+        </div>
+
+      </article>
+    }
+
+  </div>
+
+</div>

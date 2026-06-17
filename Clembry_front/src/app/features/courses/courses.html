@@ -1,6 +1,5 @@
 <div class="catalogo-container">
 
-  <!-- Header -->
   <header class="catalogo-header">
     <p class="header-label">Aula Virtuale</p>
     <h1 class="header-title">Corsi Disponibili</h1>
@@ -10,7 +9,18 @@
     </p>
   </header>
 
-  <!-- Barra filtri -->
+  <div class="search-container">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        placeholder="Cerca un corso per titolo... (es. Angular)" 
+        [value]="ricercaNome()"
+        (input)="onSearchChange($event)"
+      />
+    </div>
+  </div>
+
   <div class="filtri-bar">
     <button
       class="filtro-btn"
@@ -38,19 +48,16 @@
     </button>
   </div>
 
-  <!-- Griglia dei corsi -->
   <div class="corsi-grid">
 
     @for (corso of corsiFiltrati(); track corso.id) {
       <article class="corso-card">
 
-        <!-- Top: emoji + badge materia -->
         <div class="card-top">
           <span class="corso-emoji">{{ corso.immagine }}</span>
           <span class="materia-badge">{{ corso.materia }}</span>
         </div>
 
-        <!-- Corpo: titolo, docente, descrizione, stelle -->
         <div class="card-body">
           <h2 class="corso-titolo">{{ corso.titolo }}</h2>
           <p class="corso-docente">{{ corso.docente }}</p>
@@ -63,7 +70,6 @@
           </div>
         </div>
 
-        <!-- Footer: data, prezzo, pulsante -->
         <div class="card-footer">
           <p class="corso-data">📅 {{ corso.dataOra }}</p>
           <div class="card-azioni">
@@ -77,12 +83,11 @@
       </article>
     }
 
-    <!-- Stato vuoto -->
     @empty {
       <div class="stato-vuoto">
         <span class="vuoto-icona">🔍</span>
-        <p class="vuoto-testo">Nessun corso disponibile in questa categoria.</p>
-        <button class="btn-reset" (click)="impostaFiltro('')">Mostra tutti i corsi</button>
+        <p class="vuoto-testo">Nessun corso corrisponde ai criteri di ricerca selezionati.</p>
+        <button class="btn-reset" (click)="resetFiltri()">Reset filtri di ricerca</button>
       </div>
     }
 
