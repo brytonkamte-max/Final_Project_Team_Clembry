@@ -5,10 +5,14 @@ async function initDatabase() {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
   });
 
   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\``);
   await connection.query(`USE \`${process.env.DB_NAME}\``);
+
+  // 1. DISABILITA I CONTROLLI SULLE CHIAVI ESTERNE
+  await connection.query('SET FOREIGN_KEY_CHECKS = 0');
 
   // =========================
   // 2. DROP TABLES (RESET)
