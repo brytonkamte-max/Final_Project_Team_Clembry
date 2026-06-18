@@ -18,7 +18,7 @@
 
   <!-- Icona Login -->
   <div class="actions">
-      @if(auth.isLoggedIn() && auth.getRole() === 'user'){
+      @if(auth.isLoggedIn()){
         <a routerLink="/personalArea"><span class="material-icons">account_circle</span></a>
       }
       @else if (auth.isLoggedIn() && auth.getRole() === 'teacher') {

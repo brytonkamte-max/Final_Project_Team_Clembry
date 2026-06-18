@@ -17,9 +17,9 @@ async function initDatabase() {
   // =========================
   // 2. DROP TABLES (RESET)
   // =========================
-  // await connection.query(`DROP TABLE IF EXISTS users`);
-  // await connection.query(`DROP TABLE IF EXISTS courses`);
-  // await connection.query(`DROP TABLE IF EXISTS teachers`);
+  await connection.query(`DROP TABLE IF EXISTS users`);
+  await connection.query(`DROP TABLE IF EXISTS courses`);
+  await connection.query(`DROP TABLE IF EXISTS teachers`);
 
   await connection.query(`
 
