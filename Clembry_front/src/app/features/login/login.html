@@ -1,15 +1,21 @@
 <form class="login-card" [formGroup]="loginForm" (ngSubmit)="onLogin()">
   <h2 class="auth-title">Accedi al tuo account</h2>
 
-  <input formControlName="username" placeholder="Email o Username" />
-  <input formControlName="password" type="password" placeholder="Password" />
-
-  <div class="teacher-checkbox">
-    <label for="isTeacher">Sono un docente</label>
-    <input type="checkbox" id="isTeacher" formControlName="isTeacher" />
+  <div class="field">
+    <input formControlName="username" placeholder="Username" />
+    @if (loginForm.get('username')?.touched && loginForm.get('username')?.invalid) {
+      <small>Username obbligatorio</small>
+    }
   </div>
 
-  <button type="submit" class="btn-primary" [disabled]="!loginForm.valid">
+  <div class="field">
+    <input formControlName="password" type="password" placeholder="Password" />
+    @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+      <small>Password obbligatoria</small>
+    }
+  </div>
+
+  <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">
     Accedi
   </button>
 

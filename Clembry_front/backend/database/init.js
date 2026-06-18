@@ -10,12 +10,15 @@ async function initDatabase() {
   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\``);
   await connection.query(`USE \`${process.env.DB_NAME}\``);
 
+  // 1. DISABILITA I CONTROLLI SULLE CHIAVI ESTERNE
+  await connection.query('SET FOREIGN_KEY_CHECKS = 0');
+
   // =========================
   // 2. DROP TABLES (RESET)
   // =========================
-  await connection.query(`DROP TABLE IF EXISTS users`);
-  await connection.query(`DROP TABLE IF EXISTS courses`);
-  await connection.query(`DROP TABLE IF EXISTS teachers`);
+  // await connection.query(`DROP TABLE IF EXISTS users`);
+  // await connection.query(`DROP TABLE IF EXISTS courses`);
+  // await connection.query(`DROP TABLE IF EXISTS teachers`);
 
   await connection.query(`
 

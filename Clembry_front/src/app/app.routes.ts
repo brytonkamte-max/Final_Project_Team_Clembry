@@ -20,6 +20,6 @@ export const routes: Routes = [
   // { path: 'about', component: Homepage },
   { path: 'login', component: Login },
   { path: 'registration', component: Registration },
-  { path: 'personalArea', component: PersonalArea , canActivate: [userGuard] },
-  { path: 'teacherPersonalArea', component: TeacherPersonalArea ,canActivate: [teacherGuard] },
+  { path: 'personalArea', component: PersonalArea , },
+  { path: 'teacherPersonalArea', component: TeacherPersonalArea  },
 ];

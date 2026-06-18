@@ -3,37 +3,30 @@
     <h2 class="auth-title">Crea il tuo account</h2>
     <p class="auth-subtitle">Accedi ai corsi e inizia il tuo percorso</p>
 
-    <!-- NOME + COGNOME -->
     <div class="row">
       <div class="field">
-
-        <input formControlName="name"  placeholder="Nome"/>
-        @if (regForm.get('name')?.touched && regForm.get('name')?.invalid) {
+        <input formControlName="nome" placeholder="Nome"/>
+        @if (regForm.get('nome')?.touched && regForm.get('nome')?.invalid) {
           <small>Nome obbligatorio</small>
         }
       </div>
 
       <div class="field">
-
-        <input formControlName="surname" placeholder="Cognome" />
-        @if (regForm.get('surname')?.touched && regForm.get('surname')?.invalid) {
+        <input formControlName="cognome" placeholder="Cognome" />
+        @if (regForm.get('cognome')?.touched && regForm.get('cognome')?.invalid) {
           <small>Cognome obbligatorio</small>
         }
       </div>
     </div>
 
-    <!-- USERNAME -->
     <div class="field">
-
       <input formControlName="username" placeholder="Username"/>
       @if (regForm.get('username')?.touched && regForm.get('username')?.invalid) {
         <small>Username obbligatorio</small>
       }
     </div>
 
-    <!-- EMAIL -->
     <div class="field">
-
       <input formControlName="email" placeholder="Email"/>
 
       @if (regForm.get('email')?.touched && regForm.get('email')?.errors?.['required']) {
@@ -44,9 +37,7 @@
       }
     </div>
 
-    <!-- PASSWORD -->
     <div class="field">
-
       <input type="password" formControlName="password" placeholder="Password" />
 
       @if (regForm.get('password')?.touched && regForm.get('password')?.errors?.['required']) {
@@ -57,13 +48,12 @@
       }
     </div>
 
-    <!-- RUOLO -->
     <div class="field">
       <label>Sei un:</label>
 
       <div class="radio-group">
         <label>
-          <input type="radio" formControlName="role" value="user" />
+          <input type="radio" formControlName="role" value="student" />
           Studente
         </label>
 
@@ -78,7 +68,6 @@
       }
     </div>
 
-    <!-- TERMINI -->
     <div class="field checkbox">
       <label>
         <input type="checkbox" formControlName="terms" />
@@ -90,10 +79,9 @@
       }
     </div>
 
-    <!-- SUBMIT -->
     <button type="submit" [disabled]="regForm.invalid">Crea account</button>
 
-    @if (submitted) {
+    @if (submitted && regForm.valid) {
       <p class="success">Account creato con successo ✔</p>
     }
   </form>
