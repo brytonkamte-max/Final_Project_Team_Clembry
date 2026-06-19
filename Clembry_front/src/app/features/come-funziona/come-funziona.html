@@ -1,0 +1,41 @@
+<!-- HERO: titolo e sottotitolo statici, nessun dato dal .ts -->
+<section class="hero">
+  <h1>Come funziona iClembryLearning</h1>
+  <p>Trova il docente giusto, prenota la lezione e inizia a imparare online.</p>
+</section>
+
+<!-- STEP-LIST: legge l'array "steps" definito nel .ts -->
+<!-- nessun click coinvolto, solo lettura e stampa -->
+<section class="step-list">
+  @for (s of steps; track s.numero) {
+    <div class="step-item">
+      <span class="step-numero">{{ s.numero }}</span>
+      <h3>{{ s.titolo }}</h3>
+      <p>{{ s.testo }}</p>
+    </div>
+  }
+</section>
+
+<!-- VANTAGGI: stesso pattern delle card già usate in home -->
+<!-- (qui esempio minimo, da sostituire col componente riusato) -->
+<section class="vantaggi-grid">
+  <!-- inserire qui le card "Calendario / Materiale / Pagamenti" riusate -->
+</section>
+
+<!-- FAQ-ACCORDION: legge l'array "faqs" -->
+<!-- click sulla domanda chiama toggleFaq(f) -->
+<!-- @if mostra la risposta solo se f.aperta è true -->
+<section class="faq-accordion">
+  @for (f of faqs; track f.domanda) {
+    <div class="faq-item" (click)="toggleFaq(f)">
+      <p class="faq-domanda">{{ f.domanda }}</p>
+      @if (f.aperta) {
+        <p class="faq-risposta">{{ f.risposta }}</p>
+      }
+    </div>
+  }
+</section>
+<!-- CTA FINALE: bottone statico di chiusura pagina -->
+<section class="cta-finale">
+  <button>Trova un docente</button>
+</section>
