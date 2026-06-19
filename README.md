@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="frontend/src/assets/logo.svg" alt="iClembryLearning Logo" width="180" onerror="this.src='https://raw.githubusercontent.com/campoggggggg/progettofinale/main/frontend/src/assets/logo.png'; this.onerror=null;"/>
+<div align="center">
+  <img src="public/img/logo-img.png" alt="iClembryLearning Logo" width="180" onerror="this.src='https://raw.githubusercontent.com/brytonkamte-max/Final_Project_Team_Clembry/main/public/img/logo-img.png'; this.onerror=null;"/>
+</div>
 
 # iClembryLearning
 
