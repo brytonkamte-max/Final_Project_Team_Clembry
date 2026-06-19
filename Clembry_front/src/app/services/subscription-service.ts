@@ -5,72 +5,49 @@ export interface Subscription {
   userId: number;
   courseId: number;
   subscriptionData: string;
-  courseTitle: string;
-  courseMateria: string;
-  courseDataOra: string;
-  courseImmagine: string;
+  titolo: string;
+  materia: string;
+  dataOra: string;
+  immagine: string;
   teacherNome: string;
   teacherCognome: string;
   studentNome: string;
   studentCognome: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class SubscriptionService {
-  // Endpoint base del backend
   private readonly apiUrl = 'http://localhost:8080/api/subscriptions';
-
-  // HttpClient
   private http = inject(HttpClient);
 
-  // Stato privato
   private iscrizioniState = signal<Subscription[]>([]);
-
-  // Signal in sola lettura esposto ai componenti
   readonly iscrizioni = this.iscrizioniState.asReadonly();
 
-  constructor() {}
-
-  /**
-   * Carica le iscrizioni dell'utente dal database
-   */
-  // subscription-service.ts
-  caricaIscrizioni(userId: number) {
-    // Rimuovi .subscribe(...) e metti 'return'
-    return this.http.get<any[]>(`${this.apiUrl}/${userId}`);
+  caricaIscrizioni(userId: number): void {
+    this.http.get<Subscription[]>(`${this.apiUrl}/${userId}`).subscribe({
+      next: (data: Subscription[]) => this.iscrizioniState.set(data),
+      error: (err: unknown) => {
+        const message = err instanceof Error ? err.message : 'Errore sconosciuto';
+        console.error('Errore nel caricamento delle iscrizioni:', message);
+      }
+    });
   }
 
   /**
-   * Restituisce una Signal che contiene tutte le iscrizioni
+   * Verifica se l'utente è iscritto guardando lo stato locale (Signal).
+   * È sincrono, reattivo e non fa chiamate inutili al server.
    */
-  getIscrizioni() {
-    return this.iscrizioni;
+  isSubscribed(courseId: number, userId: number): boolean {
+    return this.iscrizioni().some(sub => sub.courseId === courseId && sub.userId === userId);
   }
 
-  /**
-   * Verifica se l'utente è iscritto ad un corso
-   */
-  isSubscribed(courseId: number): boolean {
-    return this.iscrizioni().some((subscription) => subscription.courseId === courseId);
-  }
-
-  /**
-   * Aggiunge localmente una nuova iscrizione
-   * (puoi collegarlo successivamente ad una POST sul backend)
-   */
-  addSubscription(subscription: Subscription): void {
-    this.iscrizioniState.update((subscriptions) => [...subscriptions, subscription]);
-  }
-
-  /**
-   * Rimuove localmente un'iscrizione
-   * (puoi collegarlo successivamente ad una DELETE sul backend)
-   */
-  removeSubscription(courseId: number): void {
-    this.iscrizioniState.update((subscriptions) =>
-      subscriptions.filter((subscription) => subscription.courseId !== courseId),
-    );
+  addSubscription(sub: Subscription): void {
+    this.http.post<Subscription>(this.apiUrl, sub).subscribe({
+      next: () => {
+        // Ricarichiamo le iscrizioni per mantenere lo stato locale allineato col DB
+        this.caricaIscrizioni(sub.userId);
+      },
+      error: (err) => console.error('Errore nell\'aggiunta dell\'iscrizione:', err)
+    });
   }
 }

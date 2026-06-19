@@ -2,59 +2,45 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth } from '../../services/auth-service';
 import { SubscriptionService } from '../../services/subscription-service';
-import { CommonModule } from '@angular/common'; // Importa CommonModule per le direttive base (come @if, @for)
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-personal-area',
-  standalone: true, // Indica che il componente è autonomo
-  imports: [CommonModule], // Necessario per usare @if e @for nel template
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './personal-area.html',
   styleUrl: './personal-area.css',
 })
 export class PersonalArea implements OnInit {
+  // Iniezione delle dipendenze
+  private authService = inject(Auth);
+  private subscriptionService = inject(SubscriptionService);
+  private router = inject(Router);
 
-  // Iniezione delle dipendenze: usiamo 'inject' per caricare servizi e router
-  authService = inject(Auth);
-  subscriptionService = inject(SubscriptionService);
-  router = inject(Router);
+  // Esponiamo direttamente il Signal del servizio per il template
+  readonly subscriptions = this.subscriptionService.iscrizioni;
 
-  // Recuperiamo l'utente corrente dal servizio di autenticazione
+  // Recupero utente
   user = this.authService.getCurrentUser();
 
-  // Array locale che conterrà le iscrizioni caricate dal database
-  subscriptions: any[] = [];
+  // Stato UI
+  activeSection: 'bio' | 'payments' | 'courses' | 'calendar' = 'bio';
 
-  // Lifecycle hook: chiamato da Angular quando il componente viene inizializzato
-  ngOnInit() {
-    // Controllo di sicurezza: se l'utente esiste, carichiamo le sue iscrizioni
+  ngOnInit(): void {
+    // Controllo sicurezza
     if (this.user?.id) {
-      // Chiamiamo il servizio che restituisce un Observable e ci sottoscriviamo
-      this.subscriptionService.caricaIscrizioni(this.user.id).subscribe({
-        next: (data) => {
-          // Quando il dato arriva, lo salviamo nell'array locale
-          this.subscriptions = data;
-        },
-        error: (err) => {
-          // Gestione base in caso di errore di connessione
-          console.error('Errore nel recupero delle iscrizioni:', err);
-        }
-      });
+      // Inneschiamo il caricamento dati nel servizio
+      this.subscriptionService.caricaIscrizioni(this.user.id);
     } else {
-      // Se non c'è un utente loggato, reindirizziamo al login per sicurezza
       this.router.navigateByUrl('/login');
     }
   }
 
-  // Variabile per gestire quale tab (sezione) mostrare nell'HTML
-  activeSection: 'bio' | 'payments' | 'courses' | 'calendar' = 'bio';
-
-  // Metodo per cambiare tab quando l'utente clicca sui menu
-  setActiveSection(section: 'bio' | 'payments' | 'courses' | 'calendar') {
+  setActiveSection(section: 'bio' | 'payments' | 'courses' | 'calendar'): void {
     this.activeSection = section;
   }
 
-  // Metodo di logout: pulisce la sessione e riporta alla pagina di login
-  logout() {
+  logout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/login');
   }

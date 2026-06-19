@@ -135,6 +135,16 @@ app.get('/api/subscriptions/:userId', async (req, res) => {
   }
 });
 
+app.post('/api/subscriptions', async (req, res) => {
+  const { userId, courseId } = req.body;
+  try {
+    const [result] = await db.query('INSERT INTO subscriptions (user_id, course_id) VALUES (?, ?)', [userId, courseId]);
+    res.status(201).json({ subscriptionId: result.insertId });
+  } catch (error) {
+    res.status(500).json({ error: 'Errore creazione iscrizione' });
+  }
+})
+
 // =====================================================
 // AVVIO SERVER
 // =====================================================
