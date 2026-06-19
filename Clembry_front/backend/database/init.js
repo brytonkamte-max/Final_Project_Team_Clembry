@@ -11,19 +11,15 @@ async function initDatabase() {
   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\``);
   await connection.query(`USE \`${process.env.DB_NAME}\``);
 
-  // 1. DISABILITA TEMPORANEAMENTE I CONTROLLI SULLE CHIAVI ESTERNE
   await connection.query('SET FOREIGN_KEY_CHECKS = 0');
 
-  // ==========================================================================
-  // 2. DROP TABLES (RESET) - L'ordine corretto è inverso rispetto alla creazione!
-  // ==========================================================================
-  await connection.query(`DROP TABLE IF EXISTS courses`);  // Dipende da teachers
-  await connection.query(`DROP TABLE IF EXISTS teachers`); // Dipende da users
-  await connection.query(`DROP TABLE IF EXISTS users`);    // Tabella principale
+  // DROP nell'ordine inverso rispetto alla creazione per evitare vincoli
+  await connection.query(`DROP TABLE IF EXISTS subscriptions`);
+  await connection.query(`DROP TABLE IF EXISTS courses`);
+  await connection.query(`DROP TABLE IF EXISTS teachers`);
+  await connection.query(`DROP TABLE IF EXISTS users`);
 
-  // ==========================================================================
-  // 3. TABELLA UTENTI
-  // ==========================================================================
+  // 1. Tabella USERS
   await connection.query(`
     CREATE TABLE users (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -40,12 +36,15 @@ async function initDatabase() {
   // ==========================================================================
   // 4. TABELLA DOCENTI (Legata 1:1 con Users)
   // ==========================================================================
+    )`);
+
+  // 2. Tabella TEACHERS
   await connection.query(`
     CREATE TABLE teachers (
       id INT AUTO_INCREMENT PRIMARY KEY,
       user_id INT NOT NULL UNIQUE,
       titolo VARCHAR(255) NOT NULL,
-      materie JSON NOT NULL, -- Array JSON delle materie trattate (es. ["Angular", "SQL"])
+      materie JSON NOT NULL,
       bio TEXT NOT NULL,
       tariffaOraria INT NOT NULL,
       stelle INT DEFAULT 5,
@@ -54,18 +53,15 @@ async function initDatabase() {
       disponibileOggi BOOLEAN DEFAULT TRUE,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-    )
-  `);
+    )`);
 
-  // ==========================================================================
-  // 5. TABELLA CORSI (Relazione 1-a-Molti: un Docente può avere MOLTI Corsi)
-  // ==========================================================================
+  // 3. Tabella COURSES
   await connection.query(`
     CREATE TABLE courses (
       id INT AUTO_INCREMENT PRIMARY KEY,
       titolo VARCHAR(255) NOT NULL,
       descrizione TEXT,
-      teacher_id INT NOT NULL, -- Indica a quale docente appartiene il corso
+      teacher_id INT NOT NULL,
       materia VARCHAR(100) NOT NULL,
       prezzo DECIMAL(10,2) NOT NULL,
       dataOra VARCHAR(100) NOT NULL,
@@ -73,12 +69,21 @@ async function initDatabase() {
       immagine VARCHAR(50) NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (teacher_id) REFERENCES teachers(id) ON DELETE CASCADE ON UPDATE CASCADE
+    )`);
+
+  // 4. Tabella subscriptions
+  await connection.query(`
+    CREATE TABLE subscriptions (
+      user_id INT NOT NULL,
+      course_id INT NOT NULL,
+      data_iscrizione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (user_id, course_id),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
     )
   `);
 
-  // 6. RIATTIVA I CONTROLLI SULLE CHIAVI ESTERNE
   await connection.query('SET FOREIGN_KEY_CHECKS = 1');
-  
   await connection.end();
 }
 

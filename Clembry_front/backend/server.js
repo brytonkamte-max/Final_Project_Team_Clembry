@@ -55,10 +55,10 @@ app.post('/api/auth/register', async (req, res) => {
   }
 
   try {
-    const [existingUser] = await db.query(
-      'SELECT id FROM users WHERE username = ? OR email = ?',
-      [username, email]
-    );
+    const [existingUser] = await db.query('SELECT id FROM users WHERE username = ? OR email = ?', [
+      username,
+      email,
+    ]);
 
     if (existingUser.length > 0) {
       return res.status(400).json({ error: 'Username o Email già utilizzati' });
@@ -68,7 +68,7 @@ app.post('/api/auth/register', async (req, res) => {
 
     const [result] = await db.query(
       'INSERT INTO users (nome, cognome, username, email, password, role) VALUES (?, ?, ?, ?, ?, ?)',
-      [nome, cognome, username, email, password, userRole]
+      [nome, cognome, username, email, password, userRole],
     );
 
     res.status(201).json({
@@ -77,7 +77,7 @@ app.post('/api/auth/register', async (req, res) => {
       cognome,
       username,
       email,
-      role: userRole
+      role: userRole,
     });
   } catch (error) {
     console.error('Errore durante la registrazione:', error);
@@ -107,7 +107,7 @@ app.post('/api/auth/login', async (req, res) => {
       cognome: user.cognome,
       username: user.username,
       email: user.email,
-      role: user.role
+      role: user.role,
     });
   } catch (error) {
     console.error('Errore durante il login:', error);
@@ -118,6 +118,33 @@ app.post('/api/auth/login', async (req, res) => {
 // =====================================================
 // DOCENTI (TEACHERS)
 // =====================================================
+// GET - Endpoint per recuperare il profilo di un utente dal database
+app.get('/api/user/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const [rows] = await db.query(
+      `SELECT nome,cognome,username,email
+       FROM users
+       WHERE id = ?`,
+      [userId],
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Profilo docente non trovato per questo utente' });
+    }
+
+    // Restituiamo il primo risultato (essendo una relazione 1:1)
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Errore GET docente by userId:', error);
+    res.status(500).json({ error: 'Errore nel recupero del profilo docente' });
+  }
+});
+
+// GET - Endpoint per recuperare un corso dal database
+app.get('/api/course/:courseId', async (req, res) => {
+  const { courseId } = req.params;
 
 // GET - Recupera tutti i docenti relazionati
 app.get('/api/teachers', async (req, res) => {
@@ -129,6 +156,24 @@ app.get('/api/teachers', async (req, res) => {
       ORDER BY teachers.id ASC
     `);
     res.json(rows);
+    const [rows] = await db.query(
+      `SELECT
+         courses.*,
+         teachers.titolo AS teacher_title,
+         users.nome AS teacher_nome,
+         users.cognome AS teacher_cognome
+       FROM courses
+       JOIN teachers ON courses.teacher_id = teachers.id
+       JOIN users ON teachers.user_id = users.id
+       WHERE courses.id = ?`,
+      [courseId],
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Corso non trovato' });
+    }
+
+    res.json(rows[0]);
   } catch (error) {
     console.error('Errore GET docenti:', error);
     res.status(500).json({ error: 'Errore nel recupero dei docenti', dettaglio: error.message });
@@ -138,6 +183,40 @@ app.get('/api/teachers', async (req, res) => {
 // POST - Crea profilo docente
 app.post('/api/teachers', async (req, res) => {
   const { user_id, titolo, materie, bio, tariffaOraria, avatar } = req.body;
+// GET - Endpoint per recuperare le iscrizioni di un utente
+app.get('/api/subscriptions/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const [rows] = await db.query(
+      `SELECT
+         subscriptions.*,
+         courses.titolo AS titolo,
+         courses.materia AS materia,
+         courses.dataOra AS dataOra,
+         courses.immagine AS immagine,
+         t.nome AS teacher_nome,
+         t.cognome AS teacher_cognome,
+         s.nome AS student_nome,
+         s.cognome AS student_cognome
+       FROM subscriptions
+       JOIN courses ON subscriptions.course_id = courses.id
+       JOIN users AS t ON courses.teacher_id = t.id    -- t = tabella insegnanti
+       JOIN users AS s ON subscriptions.user_id = s.id -- s = tabella studenti
+       WHERE subscriptions.user_id = ?`,
+      [userId]
+    );
+
+    res.json(rows);
+  } catch (error) {
+    console.error('Errore GET subscriptions:', error);
+    res.status(500).json({ error: 'Errore nel recupero delle iscrizioni' });
+  }
+});
+
+// POST - Endpoint per la registrazione di un nuovo utente
+app.post('/api/auth/register', async (req, res) => {
+  const { nome, cognome, username, email, password, role } = req.body;
 
   if (!user_id || !titolo || !materie || !bio || !tariffaOraria || !avatar) {
     return res.status(400).json({ error: 'Tutti i campi obbligatori devono essere compilati' });
@@ -149,6 +228,39 @@ app.post('/api/teachers', async (req, res) => {
       [user_id, JSON.stringify(materie), bio, tariffaOraria, avatar]
     );
     res.status(201).json({ message: 'Profilo docente creato con successo', teacherId: result.insertId });
+    // Controlliamo se l'username o l'email esistono già
+    const [existingUser] = await db.query('SELECT id FROM users WHERE username = ? OR email = ?', [
+      username,
+      email,
+    ]);
+
+    if (existingUser.length > 0) {
+      return res.status(400).json({ error: 'Username o Email già utilizzati' });
+    }
+
+    // Impostiamo un ruolo di default se non specificato
+    const userRole = role || 'student';
+
+    /* NOTA DI SICUREZZA: In produzione, sostituisci la password in chiaro
+      usando una libreria di hashing come bcrypt (es: await bcrypt.hash(password, 10))
+    */
+    const [result] = await db.query(
+      'INSERT INTO users (nome, cognome, username, email, password, role) VALUES (?, ?, ?, ?, ?, ?)',
+      [nome, cognome, username, email, password, userRole],
+    );
+
+    // Rispondiamo con i dati dell'utente creato (escludendo la password)
+    const newUser = {
+      id: result.insertId,
+      nome,
+      cognome,
+      username,
+      email,
+      role: userRole,
+    };
+
+    console.log(`Nuovo utente registrato con successo: ${username}`);
+    res.status(201).json(newUser);
   } catch (error) {
     console.error('Errore inserimento docente:', error);
     res.status(500).json({ error: 'Errore interno del server' });
@@ -174,6 +286,14 @@ app.put('/api/teachers/:id', async (req, res) => {
       return res.status(404).json({ error: 'Docente non trovato' });
     }
     res.json({ message: 'Profilo docente aggiornato con successo!' });
+      'INSERT INTO teachers (user_id, titolo, materie, bio, tariffaOraria, avatar) VALUES (?, ?, ?, ?, ?, ?)',
+      [user_id, JSON.stringify(materie), bio, tariffaOraria, avatar], // Convertiamo esplicitamente in stringa per sicurezza
+    );
+
+    res.status(201).json({
+      message: 'Profilo docente creato con successo',
+      teacherId: result.insertId,
+    });
   } catch (error) {
     console.error('Errore update docente:', error);
     res.status(500).json({ error: 'Errore interno del server' });
@@ -188,7 +308,9 @@ app.patch('/api/teachers/:id', async (req, res) => {
   if (keys.length === 0) return res.status(400).json({ error: 'Nessun campo fornito' });
 
   try {
-    const setClause = keys.map(key => `${key} = ?`).join(', ');
+    // 2. Costruiamo la query dinamicamente
+    // Es: "SET titolo = ?, bio = ?, tariffaOraria = ?"
+    const setClause = keys.map((key) => `${key} = ?`).join(', ');
     const values = Object.values(fields);
 
     if (fields.materie) {
@@ -196,8 +318,15 @@ app.patch('/api/teachers/:id', async (req, res) => {
       values[index] = JSON.stringify(fields.materie);
     }
 
-    const [result] = await db.query(`UPDATE teachers SET ${setClause} WHERE id = ?`, [...values, id]);
-    if (result.affectedRows === 0) return res.status(404).json({ error: 'Insegnante non trovato' });
+    // 3. Eseguiamo l'aggiornamento
+    const [result] = await db.query(`UPDATE teachers SET ${setClause} WHERE id = ?`, [
+      ...values,
+      id,
+    ]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Insegnante non trovato' });
+    }
 
     res.json({ message: 'Profilo aggiornato con successo' });
   } catch (error) {
@@ -239,6 +368,10 @@ app.get('/api/course/:courseId', async (req, res) => {
       JOIN users ON teachers.user_id = users.id
       WHERE courses.id = ?`,
       [courseId]
+    const [result] = await db.query(
+      `INSERT INTO courses (titolo, descrizione, teacher_id, materia, prezzo, dataOra, immagine)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [titolo, descrizione, teacher_id, materia, prezzo, dataOra, immagine],
     );
     if (rows.length === 0) return res.status(404).json({ error: 'Corso non trovato' });
     res.json(rows[0]);
@@ -258,11 +391,15 @@ app.post('/api/courses', async (req, res) => {
 
   try {
     const querySQL = `
-      INSERT INTO courses (titolo, descrizione, teacher_id, materia, prezzo, dataOra, immagine, stelle) 
+      INSERT INTO courses (titolo, descrizione, teacher_id, materia, prezzo, dataOra, immagine, stelle)
       VALUES (?, ?, ?, ?, ?, ?, ?, 5)
     `;
     const [result] = await db.query(querySQL, [titolo, descrizione || '', teacher_id, materia, prezzo, dataOra, immagine || '📘']);
     res.status(201).json({ message: 'Corso creato con successo!', courseId: result.insertId, titolo });
+    res.status(201).json({
+      message: 'Corso creato con successo',
+      courseId: result.insertId,
+    });
   } catch (error) {
     console.error('Errore inserimento corso:', error);
     res.status(500).json({ error: 'Errore durante la creazione del corso' });
