@@ -38,3 +38,19 @@
   border-bottom: 1px solid #eee;
 }
 
+.card {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.user-avatar img {
+  width: 150px;       /* Imposta la larghezza desiderata */
+  height: 150px;      /* Imposta l'altezza uguale alla larghezza */
+  object-fit: cover;  /* Mantiene le proporzioni ritagliando l'eccesso */
+  border-radius: 50%; /* La rende perfettamente circolare */
+  border: 3px solid #ddd;
+}

@@ -89,10 +89,10 @@ app.post('/api/auth/register', async (req, res) => {
   }
 
   try {
-    const [existingUser] = await db.query(
-      'SELECT id FROM users WHERE username = ? OR email = ?',
-      [username, email]
-    );
+    const [existingUser] = await db.query('SELECT id FROM users WHERE username = ? OR email = ?', [
+      username,
+      email,
+    ]);
 
     if (existingUser.length > 0) {
       return res.status(400).json({ error: 'Username o Email già utilizzati' });
@@ -102,7 +102,7 @@ app.post('/api/auth/register', async (req, res) => {
 
     const [result] = await db.query(
       'INSERT INTO users (nome, cognome, username, email, password, role) VALUES (?, ?, ?, ?, ?, ?)',
-      [nome, cognome, username, email, password, userRole]
+      [nome, cognome, username, email, password, userRole],
     );
 
     res.status(201).json({
@@ -111,7 +111,7 @@ app.post('/api/auth/register', async (req, res) => {
       cognome,
       username,
       email,
-      role: userRole
+      role: userRole,
     });
   } catch (error) {
     console.error('Errore durante la registrazione:', error);
@@ -145,7 +145,7 @@ app.post('/api/auth/login', async (req, res) => {
       cognome: user.cognome,
       username: user.username,
       email: user.email,
-      role: user.role
+      role: user.role,
     });
   } catch (error) {
     console.error('Errore durante il login:', error);
@@ -161,12 +161,11 @@ app.get('/api/user/:userId', async (req, res) => {
   const { userId } = req.params;
 
   try {
-
     const [rows] = await db.query(
       `SELECT nome,cognome,username,email
        FROM users
        WHERE id = ?`,
-      [userId]
+      [userId],
     );
 
     if (rows.length === 0) {
@@ -186,7 +185,6 @@ app.get('/api/course/:courseId', async (req, res) => {
   const { courseId } = req.params;
 
   try {
-
     const [rows] = await db.query(
       `SELECT
          courses.*,
@@ -197,7 +195,7 @@ app.get('/api/course/:courseId', async (req, res) => {
        JOIN teachers ON courses.teacher_id = teachers.id
        JOIN users ON teachers.user_id = users.id
        WHERE courses.id = ?`,
-      [courseId]
+      [courseId],
     );
 
     if (rows.length === 0) {
@@ -208,6 +206,37 @@ app.get('/api/course/:courseId', async (req, res) => {
   } catch (error) {
     console.error('Errore GET corso:', error);
     res.status(500).json({ error: 'Errore nel recupero del corso' });
+  }
+});
+
+// GET - Endpoint per recuperare le iscrizioni di un utente
+app.get('/api/subscriptions/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const [rows] = await db.query(
+      `SELECT
+         subscriptions.*,
+         courses.titolo AS titolo,
+         courses.materia AS materia,
+         courses.dataOra AS dataOra,
+         courses.immagine AS immagine,
+         t.nome AS teacher_nome,
+         t.cognome AS teacher_cognome,
+         s.nome AS student_nome,
+         s.cognome AS student_cognome
+       FROM subscriptions
+       JOIN courses ON subscriptions.course_id = courses.id
+       JOIN users AS t ON courses.teacher_id = t.id    -- t = tabella insegnanti
+       JOIN users AS s ON subscriptions.user_id = s.id -- s = tabella studenti
+       WHERE subscriptions.user_id = ?`,
+      [userId]
+    );
+
+    res.json(rows);
+  } catch (error) {
+    console.error('Errore GET subscriptions:', error);
+    res.status(500).json({ error: 'Errore nel recupero delle iscrizioni' });
   }
 });
 
@@ -222,10 +251,10 @@ app.post('/api/auth/register', async (req, res) => {
 
   try {
     // Controlliamo se l'username o l'email esistono già
-    const [existingUser] = await db.query(
-      'SELECT id FROM users WHERE username = ? OR email = ?',
-      [username, email]
-    );
+    const [existingUser] = await db.query('SELECT id FROM users WHERE username = ? OR email = ?', [
+      username,
+      email,
+    ]);
 
     if (existingUser.length > 0) {
       return res.status(400).json({ error: 'Username o Email già utilizzati' });
@@ -239,7 +268,7 @@ app.post('/api/auth/register', async (req, res) => {
     */
     const [result] = await db.query(
       'INSERT INTO users (nome, cognome, username, email, password, role) VALUES (?, ?, ?, ?, ?, ?)',
-      [nome, cognome, username, email, password, userRole]
+      [nome, cognome, username, email, password, userRole],
     );
 
     // Rispondiamo con i dati dell'utente creato (escludendo la password)
@@ -249,12 +278,11 @@ app.post('/api/auth/register', async (req, res) => {
       cognome,
       username,
       email,
-      role: userRole
+      role: userRole,
     };
 
     console.log(`Nuovo utente registrato con successo: ${username}`);
     res.status(201).json(newUser);
-
   } catch (error) {
     console.error('Errore durante la registrazione:', error);
     res.status(500).json({ error: 'Errore interno del server durante la registrazione' });
@@ -275,12 +303,12 @@ app.post('/api/teachers', async (req, res) => {
     // Nota: 'materie' viene inviato come array JSON, mysql2 lo gestisce automaticamente
     const [result] = await db.query(
       'INSERT INTO teachers (user_id, titolo, materie, bio, tariffaOraria, avatar) VALUES (?, ?, ?, ?, ?, ?)',
-      [user_id, JSON.stringify(materie), bio, tariffaOraria, avatar] // Convertiamo esplicitamente in stringa per sicurezza
+      [user_id, JSON.stringify(materie), bio, tariffaOraria, avatar], // Convertiamo esplicitamente in stringa per sicurezza
     );
 
     res.status(201).json({
       message: 'Profilo docente creato con successo',
-      teacherId: result.insertId
+      teacherId: result.insertId,
     });
   } catch (error) {
     console.error('Errore inserimento docente:', error);
@@ -302,7 +330,7 @@ app.patch('/api/teachers/:id', async (req, res) => {
   try {
     // 2. Costruiamo la query dinamicamente
     // Es: "SET titolo = ?, bio = ?, tariffaOraria = ?"
-    const setClause = keys.map(key => `${key} = ?`).join(', ');
+    const setClause = keys.map((key) => `${key} = ?`).join(', ');
     const values = Object.values(fields);
 
     // Se stiamo aggiornando le 'materie', dobbiamo convertirle in JSON string
@@ -312,10 +340,10 @@ app.patch('/api/teachers/:id', async (req, res) => {
     }
 
     // 3. Eseguiamo l'aggiornamento
-    const [result] = await db.query(
-      `UPDATE teachers SET ${setClause} WHERE id = ?`,
-      [...values, id]
-    );
+    const [result] = await db.query(`UPDATE teachers SET ${setClause} WHERE id = ?`, [
+      ...values,
+      id,
+    ]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Insegnante non trovato' });
@@ -342,12 +370,12 @@ app.post('/api/courses', async (req, res) => {
     const [result] = await db.query(
       `INSERT INTO courses (titolo, descrizione, teacher_id, materia, prezzo, dataOra, immagine)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [titolo, descrizione, teacher_id, materia, prezzo, dataOra, immagine]
+      [titolo, descrizione, teacher_id, materia, prezzo, dataOra, immagine],
     );
 
     res.status(201).json({
       message: 'Corso creato con successo',
-      courseId: result.insertId
+      courseId: result.insertId,
     });
   } catch (error) {
     console.error('Errore inserimento corso:', error);
