@@ -252,6 +252,7 @@ Per scongiurare disallineamenti dello stato e l'apparizione di avvisi visivi di 
 | Nome | GitHub |
 |---|---|
 | Bryton Junior | [@brytonkamte-max](https://github.com/brytonkamte-max) |
+| Emanuele Zeppa | [@Emanuele2325](https://github.com/Emanuele2325) |
 
 ---
 
