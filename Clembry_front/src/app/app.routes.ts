@@ -9,6 +9,8 @@ import { userGuard } from './core/guards/user-guard';
 import { teacherGuard } from './core/guards/teacher-guard';
 import { PersonalArea } from './features/personal-area/personal-area';
 import { TeacherPersonalArea } from './features/teacher-personal-area/teacher-personal-area';
+import { ComeFunziona } from './features/come-funziona/come-funziona';
+
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,7 +19,7 @@ export const routes: Routes = [
   { path: 'teachers', component: Teachers  },
   // { path: 'howitworks', component: Homepage },
   { path: 'contacts', component: ContactsComponent },
-  // { path: 'about', component: Homepage },
+  { path: 'about', component: ComeFunziona },
   { path: 'login', component: Login },
   { path: 'registration', component: Registration },
   { path: 'personalArea', component: PersonalArea , },

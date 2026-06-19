@@ -1,0 +1,60 @@
+/* ============================================== */
+/* STEP-LIST: contenitore generale della sezione   */
+/* ============================================== */
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 48px 20px;
+}
+
+/* ogni singolo step: badge numero + testo affiancati */
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* ============================================== */
+/* BADGE NUMERO: il cerchio viola con il numero     */
+/* ============================================== */
+.step-numero {
+  /* dimensioni fisse per mantenere il cerchio perfetto */
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0; /* evita che si schiacci se il testo a fianco è lungo */
+
+  /* forma circolare */
+  border-radius: 50%;
+
+  /* colore coerente con il viola già usato nel sito (bottone "Tutti i Docenti") */
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: white;
+
+  /* centra il numero dentro il cerchio */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  /* piccola ombra per dare rilievo, stesso stile delle pillole nello screenshot */
+  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.35);
+}
+
+/* testo accanto al badge: titolo + descrizione dello step */
+.step-testo h3 {
+  margin: 0 0 6px 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.step-testo p {
+  margin: 0;
+  color: #555;
+  font-size: 15px;
+  line-height: 1.5;
+}
