@@ -121,7 +121,7 @@ app.post('/api/courses', async (req, res) => {
 app.get('/api/subscriptions/:userId', async (req, res) => {
   try {
     const [rows] = await db.query(
-      `SELECT subscriptions.*, courses.titolo, courses.materia, courses.dataOra,
+      `SELECT subscriptions.*, courses.titolo, courses.materia, courses.dataOra, courses.immagine, courses.prezzo, courses.descrizione, courses.stelle,
               t.nome AS teacher_nome, t.cognome AS teacher_cognome
        FROM subscriptions
        JOIN courses ON subscriptions.course_id = courses.id
@@ -134,6 +134,16 @@ app.get('/api/subscriptions/:userId', async (req, res) => {
     res.status(500).json({ error: 'Errore recupero iscrizioni' });
   }
 });
+
+app.post('/api/subscriptions', async (req, res) => {
+  const { userId, courseId } = req.body;
+  try {
+    const [result] = await db.query('INSERT INTO subscriptions (user_id, course_id) VALUES (?, ?)', [userId, courseId]);
+    res.status(201).json({ subscriptionId: result.insertId });
+  } catch (error) {
+    res.status(500).json({ error: 'Errore creazione iscrizione' });
+  }
+})
 
 // =====================================================
 // AVVIO SERVER

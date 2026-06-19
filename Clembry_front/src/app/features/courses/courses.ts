@@ -1,55 +1,50 @@
 import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoursesService } from '../../services/courses-service';
+import { Auth } from '../../services/auth-service';
+import { SubscriptionService, Subscription } from '../../services/subscription-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './courses.html',
-  styleUrl: './courses.css'
+  styleUrls: ['./courses.css']
 })
 export class Courses {
-  // Iniettiamo il service dei corsi
   private coursesService = inject(CoursesService);
+  private authService = inject(Auth);
+  private subscriptionService = inject(SubscriptionService);
+  private router = inject(Router);
 
-  // Signals per la gestione dei filtri di ricerca
+  // Filtri come Signals
   materiaSelezionata = signal<string>('');
   ricercaNome = signal<string>('');
 
-  // Otteniamo la lista di sola lettura dal Service
+  // Lista corsi
   listaCorsi = this.coursesService.corsi;
 
-  // Signal calcolato combinato: incrocia i filtri di categoria e di testo
+  // Signal calcolato per filtrare i corsi
   corsiFiltrati = computed(() => {
-    let corsi = this.listaCorsi();
+    const lista = this.listaCorsi();
     const filtroMateria = this.materiaSelezionata();
-    const testoCercato = this.ricercaNome().toLowerCase().trim();
+    const testo = this.ricercaNome().toLowerCase().trim();
 
-    // 1. Filtro per Categoria/Materia
-    if (filtroMateria) {
-      corsi = corsi.filter(corso => corso.materia === filtroMateria);
-    }
-
-    // 2. Filtro testuale sul titolo del corso
-    if (testoCercato) {
-      corsi = corsi.filter(corso => 
-        corso.titolo.toLowerCase().includes(testoCercato)
-      );
-    }
-
-    return corsi;
+    return lista.filter(corso => {
+      const matchMateria = filtroMateria ? corso.materia === filtroMateria : true;
+      const matchTesto = testo ? corso.titolo.toLowerCase().includes(testo) : true;
+      return matchMateria && matchTesto;
+    });
   });
 
-  // Metodo per cambiare la categoria attiva
   impostaFiltro(materia: string): void {
     this.materiaSelezionata.set(materia);
   }
 
-  // Gestore dell'evento di digitazione nella barra di ricerca
   onSearchChange(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    this.ricercaNome.set(inputElement.value);
+    const input = event.target as HTMLInputElement;
+    this.ricercaNome.set(input.value);
   }
 
   // Resetta totalmente entrambi i filtri di ricerca
@@ -57,8 +52,41 @@ export class Courses {
     this.materiaSelezionata.set('');
     this.ricercaNome.set('');
   }
+  /**
+   * Iscrizione al corso con gestione sicura del valore 'user'
+   */
+  iscrivitiAlCorso(corso: any): void {
+    const user = this.authService.getCurrentUser();
 
-  iscrivitiAlCorso(idCorso: number): void {
-    alert(`Ti sei iscritto con successo al corso numero: ${idCorso}! Riceverai il link di accesso via email.`);
+    // Gestione sicura del possibile 'null'
+    if (!user) {
+      alert('Devi essere loggato per iscriverti!');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // Verifica esistenza iscrizione
+    if (this.subscriptionService.isSubscribed(corso.id, user.id)) {
+      alert('Sei già iscritto a questo corso!');
+      return;
+    }
+
+    // Creazione oggetto coerente con l'interfaccia Subscription
+    const nuovaIscrizione: Subscription = {
+      userId: user.id,
+      courseId: corso.id,
+      subscriptionData: new Date().toISOString(),
+      titolo: corso.titolo,
+      materia: corso.materia,
+      dataOra: corso.dataOra,
+      immagine: corso.immagine,
+      teacherNome: corso.teacher_nome || 'N/A',
+      teacherCognome: corso.teacher_cognome || '',
+      studentNome: user.nome,
+      studentCognome: user.cognome
+    };
+
+    this.subscriptionService.addSubscription(nuovaIscrizione);
+    alert(`Iscrizione effettuata con successo a: ${corso.titolo}`);
   }
 }
