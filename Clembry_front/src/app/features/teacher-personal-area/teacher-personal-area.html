@@ -2,7 +2,7 @@
 
   <aside class="sidebar">
     <div class="profile-summary">
-      <img [src]="currentTeacher()?.avatar ? './img/' + currentTeacher()?.avatar : './img/avatar.png'" alt="Profilo">
+     <img src="/img/avatar.png" alt="Profilo" />
       <h3>Prof. {{ authService.getCurrentUser()?.nome }} {{ authService.getCurrentUser()?.cognome }}</h3>
       <p>{{ currentTeacher()?.titolo || 'Docente della piattaforma' }}</p>
     </div>
@@ -27,7 +27,7 @@
 
     <section id="bio" class="card">
       <h2>Biografia</h2>
-      
+
       @if (!isEditingBio) {
         <h4>{{ currentTeacher()?.titolo }}</h4>
         <p class="bio-text">{{ currentTeacher()?.bio || 'Nessuna biografia impostata.' }}</p>
@@ -39,12 +39,12 @@
             <label for="edit-titolo">Qualifica / Titolo:</label>
             <input id="edit-titolo" [(ngModel)]="editBioPayload.titolo" placeholder="Es. Esperto Angular & Node" />
           </div>
-          
+
           <div class="form-group">
             <label for="edit-bio">Biografia Professionale:</label>
             <textarea id="edit-bio" [(ngModel)]="editBioPayload.bio" rows="4" placeholder="Inserisci la tua bio..."></textarea>
           </div>
-          
+
           <div class="btn-group">
             <button class="btn-primary" (click)="saveProfile()">Salva Modifiche</button>
             <button class="btn-secondary" (click)="isEditingBio = false">Annulla</button>
@@ -88,7 +88,7 @@
             <label for="descrizione">Programma del Corso</label>
             <textarea id="descrizione" [(ngModel)]="newCoursePayload.descrizione" placeholder="Inserisci la descrizione e i dettagli..." rows="3"></textarea>
           </div>
-          
+
           <div class="btn-group">
             <button class="btn-primary" (click)="saveCourse()">Salva e Attiva Corso</button>
             <button class="btn-secondary" (click)="isCreatingCourse = false">Chiudi</button>

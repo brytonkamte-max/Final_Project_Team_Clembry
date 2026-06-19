@@ -33,11 +33,6 @@ async function initDatabase() {
     )
   `);
 
-  // ==========================================================================
-  // 4. TABELLA DOCENTI (Legata 1:1 con Users)
-  // ==========================================================================
-    )`);
-
   // 2. Tabella TEACHERS
   await connection.query(`
     CREATE TABLE teachers (
