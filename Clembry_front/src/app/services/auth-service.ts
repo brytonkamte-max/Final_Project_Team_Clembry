@@ -11,6 +11,7 @@ export interface UserResponse {
   username: string;
   email: string;
   role: 'student' | 'teacher';
+  
 }
 
 @Injectable({
@@ -24,7 +25,7 @@ export class Auth {
 
   // Manteniamo i tuoi Signals per gestire lo stato dell'app in tempo reale
   private loggedIn = signal<boolean>(false);
-  private role = signal<'teacher' | 'student'>('student'); 
+  private role = signal<'teacher' | 'student'>('student');
   private currentUserData = signal<UserResponse | null>(null);
 
   /**
@@ -58,7 +59,7 @@ export class Auth {
   }
 
   // --- I tuoi metodi originari basati su Signal (rimangono invariati per i componenti) ---
-  
+
   isLoggedIn(): boolean {
     return this.loggedIn();
   }

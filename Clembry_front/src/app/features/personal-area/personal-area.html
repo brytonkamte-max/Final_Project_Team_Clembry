@@ -1,69 +1,94 @@
-<div class="profile-container">
-  <aside class="profile-sidebar">
-    <div class="user-avatar">
+<div class="dashboard-container">
+  <aside class="sidebar">
+    <div class="profile-summary">
       <img src="/img/avatar.png" alt="Profilo" />
-      <h3>{{ user?.nome }}</h3>
-      <h4>{{ user?.cognome }}</h4>
-      <p class="email-muted">{{ user?.email }}</p>
+      <h3>{{ user?.username }}</h3>
     </div>
-
     <nav>
-      <ul class="nav-menu">
-        <li>
-          <a [class.active]="activeSection === 'bio'" (click)="setActiveSection('bio')"
-            >👤 Biografia</a
-          >
-        </li>
-        <li>
-          <a [class.active]="activeSection === 'payments'" (click)="setActiveSection('payments')"
-            >💳 Pagamenti</a
-          >
-        </li>
-        <li>
-          <a [class.active]="activeSection === 'courses'" (click)="setActiveSection('courses')"
-            >📚 I miei Corsi</a
-          >
-        </li>
-      </ul>
+      <a class="nav-item" [class.active]="activeSection === 'bio'" (click)="setActiveSection('bio')">Profilo</a>
+      <a class="nav-item" [class.active]="activeSection === 'courses'" (click)="setActiveSection('courses')">I miei Corsi</a>
+      <a class="nav-item" [class.active]="activeSection === 'calendar'" (click)="setActiveSection('calendar')">Calendario Lezioni</a>
+      <a class="nav-item" [class.active]="activeSection === 'payments'" (click)="setActiveSection('payments')">Pagamenti</a>
     </nav>
-
-    <button class="btn-logout" (click)="logout()">Logout</button>
   </aside>
 
-  <main class="profile-content">
-    <div class="profile-card">
-      @if (activeSection === 'bio') {
-        <section class="fade-in">
-          <h2>Biografia</h2>
-          <form class="bio-form">
-            <textarea placeholder="Scrivi qualcosa su di te..."></textarea>
-            <button type="submit" class="btn-primary">Salva modifiche</button>
-          </form>
-        </section>
-      }
+  <main class="main-content">
 
-      @if (activeSection === 'payments') {
-        <section class="fade-in">
-          <h2>Pagamenti</h2>
-          <div class="payment-card">
-            <span>Visa •••• 4242</span>
-            <span>Scadenza: 12/24</span>
-          </div>
-        </section>
-      }
+    @if (activeSection === 'bio') {
+      <section id="bio" class="card">
+        <h2>Profilo</h2>
+        <div class="profile-card">
+          <h3>{{ user?.nome }} {{ user?.cognome }}</h3>
+          <p>{{ user?.email }}</p>
+        </div>
+      </section>
+    }
 
-      @if (activeSection === 'courses') {
-        <section class="fade-in">
-          <h2>I tuoi corsi</h2>
-          <div class="course-list">
-            @for (sub of subscriptions; track sub.id) {
-              <div class="course-item">{{ sub.titolo }}</div>
-            } @empty {
-              <p>Non hai ancora acquistato nessun corso.</p>
-            }
-          </div>
-        </section>
-      }
-    </div>
+    @if (activeSection === 'courses') {
+      <section id="courses" class="card">
+        <h2>I miei Corsi</h2>
+        <div class="grid">
+          @for (sub of subscriptions; track sub.id) {
+            <div class="course-card">
+              <div class="card-header">
+                <h4>{{ sub.titolo }}</h4>
+                <span class="icon">{{ sub.immagine }}</span>
+              </div>
+              <p>{{ sub.descrizione }}</p>
+              <div class="course-meta">
+                <span>{{ sub.materia }}</span>
+              </div>
+              <div class="card-footer-meta">
+                <span class="price-badge">{{ sub.prezzo }}€</span>
+                <small class="time-tag">📅 {{ sub.dataOra }}</small>
+              </div>
+            </div>
+          } @empty {
+            <p class="empty-msg">Non ti sei iscritto a nessun corso.</p>
+          }
+        </div>
+      </section>
+    }
+
+    @if (activeSection === 'calendar') {
+      <section id="calendar" class="card">
+        <h2>Calendario Lezioni Rapido</h2>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Titolo Corso</th>
+                <th>Pianificazione Temporale</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (sub of subscriptions; track sub.id) {
+                <tr>
+                  <td><strong>{{ sub.titolo }}</strong></td>
+                  <td><span class="cal-date">📅 {{ sub.dataOra }}</span></td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="2" class="empty-table">Nessuna lezione in programma.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+
+    @if (activeSection === 'payments') {
+      <section id="payments" class="card">
+        <h2>Pagamenti</h2>
+        <div class="payment-card">
+          <span>Visa •••• 4242</span>
+          <br />
+          <span>Scadenza: 12/24</span>
+        </div>
+      </section>
+    }
+
+    <button class="btn-primary logout-btn" (click)="logout()">Logout Account</button>
   </main>
 </div>

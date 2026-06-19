@@ -46,10 +46,10 @@ export class PersonalArea implements OnInit {
   }
 
   // Variabile per gestire quale tab (sezione) mostrare nell'HTML
-  activeSection: 'bio' | 'payments' | 'courses' = 'bio';
+  activeSection: 'bio' | 'payments' | 'courses' | 'calendar' = 'bio';
 
   // Metodo per cambiare tab quando l'utente clicca sui menu
-  setActiveSection(section: 'bio' | 'payments' | 'courses') {
+  setActiveSection(section: 'bio' | 'payments' | 'courses' | 'calendar') {
     this.activeSection = section;
   }
 

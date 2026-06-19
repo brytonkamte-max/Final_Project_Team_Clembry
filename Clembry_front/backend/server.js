@@ -121,7 +121,7 @@ app.post('/api/courses', async (req, res) => {
 app.get('/api/subscriptions/:userId', async (req, res) => {
   try {
     const [rows] = await db.query(
-      `SELECT subscriptions.*, courses.titolo, courses.materia, courses.dataOra,
+      `SELECT subscriptions.*, courses.titolo, courses.materia, courses.dataOra, courses.immagine, courses.prezzo, courses.descrizione, courses.stelle,
               t.nome AS teacher_nome, t.cognome AS teacher_cognome
        FROM subscriptions
        JOIN courses ON subscriptions.course_id = courses.id
