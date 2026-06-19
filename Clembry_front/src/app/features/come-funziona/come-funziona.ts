@@ -1,64 +1,87 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-come-funziona',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './come-funziona.html',
   styleUrl: './come-funziona.css',
 })
 export class ComeFunziona {
+  constructor(private router: Router) {}
 
-  // SEZIONE STEP: i 3 passaggi del percorso studente
-  // ogni oggetto = un blocco numerato nella step-list
-
+  // 1. I 3 PASSAGGI DEL PERCORSO STUDENTE
   steps = [
     {
-      numero: 1,
+      numero: '01',
       titolo: 'Trova il tuo docente',
-      testo: 'Filtra i docenti per materia e disponibilità, e scegli quello più adatto a te.'
+      testo: 'Esplora i profili dei docenti certificati. Filtra per materia, disponibilità oraria e recensioni degli altri studenti per trovare la corrispondenza perfetta.'
     },
     {
-      numero: 2,
+      numero: '02',
+      prenota: true, // flag per layout o stili dedicati se necessari
       titolo: 'Prenota la lezione',
-      testo: 'Scegli data e orario direttamente dal calendario del docente.'
+      testo: 'Seleziona il giorno e l\'ora che preferisci direttamente dal calendario integrato sul profilo del docente. Paga in sicurezza in pochi clic.'
     },
     {
-      numero: 3,
+      numero: '03',
       titolo: 'Segui il corso',
-      testo: 'Partecipa alla lezione online e monitora i tuoi progressi nel tempo.'
+      testo: 'Accedi all\'aula virtuale interattiva direttamente dalla piattaforma. Segui le lezioni, condividi materiali e monitora i tuoi progressi.'
     }
   ];
 
-  // SEZIONE FAQ: domande frequenti con accordion
-  // "aperta" tiene lo stato di apertura di ogni singola FAQ
+  // 2. SEZIONE VANTAGGI (COMPLETA E STRUTTURATA)
+  vantaggi = [
+    {
+      icon: '📅',
+      titolo: 'Calendario Flessibile',
+      desc: 'Gestisci le tue lezioni in totale autonomia, ripianificando gli appuntamenti secondo le tue necessità.'
+    },
+    {
+      icon: '📂',
+      titolo: 'Materiale Condiviso',
+      desc: 'Accedi a dispense, esercizi e registrazioni delle lezioni caricate direttamente dai tuoi docenti.'
+    },
+    {
+      icon: '🔒',
+      titolo: 'Pagamenti Protetti',
+      desc: 'Transazioni sicure al 100%. Scegli se pagare la singola lezione o risparmiare con i pacchetti ore.'
+    }
+  ];
 
+  // 3. DOMANDE FREQUENTI (FAQ)
   faqs = [
     {
       domanda: 'Come scelgo il docente giusto per me?',
-      risposta: 'Puoi filtrare i docenti per materia, disponibilità e valutazioni degli altri studenti, e consultare il loro profilo prima di prenotare.',
+      risposta: 'Puoi filtrare i docenti per materia, disponibilità e valutazioni degli altri studenti, e consultare il loro profilo dettagliato prima di effettuare qualsiasi prenotazione.',
       aperta: false
     },
     {
       domanda: 'Cosa succede durante la prima lezione?',
-      risposta: 'La prima lezione serve a conoscere il docente e chiarire i tuoi obiettivi. Se non ti convince, puoi sempre scegliere un altro docente.',
+      risposta: 'La prima lezione serve a definire gli obiettivi didattici e pianificare il percorso d\'apprendimento. Se il docente non soddisfa le tue aspettative, il nostro team ti aiuterà a trovarne un altro immediatamente.',
       aperta: false
     },
     {
       domanda: 'Come funzionano i pagamenti?',
-      risposta: 'Puoi pagare singole lezioni oppure scegliere un pacchetto di ore. Il pagamento avviene direttamente sulla piattaforma in modo sicuro.',
+      risposta: 'Il pagamento avviene direttamente sulla piattaforma tramite metodi sicuri e crittografati (Carta di Credito, PayPal). I fondi vengono trasferiti al docente solo a lezione completata.',
       aperta: false
     },
     {
       domanda: 'Posso disdire o riprogrammare una lezione?',
-      risposta: 'Sì, puoi cancellare o spostare una lezione prenotata fino a un certo limite di ore prima, direttamente dal tuo calendario.',
+      risposta: 'Sì, puoi annullare o spostare una lezione senza alcuna penale fino a 24 ore prima dell\'inizio del collegamento, gestendo tutto direttamente dalla tua dashboard personale.',
       aperta: false
     }
   ];
 
-
-  // METODO: apre/chiude una singola FAQ al click
-  // riceve l'oggetto faq cliccato e inverte il suo stato
-  toggleFaq(faq: { aperta: boolean }) {
+  // METODO: Gestisce l'apertura a scatto alternato/singolo delle FAQ
+  toggleFaq(faq: any) {
     faq.aperta = !faq.aperta;
+  }
+
+  // NAVIGAZIONE
+  vaiADocenti() {
+    this.router.navigate(['/teachers']);
   }
 }

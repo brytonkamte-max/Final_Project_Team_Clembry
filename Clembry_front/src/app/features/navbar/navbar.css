@@ -36,21 +36,35 @@
 /* ==========================================================================
    LOGO
    ========================================================================== */
+
+
+
+/* ==========================================================================
+   STILE LOGO TESTUALE NELLA NAVBAR
+   ========================================================================== */
 .logo {
   display: flex;
   align-items: center;
 }
 
-.logo img {
-  height: 55px; /* Proporzione perfetta per non spaccare l'header */
-  width: auto;
-  object-fit: contain;
+.logo .brand-nome {
+  font-size: 3rem; /* Leggermente più compatto per la Navbar rispetto al footer */
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: #F1F5F9; /* --text-main */
+  user-select: none;
   cursor: pointer;
-  transition: transform var(--transizione);
+  transition: text-shadow 0.25s ease;
 }
 
-.logo img:hover {
-  transform: scale(1.03);
+.logo .brand-nome span {
+  color: #A78BFA; /* --colore-accent-soft: il viola di firma */
+}
+
+/* Effetto interattivo discreto al passaggio del mouse sulla Navbar */
+.logo:hover .brand-nome {
+  text-shadow: 0 0 15px rgba(167, 139, 250, 0.35);
 }
 
 /* ==========================================================================

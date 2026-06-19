@@ -1,5 +1,10 @@
 /* =====================================================
-   DESIGN SYSTEM IN LINEA CON IL CATALOGO
+   FONT — Caricamento globale da Google Fonts CDN
+   ===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* =====================================================
+   DESIGN SYSTEM UNIVERSALE ALLINEATO AL BRAND
    ===================================================== */
 :host {
   --colore-sfondo:      #0F172A;
@@ -22,7 +27,6 @@
   color: var(--testo-primario);
 }
 
-/* Layout Principale */
 .homepage-layout {
   display: flex;
   flex-direction: column;
@@ -30,7 +34,7 @@
   overflow-x: hidden;
 }
 
-/* Pulsanti Primari (Stile Viola Neon) */
+/* Pulsanti con effetto Neon Glow */
 .btn-primary {
   padding: 12px 28px;
   border-radius: var(--raggio-btn);
@@ -54,17 +58,17 @@
   transform: translateY(0);
 }
 
-/* Titles standardizzati per le sezioni */
 .benefits h2, .how-it-works h2, .featured-courses h2 {
   font-size: clamp(1.75rem, 4vw, 2.2rem);
   font-weight: 800;
   text-align: center;
   color: var(--testo-primario);
   margin-bottom: 48px;
+  letter-spacing: -0.02em;
 }
 
 /* =====================================================
-   1. REPARTO CAROSELLO DINAMICO
+   1. CAROSELLO DINAMICO
    ===================================================== */
 .carousel-container {
   position: relative;
@@ -92,7 +96,7 @@
   background-position: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.6s ease-in-out, visibility 0.6s;
+  transition: opacity 0.8s ease-in-out, visibility 0.8s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,7 +107,7 @@
   visibility: visible;
 }
 
-/* Sfumatura scura per proteggere il contrasto dei testi */
+/* Maschera di contrasto scura per rendere i testi ultra-leggibili */
 .slide::after {
   content: '';
   position: absolute;
@@ -111,7 +115,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.85));
+  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.85));
 }
 
 .slide-content {
@@ -122,7 +126,7 @@
   padding: 0 24px;
   max-width: 800px;
   transform: translateY(16px);
-  transition: transform 0.6s ease;
+  transition: transform 0.8s ease;
 }
 
 .slide.active .slide-content {
@@ -138,45 +142,14 @@
 }
 
 .slide-content p {
-  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-size: clamp(1rem, 2vw, 1.25rem);
   color: var(--testo-secondario);
   margin-bottom: 32px;
   font-weight: 400;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-/* Frecce carosello (Vetro Scuro) */
-.carousel-control {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(30, 41, 59, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: var(--testo-primario);
-  border: 1px solid var(--colore-bordo);
-  width: 48px;
-  height: 48px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  z-index: 10;
-  transition: var(--transizione);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.carousel-control:hover {
-  border-color: var(--colore-accent-soft);
-  color: var(--colore-accent-soft);
-  background: var(--colore-card);
-}
-
-.carousel-control.prev { left: 24px; }
-.carousel-control.next { right: 24px; }
-
-/* Indicatori a pillola animata */
+/* Indicatori inferiori intelligenti */
 .carousel-indicators {
   position: absolute;
   bottom: 24px;
@@ -203,7 +176,7 @@
 }
 
 /* =====================================================
-   2. SEZIONE HERO (INTRODUTTIVA)
+   2. HERO SECTION
    ===================================================== */
 .hero {
   padding: 80px 24px;
@@ -223,6 +196,7 @@
   color: var(--testo-primario);
   margin-bottom: 18px;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .hero .subtitle {
@@ -233,7 +207,7 @@
 }
 
 /* =====================================================
-   3. SEZIONE VANTAGGI (ALLINEATA AL CATALOGO)
+   3. SEZIONE VANTAGGI
    ===================================================== */
 .benefits {
   padding: 80px 24px;
@@ -266,7 +240,6 @@
   transform: translateY(-4px);
   box-shadow: 0 20px 48px rgba(124, 58, 237, 0.12);
   border-top-color: var(--colore-accent);
-  border-color: var(--colore-bordo);
 }
 
 .card-icon {
@@ -290,7 +263,7 @@
 }
 
 /* =====================================================
-   4. SEZIONE: COME FUNZIONA
+   4. COME FUNZIONA
    ===================================================== */
 .how-it-works {
   padding: 80px 24px;
@@ -331,7 +304,7 @@
 }
 
 /* =====================================================
-   5. SEZIONE: CORSI IN EVIDENZA (GEMELLA DEL CATALOGO)
+   5. VETRINA CORSI IN EVIDENZA
    ===================================================== */
 .featured-courses {
   padding: 80px 24px;
@@ -346,7 +319,6 @@
   gap: 24px;
 }
 
-/* Sfrutta i medesimi stili strutturali definiti per la .corso-card del catalogo */
 .course-card {
   background: var(--colore-card);
   border: 1px solid var(--colore-bordo);
@@ -357,14 +329,13 @@
   transition: transform var(--transizione), box-shadow var(--transizione), border-color var(--transizione);
   border-top: 3px solid transparent;
   background-clip: padding-box;
-  padding: 20px; /* Compatta la struttura interna delle card in home */
+  padding: 24px;
 }
 
 .course-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 48px rgba(124, 58, 237, 0.18);
   border-top-color: var(--colore-accent);
-  border-color: var(--colore-bordo);
 }
 
 .course-tag {
@@ -382,7 +353,7 @@
 }
 
 .course-card h3 {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.4;
   color: var(--testo-primario);
@@ -390,17 +361,17 @@
 }
 
 .course-teacher {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--colore-verde);
-  margin: 0 0 16px;
+  margin: 0 0 20px;
 }
 
 .course-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto; /* Spinge il footer sul fondo per pareggiare le altezze */
+  margin-top: auto;
   padding-top: 16px;
   border-top: 1px solid var(--colore-bordo);
 }
@@ -417,7 +388,6 @@
   font-weight: 400;
 }
 
-/* Pulsante "Vedi Corso" (Stile secondario Outline in linea con i filtri) */
 .btn-sm-primary {
   padding: 8px 18px;
   border-radius: var(--raggio-btn);
@@ -436,7 +406,7 @@
 }
 
 /* =====================================================
-   6. SEZIONE STATISTICHE (BACKGROUND SCURO NEON)
+   6. SEZIONE STATISTICHE
    ===================================================== */
 .stats-section {
   background-color: #090d16;
@@ -476,7 +446,7 @@
 @media (max-width: 768px) {
   .carousel-container { height: 50vh; }
   .hero, .benefits, .how-it-works, .featured-courses { padding: 48px 16px; }
-  
+
   .stats-section {
     flex-direction: column;
     align-items: center;

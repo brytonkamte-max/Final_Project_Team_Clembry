@@ -1,10 +1,10 @@
 <main class="homepage-layout">
-  
+
   <section class="carousel-container">
     <div class="carousel-slides">
       @for (slide of slides; track $index) {
-        <div class="slide" 
-             [class.active]="$index === currentSlide" 
+        <div class="slide"
+             [class.active]="$index === currentSlide"
              [style.backgroundImage]="'url(' + slide.image + ')'">
           <div class="slide-content">
             <h2>{{ slide.title }}</h2>
@@ -14,14 +14,11 @@
         </div>
       }
     </div>
-    
-    <button class="carousel-control prev" (click)="prevSlide()">&#10094;</button>
-    <button class="carousel-control next" (click)="nextSlide()">&#10095;</button>
-    
+
     <div class="carousel-indicators">
       @for (slide of slides; track $index) {
-        <span class="dot" 
-              [class.active]="$index === currentSlide" 
+        <span class="dot"
+              [class.active]="$index === currentSlide"
               (click)="setSlide($index)">
         </span>
       }
@@ -45,8 +42,8 @@
       <div class="card">
         <div class="card-icon">
           <svg class="c-icon" viewBox="0 0 100 100">
-            <path d="M70,20 C50,0 10,20 10,50 C10,80 50,100 70,80" stroke="#1a73e8" fill="none" stroke-width="8"/>
-            <text x="42" y="65" font-family="Arial" font-size="38" font-weight="bold" fill="#1a73e8">I</text>
+            <path d="M70,20 C50,0 10,20 10,50 C10,80 50,100 70,80" stroke="#7C3AED" fill="none" stroke-width="8"/>
+            <text x="42" y="65" font-family="'Inter', sans-serif" font-size="38" font-weight="bold" fill="#7C3AED">I</text>
           </svg>
         </div>
         <h3>Apprendimento</h3>
@@ -56,8 +53,8 @@
       <div class="card">
         <div class="card-icon">
           <svg class="c-icon" viewBox="0 0 100 100">
-            <path d="M70,20 C50,0 10,20 10,50 C10,80 50,100 70,80" stroke="#1a73e8" fill="none" stroke-width="8"/>
-            <text x="35" y="65" font-family="Arial" font-size="38" font-weight="bold" fill="#1a73e8">C</text>
+            <path d="M70,20 C50,0 10,20 10,50 C10,80 50,100 70,80" stroke="#7C3AED" fill="none" stroke-width="8"/>
+            <text x="35" y="65" font-family="'Inter', sans-serif" font-size="38" font-weight="bold" fill="#7C3AED">C</text>
           </svg>
         </div>
         <h3>Certificazione</h3>
@@ -67,8 +64,8 @@
       <div class="card">
         <div class="card-icon">
           <svg class="c-icon" viewBox="0 0 100 100">
-            <path d="M70,20 C50,0 10,20 10,50 C10,80 50,100 70,80" stroke="#1a73e8" fill="none" stroke-width="8"/>
-            <text x="35" y="65" font-family="Arial" font-size="38" font-weight="bold" fill="#1a73e8">R</text>
+            <path d="M70,20 C50,0 10,20 10,50 C10,80 50,100 70,80" stroke="#7C3AED" fill="none" stroke-width="8"/>
+            <text x="35" y="65" font-family="'Inter', sans-serif" font-size="38" font-weight="bold" fill="#7C3AED">R</text>
           </svg>
         </div>
         <h3>Competenze Professionali</h3>
@@ -104,7 +101,9 @@
           </div>
         </div>
       } @empty {
-        <p style="grid-column: 1/-1; color: var(--text-muted);">Nessun corso attualmente disponibile in vetrina.</p>
+        <p style="grid-column: 1/-1; color: var(--text-muted); text-align: center; font-style: italic;">
+          Nessun corso attualmente disponibile in vetrina.
+        </p>
       }
     </div>
   </section>

@@ -1,41 +1,81 @@
-<!-- HERO: titolo e sottotitolo statici, nessun dato dal .ts -->
-<section class="hero">
-  <h1>Come funziona iClembryLearning</h1>
-  <p>Trova il docente giusto, prenota la lezione e inizia a imparare online.</p>
-</section>
-
-<!-- STEP-LIST: legge l'array "steps" definito nel .ts -->
-<!-- nessun click coinvolto, solo lettura e stampa -->
-<section class="step-list">
-  @for (s of steps; track s.numero) {
-    <div class="step-item">
-      <span class="step-numero">{{ s.numero }}</span>
-      <h3>{{ s.titolo }}</h3>
-      <p>{{ s.testo }}</p>
+<main class="page-layout">
+  
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">Guida Piattaforma</span>
+      <h1>Come funziona iClembry Learning</h1>
+      <p>Un percorso guidato e intuitivo per raggiungere i tuoi obiettivi accademici e professionali con i migliori esperti.</p>
     </div>
-  }
-</section>
+  </section>
 
-<!-- VANTAGGI: stesso pattern delle card già usate in home -->
-<!-- (qui esempio minimo, da sostituire col componente riusato) -->
-<section class="vantaggi-grid">
-  <!-- inserire qui le card "Calendario / Materiale / Pagamenti" riusate -->
-</section>
-
-<!-- FAQ-ACCORDION: legge l'array "faqs" -->
-<!-- click sulla domanda chiama toggleFaq(f) -->
-<!-- @if mostra la risposta solo se f.aperta è true -->
-<section class="faq-accordion">
-  @for (f of faqs; track f.domanda) {
-    <div class="faq-item" (click)="toggleFaq(f)">
-      <p class="faq-domanda">{{ f.domanda }}</p>
-      @if (f.aperta) {
-        <p class="faq-risposta">{{ f.risposta }}</p>
+  <section class="section-container">
+    <div class="section-header">
+      <h2>Il tuo percorso in 3 semplici passi</h2>
+      <p>Dalla ricerca all'aula virtuale, ecco come prende vita la tua formazione.</p>
+    </div>
+    
+    <div class="step-grid">
+      @for (s of steps; track s.numero) {
+        <div class="step-item">
+          <div class="step-top">
+            <span class="step-numero">{{ s.numero }}</span>
+            <div class="step-line"></div>
+          </div>
+          <h3>{{ s.titolo }}</h3>
+          <p>{{ s.testo }}</p>
+        </div>
       }
     </div>
-  }
-</section>
-<!-- CTA FINALE: bottone statico di chiusura pagina -->
-<section class="cta-finale">
-  <button>Trova un docente</button>
-</section>
+  </section>
+
+  <section class="section-container bg-alt">
+    <div class="inner-container">
+      <div class="section-header">
+        <h2>Strumenti pensati per il tuo successo</h2>
+        <p>Non solo ripetizioni: una suite completa di funzionalità a tua disposizione.</p>
+      </div>
+
+      <div class="vantaggi-grid">
+        @for (v of vantaggi; track v.titolo) {
+          <div class="vantaggio-card">
+            <div class="vantaggio-icon">{{ v.icon }}</div>
+            <h3>{{ v.titolo }}</h3>
+            <p>{{ v.desc }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-container">
+    <div class="inner-container max-width-md">
+      <div class="section-header">
+        <h2>Domande Frequenti</h2>
+        <p>Hai dubbi o curiosità? Trova subito una risposta chiara alle domande più comuni.</p>
+      </div>
+
+      <div class="faq-accordion">
+        @for (f of faqs; track f.domanda) {
+          <div class="faq-item" [class.is-open]="f.aperta" (click)="toggleFaq(f)">
+            <div class="faq-trigger">
+              <span class="faq-domanda">{{ f.domanda }}</span>
+              <span class="faq-icon"></span>
+            </div>
+            <div class="faq-content">
+              <p class="faq-risposta">{{ f.risposta }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-finale">
+    <div class="cta-content">
+      <h2>Pronto a dare una svolta al tuo studio?</h2>
+      <p>Trova oggi stesso il docente perfetto per te ed unisciti alla nostra community di studenti.</p>
+      <button class="btn-primary" (click)="vaiADocenti()">Trova un docente</button>
+    </div>
+  </section>
+
+</main>

@@ -1,7 +1,7 @@
+import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Hero } from '../hero/hero';
-import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { CoursesService } from '../../services/courses-service';
 
 @Component({
@@ -18,17 +18,17 @@ export class Homepage implements OnInit, OnDestroy {
   // Lettura del Signal originale dal Service
   private corsiDalServer = this.coursesService.corsi;
 
-  /* NUOVO REPARTO SICUREZZA: 
-    Se il server risponde con una lista vuota, questo computed genera al volo 
-    i corsi finti per non lasciare la vetrina della Home vuota!
+  /* NUOVO REPARTO SICUREZZA:
+     Se il server risponde con una lista vuota, questo computed genera al volo
+     i corsi finti per non lasciare la vetrina della Home vuota!
   */
   corsiSignal = computed(() => {
     const datiReali = this.corsiDalServer();
-    
+
     if (datiReali && datiReali.length > 0) {
       return datiReali; // Mostra i dati del database se presenti
     }
-    
+
     // Dati simulati di backup se il backend è vuoto o spento
     return [
       { id: 1, titolo: 'Matematica Finanziaria e Algebra Lineare', docente: 'Prof.ssa Elena Bianchi', prezzo: 25.00, materia: 'Matematica' },
@@ -54,9 +54,12 @@ export class Homepage implements OnInit, OnDestroy {
       description: 'Visualizza i tuoi risultati e ricevi feedback costanti.'
     }
   ];
-  
+
   currentSlide = 0;
   private autoPlayInterval: any;
+  
+  // Portato a 5000ms (5 secondi) per una lettura ottimale e rilassante delle slide
+  private readonly AUTOPLAY_MS = 5000; 
 
   titolo: string = 'Trova il docente per le tue ripetizioni online';
   sottotitolo: string = 'Prenota lezioni individuali o di gruppo, accedi ai materiali e monitora i tuoi progressi.';
@@ -69,7 +72,6 @@ export class Homepage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.startAutoPlay();
-    // Chiamata HTTP al backend per aggiornare lo stato
     this.coursesService.caricaCorsiDati();
   }
 
@@ -93,10 +95,7 @@ export class Homepage implements OnInit, OnDestroy {
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
   }
 
-  prevSlide() {
-    this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-  }
-
+  // Permette di selezionare una slide specifica resettando in modo sicuro il timer da zero
   setSlide(index: number) {
     this.currentSlide = index;
     this.stopAutoPlay();
@@ -104,14 +103,16 @@ export class Homepage implements OnInit, OnDestroy {
   }
 
   startAutoPlay() {
+    this.stopAutoPlay(); // Evita la sovrapposizione di timer multipli
     this.autoPlayInterval = setInterval(() => {
       this.nextSlide();
-    }, 2000);
+    }, this.AUTOPLAY_MS);
   }
 
   stopAutoPlay() {
     if (this.autoPlayInterval) {
       clearInterval(this.autoPlayInterval);
+      this.autoPlayInterval = null;
     }
   }
 }
