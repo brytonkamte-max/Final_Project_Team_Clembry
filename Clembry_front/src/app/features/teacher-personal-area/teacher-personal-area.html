@@ -2,59 +2,151 @@
 
   <aside class="sidebar">
     <div class="profile-summary">
-      <img src="./img/avatar.png" alt="Profilo">
-      <h3>Prof. Mario Rossi</h3>
-      <p>Docente di Informatica</p>
+      <img [src]="currentTeacher()?.avatar ? './img/' + currentTeacher()?.avatar : './img/avatar.png'" alt="Profilo">
+      <h3>Prof. {{ authService.getCurrentUser()?.nome }} {{ authService.getCurrentUser()?.cognome }}</h3>
+      <p>{{ currentTeacher()?.titolo || 'Docente della piattaforma' }}</p>
     </div>
     <nav>
-      <a href="#" class="nav-item active">Dashboard</a>
-      <a href="#" class="nav-item">I miei Corsi</a>
-      <a href="#" class="nav-item">Calendario</a>
-      <a href="#" class="nav-item">Biografia</a>
+      <a class="nav-item" [class.active]="!isCreatingCourse" (click)="isCreatingCourse = false; $event.preventDefault()">
+        Dashboard & Corsi
+      </a>
+      <a class="nav-item" [class.active]="isCreatingCourse" (click)="isCreatingCourse = true; $event.preventDefault()">
+        Crea Nuovo Corso
+      </a>
     </nav>
   </aside>
 
   <main class="main-content">
 
+    @if (courseCreatedSuccess) {
+      <div class="success-alert">
+        <span class="success-icon">✓</span>
+        <p>Nuovo corso pubblicato e attivato con successo!</p>
+      </div>
+    }
+
     <section id="bio" class="card">
       <h2>Biografia</h2>
-      <p>Specializzato in architetture software e tecnologie Web. Appassionato di didattica innovativa.</p>
-      <button class="btn-secondary">Modifica Bio</button>
+      
+      @if (!isEditingBio) {
+        <h4>{{ currentTeacher()?.titolo }}</h4>
+        <p class="bio-text">{{ currentTeacher()?.bio || 'Nessuna biografia impostata.' }}</p>
+        <p class="tariffa"><strong>Tariffa Oraria:</strong> {{ currentTeacher()?.tariffaOraria }}€/ora</p>
+        <button class="btn-secondary" (click)="isEditingBio = true">Modifica Profilo</button>
+      } @else {
+        <div class="edit-form">
+          <div class="form-group">
+            <label for="edit-titolo">Qualifica / Titolo:</label>
+            <input id="edit-titolo" [(ngModel)]="editBioPayload.titolo" placeholder="Es. Esperto Angular & Node" />
+          </div>
+          
+          <div class="form-group">
+            <label for="edit-bio">Biografia Professionale:</label>
+            <textarea id="edit-bio" [(ngModel)]="editBioPayload.bio" rows="4" placeholder="Inserisci la tua bio..."></textarea>
+          </div>
+          
+          <div class="btn-group">
+            <button class="btn-primary" (click)="saveProfile()">Salva Modifiche</button>
+            <button class="btn-secondary" (click)="isEditingBio = false">Annulla</button>
+          </div>
+        </div>
+      }
     </section>
 
+    @if (isCreatingCourse) {
+      <section id="create-course" class="card highlight-card">
+        <h2>Pubblica un nuovo corso</h2>
+        <div class="edit-form">
+          <div class="form-group">
+            <label for="titolo">Titolo del Corso</label>
+            <input id="titolo" [(ngModel)]="newCoursePayload.titolo" placeholder="Inserisci il titolo del corso" />
+          </div>
+
+          <div class="form-group">
+            <label for="materia">Materia di insegnamento</label>
+            <input id="materia" [(ngModel)]="newCoursePayload.materia" placeholder="Es. Matematica, Programmazione..." />
+          </div>
+
+          <div class="form-row-datetime">
+            <div class="form-group">
+              <label for="dataCorso">Data della Lezione</label>
+              <input type="date" id="dataCorso" [(ngModel)]="tempData" />
+            </div>
+
+            <div class="form-group">
+              <label for="oraCorso">Orario d'Inizio</label>
+              <input type="time" id="oraCorso" [(ngModel)]="tempOra" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="prezzo">Prezzo d'accesso (€)</label>
+            <input id="prezzo" type="number" [(ngModel)]="newCoursePayload.prezzo" placeholder="Es. 25" />
+          </div>
+
+          <div class="form-group">
+            <label for="descrizione">Programma del Corso</label>
+            <textarea id="descrizione" [(ngModel)]="newCoursePayload.descrizione" placeholder="Inserisci la descrizione e i dettagli..." rows="3"></textarea>
+          </div>
+          
+          <div class="btn-group">
+            <button class="btn-primary" (click)="saveCourse()">Salva e Attiva Corso</button>
+            <button class="btn-secondary" (click)="isCreatingCourse = false">Chiudi</button>
+          </div>
+        </div>
+      </section>
+    }
+
     <section id="courses" class="card">
-      <h2>I miei Corsi</h2>
+      <h2>I miei Corsi pubblicati ({{ myCourses().length }})</h2>
       <div class="grid">
-        <div class="course-card">
-          <h4>Angular Avanzato</h4>
-          <span>Studenti: 45</span>
-        </div>
-        <div class="course-card">
-          <h4>TypeScript Basics</h4>
-          <span>Studenti: 120</span>
-        </div>
+        @for (course of myCourses(); track course.id) {
+          <div class="course-card">
+            <div class="card-header">
+              <h4>{{ course.titolo }}</h4>
+              <span class="icon">{{ course.immagine }}</span>
+            </div>
+            <p>{{ course.descrizione }}</p>
+            <div class="course-meta">
+              <span>{{ course.materia }}</span>
+            </div>
+            <div class="card-footer-meta">
+              <span class="price-badge">{{ course.prezzo }}€</span>
+              <small class="time-tag">📅 {{ course.dataOra }}</small>
+            </div>
+          </div>
+        } @empty {
+          <p class="empty-msg">Non hai ancora inserito nessun corso a catalogo.</p>
+        }
       </div>
     </section>
 
     <section id="calendar" class="card">
-      <h2>Calendario Lezioni</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Corso</th>
-            <th>Data</th>
-            <th>Aula</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Angular Avanzato</td>
-            <td>18 Giu, 10:00</td>
-            <td>Aula 4</td>
-          </tr>
-        </tbody>
-      </table>
+      <h2>Calendario Lezioni Rapido</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Titolo Corso</th>
+              <th>Pianificazione Temporale</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (course of myCourses(); track course.id) {
+              <tr>
+                <td><strong>{{ course.titolo }}</strong></td>
+                <td><span class="cal-date">📅 {{ course.dataOra }}</span></td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="2" class="empty-table">Nessuna lezione in programma per i tuoi corsi.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </section>
-  <button class="btn-primary" (click)="logout()">Logout</button>
+
+    <button class="btn-primary logout-btn" (click)="logout()">Logout Account</button>
   </main>
 </div>

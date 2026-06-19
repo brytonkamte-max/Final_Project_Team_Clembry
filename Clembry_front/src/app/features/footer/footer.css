@@ -1,38 +1,31 @@
-/* ==========================================
-   VARIABILI GLOBALI (Coerenti con la Navbar)
-   ========================================== */
-:root {
-  --primary-color: #1a5fff;       /* Il blu brillante iClembry */
-  --primary-hover: #0046cb;       /* Blu scuro per hover */
-  --bg-footer: #0f172a;           /* Sfondo blu notte molto scuro e moderno */
-  --text-main: #f1f5f9;           /* Bianco sporco/chiaro per i testi principali */
-  --text-muted: #94a3b8;          /* Grigio chiaro per i link e la tagline */
-  --border-color: #334155;        /* Grigio-blu per le linee di separazione */
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ==========================================================================
+   VARIABILI GLOBALI FOOTER (ALLINEATE ALLA COSMETICA DEL SITO)
+   ========================================================================== */
+:host {
+  --bg-footer:          #0F172A;        /* Sfondo blu notte coerente con il resto del sito */
+  --colore-card:        #1E293B;        /* Sfondo per i badge e i cerchi social */
+  --border-color:       #334155;        /* Grigio-blu per le linee di separazione */
+  --colore-accent:      #7C3AED;        /* Il viola di firma del brand */
+  --colore-accent-soft: #A78BFA;        /* Viola chiaro per gli stati di hover */
+  --text-main:          #F1F5F9;        /* Bianco sporco per i testi importanti */
+  --text-muted:         #94A3B8;        /* Grigio chiaro per i link e le descrizioni */
+  --raggio-btn:         999px;
+  --transizione:        0.25s ease;
+  
+  display: block;
+  background-color: var(--bg-footer);
 }
 
-/* ==========================================
+/* ==========================================================================
    CONTAINER GENERALE DEL FOOTER
-   ========================================== */
+   ========================================================================== */
 footer {
   background-color: var(--bg-footer);
   color: var(--text-main);
-  padding: 80px 0 30px 0; /* Più spazio sopra per farlo respirare */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin-top: auto; /* Utile se usi flexbox sul body per spingere il footer in basso */
-}
-
-/* Gestione delle dimensioni dei loghi SVG */
-.social-link svg {
-  width: 20px;
-  height: 20px;
-  fill: #94a3b8; /* Colore iniziale grigio chiaro coerente con i testi */
-  transition: all 0.3s ease;
-}
-
-/* Quando passi il mouse sul cerchio, l'icona interna diventa bianca */
-.social-link:hover svg {
-  fill: #ffffff;
+  padding: 80px 0 30px 0; 
+  font-family: 'Inter', system-ui, sans-serif; /* Allineato al font delle altre pagine */
+  border-top: 1px solid var(--border-color);
+  margin-top: auto; 
 }
 
 .footer-inner {
@@ -41,12 +34,11 @@ footer {
   padding: 0 5%;
 }
 
-/* ==========================================
-   RIGA SUPERIORE (Brand + Colonne)
-   ========================================== */
+/* ==========================================================================
+   RIGA SUPERIORE (Brand + Colonne Link)
+   ========================================================================== */
 .footer-top {
   display: grid;
-  /* Griglia responsiva: il brand occupa più spazio (2 parti) rispetto alle colonne (1 parte ciascuna) */
   grid-template-columns: 2fr repeat(3, 1fr);
   gap: 50px;
   padding-bottom: 50px;
@@ -61,55 +53,68 @@ footer {
 }
 
 .brand-nome {
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
   margin: 0;
   color: var(--text-main);
 }
 
 .brand-nome span {
-  color: var(--primary-color); /* Evidenzia 'Clembry' in blu */
+  color: var(--colore-accent-soft); /* Evidenzia 'Clembry' in viola chiaro */
 }
 
 .brand-tagline {
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 0.92rem;
   line-height: 1.6;
   margin: 0;
-  max-width: 320px; /* Evita che il testo si allunghi troppo in larghezza */
+  max-width: 320px; 
 }
 
-/* Icone Social */
+/* ==========================================================================
+   ICONE SOCIAL
+   ========================================================================== */
 .footer-social {
   display: flex;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 .social-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  background-color: #1e293b; /* Sfondo leggermente più chiaro del footer */
-  border-radius: 50%; /* Cerchio perfetto */
-  text-decoration: none;
-  font-size: 1.2rem;
-  transition: var(--transition);
-  border: 1px solid transparent;
+  width: 40px;
+  height: 40px;
+  background-color: var(--colore-card); 
+  border-radius: 50%; 
+  border: 1px solid var(--border-color);
+  transition: var(--transizione);
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--text-muted); 
+  transition: fill var(--transizione);
 }
 
 .social-link:hover {
-  background-color: var(--primary-color);
-  transform: translateY(-4px);
-  box-shadow: 0 6px 15px rgba(26, 95, 255, 0.3);
+  background-color: rgba(124, 58, 237, 0.15);
+  border-color: var(--colore-accent-soft);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
 }
 
-/* ==========================================
+/* Quando passi il mouse sul cerchio, l'icona interna diventa bianca */
+.social-link:hover svg {
+  fill: #ffffff;
+}
+
+/* ==========================================================================
    STILE DELLE COLONNE DEI LINK
-   ========================================== */
+   ========================================================================== */
 .footer-col {
   display: flex;
   flex-direction: column;
@@ -118,11 +123,11 @@ footer {
 
 .footer-col h4 {
   color: var(--text-main);
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
   margin: 0;
-  letter-spacing: 0.5px;
-  text-transform: uppercase; /* Rende i titoli delle colonne in maiuscolo piccolo */
+  letter-spacing: 0.08em;
+  text-transform: uppercase; /* Intestazioni in maiuscolo compatto */
 }
 
 .footer-col ul {
@@ -131,34 +136,34 @@ footer {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px; /* Spazio verticale tra i link */
+  gap: 12px; 
 }
 
 .footer-col ul li a {
   text-decoration: none;
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 400;
-  transition: var(--transition);
+  transition: var(--transizione);
   display: inline-block;
 }
 
-/* Effetto al passaggio del mouse sui link delle colonne */
+/* Effetto di transizione laterale allineato allo stile moderno del sito */
 .footer-col ul li a:hover {
-  color: var(--primary-color);
-  transform: translateX(5px); /* Spostamento millimetrico verso destra molto professionale */
+  color: var(--colore-accent-soft);
+  transform: translateX(4px); 
 }
 
-/* ==========================================
-   RIGA INFERIORE (Copyright + Stato)
-   ========================================== */
+/* ==========================================================================
+   RIGA INFERIORE (Copyright + Stato Sistemi)
+   ========================================================================== */
 .footer-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 30px;
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
 }
 
 .footer-copyright {
@@ -170,26 +175,27 @@ footer {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #1e293b;
+  background-color: var(--colore-card);
   padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  border-radius: var(--raggio-btn);
+  font-size: 0.8rem;
   font-weight: 500;
   border: 1px solid var(--border-color);
+  color: var(--text-main);
 }
 
 /* Pallino verde animato (Sistemi attivi) */
 .badge-dot {
   width: 8px;
   height: 8px;
-  background-color: #10b981; /* Verde smeraldo */
+  background-color: #10B981; /* Verde smeraldo reattivo */
   border-radius: 50%;
   display: inline-block;
   box-shadow: 0 0 8px #10b981;
-  animation: pulse 2s infinite; /* Effetto battito reale */
+  animation: pulse 2s infinite; 
 }
 
-/* Animazione del pallino verde */
+/* Animazione pulsante fluida */
 @keyframes pulse {
   0% {
     transform: scale(0.95);
@@ -205,19 +211,25 @@ footer {
   }
 }
 
-/* ==========================================
-   RESPONSIVITÀ (Per Tablet e Smartphone)
-   ========================================== */
-@media (max-width: 768px) {
+/* ==========================================================================
+   RESPONSIVITÀ (Tablet e Smartphone)
+   ========================================================================== */
+@media (max-width: 850px) {
   .footer-top {
-    /* Sugli schermi piccoli trasforma la griglia in 2 colonne o una riga unica */
-    grid-template-columns: 1fr;
-    gap: 40px;
+    grid-template-columns: 1fr repeat(2, 1fr); /* Riduce l'ingombro su tablet */
+    gap: 32px;
+  }
+}
+
+@media (max-width: 550px) {
+  .footer-top {
+    grid-template-columns: 1fr; /* Colonna singola su smartphone */
+    gap: 32px;
   }
   
   .footer-bottom {
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
     text-align: center;
   }
 }

@@ -6,9 +6,7 @@
 
   <ul>
     <li>
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-        >Home</a
-      >
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
     </li>
     <li><a routerLink="/courses" routerLinkActive="active">Corsi</a></li>
     <li><a routerLink="/teachers" routerLinkActive="active">Docenti</a></li>
@@ -16,16 +14,15 @@
     <li><a routerLink="/contacts" routerLinkActive="active">Contatti</a></li>
   </ul>
 
-  <!-- Icona Login -->
   <div class="actions">
-      @if(auth.isLoggedIn()){
-        <a routerLink="/personalArea"><span class="material-icons">account_circle</span></a>
-      }
-      @else if (auth.isLoggedIn() && auth.getRole() === 'teacher') {
-        <a routerLink="/personalAreaTeacher"><span class="material-icons">account_circle</span></a>
-      }
-      @else {
-        <a routerLink="/login"><span class="material-icons">account_circle</span></a>
-      }
+    @if (auth.isLoggedIn() && auth.getRole() === 'teacher') {
+      <a routerLink="/teacherPersonalArea"><span class="material-icons">account_circle</span></a>
+    }
+    @else if (auth.isLoggedIn()) {
+      <a routerLink="/personalArea"><span class="material-icons">account_circle</span></a>
+    }
+    @else {
+      <a routerLink="/login"><span class="material-icons">account_circle</span></a>
+    }
   </div>
 </nav>

@@ -1,90 +1,103 @@
-/* ==========================================
-   VARIABILI GLOBALI (Colori del tuo Brand)
-   ========================================== */
-:root {
-  --primary-color: #1a5fff;       /* Il blu brillante del tuo brand */
-  --primary-hover: #0046cb;       /* Blu scuro per gli stati di hover */
-  --text-dark: #2d3748;           /* Grigio scuro per i testi principali */
-  --text-muted: #718096;          /* Grigio chiaro per link non attivi */
-  --bg-navbar: rgba(255, 255, 255, 0.95); /* Bianco leggermente trasparente */
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ==========================================================================
+   VARIABILI GLOBALI NAVBAR (ALLINEATE AL DESIGN DEL SITO)
+   ========================================================================== */
+:host {
+  --colore-sfondo-nav:  rgba(15, 23, 42, 0.85); /* Sfondo scuro trasparente per effetto vetro */
+  --colore-card:        #1E293B;
+  --colore-bordo:       #334155;
+  --colore-accent:      #7C3AED;      /* Il bellissimo viola del brand */
+  --colore-accent-soft: #A78BFA;
+  --testo-primario:     #F1F5F9;
+  --testo-secondario:   #94A3B8;
+  --raggio-btn:         999px;
+  --transizione:        0.25s ease;
+  
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-/* ==========================================
+/* ==========================================================================
    CONTAINER PRINCIPALE (NAVBAR)
-   ========================================== */
+   ========================================================================== */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 5%;
-  background-color: var(--bg-navbar);
-  box-shadow: var(--shadow-sm);
-  position: sticky; /* Rimane fissa in alto durante lo scroll */
-  top: 0;
-  z-index: 1000;
-  backdrop-filter: blur(8px); /* Effetto vetro sfocato sullo sfondo */
+  padding: 0px 5%; /* Padding ridotto verticalmente per gestire l'altezza dal logo */
+  background-color: var(--colore-sfondo-nav);
+  border-bottom: 1px solid var(--colore-bordo);
+  backdrop-filter: blur(12px); /* Effetto vetro sfocato premium */
+  -webkit-backdrop-filter: blur(12px);
+  height: 80px; /* Altezza fissa e pulita */
 }
 
-/* ==========================================
-   LOGO (Versione Più Grossa)
-   ========================================== */
+/* ==========================================================================
+   LOGO
+   ========================================================================== */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
 .logo img {
-  height: 100px; /* Alzato a 65px per renderlo molto visibile */
+  height: 55px; /* Proporzione perfetta per non spaccare l'header */
   width: auto;
   object-fit: contain;
   cursor: pointer;
-  transition: var(--transition);
+  transition: transform var(--transizione);
 }
 
-/* Micro-interazione: si ingrandisce un pizzico quando ci passi sopra */
 .logo img:hover {
   transform: scale(1.03);
 }
 
-/* ==========================================
-   LINK DI NAVIGAZIONE (Testi Ingranditi)
-   ========================================== */
+/* ==========================================================================
+   LINK DI NAVIGAZIONE
+   ========================================================================== */
 .navbar ul {
   display: flex;
   list-style: none;
-  gap: 35px; /* Spazio aumentato per bilanciare i testi più grandi */
+  gap: 32px; 
   margin: 0;
   padding: 0;
 }
 
 .navbar ul li a {
   text-decoration: none;
-  color: var(--text-muted);
-  font-size: 1.2rem; /* Portato a 1.2rem per una lettura perfetta */
+  color: var(--testo-secondario);
+  font-size: 0.95rem; /* Dimensione coerente e moderna */
   font-weight: 500;
-  padding: 8px 4px;
+  padding: 8px 0;
   position: relative;
-  transition: var(--transition);
+  font-family: 'Inter', system-ui, sans-serif;
+  transition: color var(--transizione);
 }
 
 /* Effetto Hover sui Link */
 .navbar ul li a:hover {
-  color: var(--primary-color);
+  color: var(--colore-accent-soft);
 }
 
 /* Stato Attivo gestito da Angular (routerLinkActive) */
 .navbar ul li a.active {
-  color: var(--primary-color);
+  color: var(--colore-testo-primario);
   font-weight: 600;
 }
 
-/* Linea animata sotto i link (Hover e Attivo) */
+/* Linea animata viola sotto i link (Hover e Attivo) */
 .navbar ul li a::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 0;
-  height: 2.5px;
-  background-color: var(--primary-color);
-  transition: var(--transition);
+  height: 2px;
+  background-color: var(--colore-accent);
+  transition: width var(--transizione);
+  border-radius: var(--raggio-btn);
 }
 
 .navbar ul li a:hover::after,
@@ -92,63 +105,63 @@
   width: 100%;
 }
 
-/* ==========================================
-   BOTTONI DI AZIONE (Pulsanti Ingranditi)
-   ========================================== */
+/* ==========================================================================
+   SEZIONE AZIONI / ICONA PROFILO (MATERIAL ICON)
+   ========================================================================== */
 .actions {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
 }
 
-.actions button {
-  padding: 12px 28px; /* Padding maggiorato per bottoni più cicciotti */
-  font-size: 1.1rem;   /* Testo del bottone ingrandito a 1.1rem */
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: var(--transition);
+/* Stile specifico per il link che avvolge l'icona account_circle di Material Icons */
+.actions a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--testo-secondario);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--colore-bordo);
+  transition: var(--transizione);
 }
 
-/* Bottone ACCEDI (Stile trasparente con bordo blu) */
-.actions .btn-login {
-  background-color: transparent;
-  border: 2px solid var(--primary-color);
-  color: var(--primary-color);
+.actions a:hover {
+  color: #fff;
+  border-color: var(--colore-accent-soft);
+  background-color: rgba(124, 58, 237, 0.15);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+  transform: translateY(-1px);
 }
 
-.actions .btn-login:hover {
-  background-color: rgba(26, 95, 255, 0.05);
-  transform: translateY(-2px);
-}
-
-/* Bottone REGISTRATI (Stile pieno blu con ombra morbida) */
-.actions .btn-register {
-  background-color: var(--primary-color);
-  border: 2px solid var(--primary-color);
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(26, 95, 255, 0.15);
-}
-
-.actions .btn-register:hover {
-  background-color: var(--primary-hover);
-  border-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(26, 95, 255, 0.25);
-}
-
-/* Effetto pressione al click del mouse */
-.actions button:active {
+.actions a:active {
   transform: translateY(0);
 }
 
-.actions .login-icon {
-  font-size: 1.8rem; /* Regola la dimensione dell'icona */
-  color: #333;       /* Colore dell'icona */
-  text-decoration: none;
-  transition: color 0.3s ease;
+.actions .material-icons {
+  font-size: 1.6rem; /* Dimensione bilanciata ed elegante per il cerchio */
 }
 
-.actions .login-icon:hover {
-  color: #007bff;    /* Colore al passaggio del mouse */
+/* ==========================================================================
+   RESPONSIVE DESIGN ADATTIVO
+   ========================================================================== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 4%;
+  }
+  
+  .navbar ul {
+    gap: 16px;
+  }
+  
+  .navbar ul li a {
+    font-size: 0.85rem;
+  }
+  
+  .logo img {
+    height: 45px;
+  }
 }

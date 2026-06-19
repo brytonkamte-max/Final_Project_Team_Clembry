@@ -1,103 +1,485 @@
-/* Sezione principale con sfondo e centratura */
-.hero {
-  text-align: center; /* Centrato tutto il testo */
-  background-color: #e8f0fe; /* Colore di sfondo */
-  padding: 40px 20px; /* Spaziatura interna */
+/* =====================================================
+   DESIGN SYSTEM IN LINEA CON IL CATALOGO
+   ===================================================== */
+:host {
+  --colore-sfondo:      #0F172A;
+  --colore-card:        #1E293B;
+  --colore-bordo:       #334155;
+  --colore-accent:      #7C3AED;
+  --colore-accent-soft: #A78BFA;
+  --colore-verde:       #10B981;
+  --testo-primario:     #F1F5F9;
+  --testo-secondario:   #94A3B8;
+  --testo-muted:        #64748B;
+  --raggio-card:        16px;
+  --raggio-btn:         999px;
+  --transizione:        0.25s ease;
+
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--colore-sfondo);
+  min-height: 100vh;
+  color: var(--testo-primario);
 }
 
-/* Stile del titolo principale */
-.hero h1 {
-  color: #1a73e8; /* Blu --> coerente con navbar */
-  font-size: 2em; /* Dimensione del testo */
+/* Layout Principale */
+.homepage-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-x: hidden;
 }
 
-/* Stile del sottotitolo */
-.hero p {
-  color: #333;
-  margin-bottom: 20px; /* Spazio sotto */
+/* Pulsanti Primari (Stile Viola Neon) */
+.btn-primary {
+  padding: 12px 28px;
+  border-radius: var(--raggio-btn);
+  border: none;
+  background: var(--colore-accent);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transizione), transform var(--transizione), box-shadow var(--transizione);
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
 }
 
-/* Contenitore dei pulsanti */
-.buttons button {
-  margin: 10px; /* Spazio tra i pulsanti */
-  padding: 10px 20px; /* Spaziatura interna */
-  border: none; /* Rimuove il bordo */
-  background-color: #1a73e8; /* Blu */
-  color: white; /* Testo bianco */
-
+.btn-primary:hover {
+  background: #6D28D9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.45);
 }
 
-/* Sezione dei vantaggi */
-.features {
-  margin: 40px auto; /* Spazio sopra e sotto */
-  width: 80%; /* Larghezza contenuta */
+.btn-primary:active {
+  transform: translateY(0);
 }
 
-/* Singolo blocco */
-.feature {
-  margin-bottom: 20px; /* Spazio tra i blocchi */
-}
-
-/* Titolo */
-.feature h3 {
-  color: #1a73e8;
-}
-
-
-
-
-/* Background immagine per la sezione hero */
-.hero {
+/* Titles standardizzati per le sezioni */
+.benefits h2, .how-it-works h2, .featured-courses h2 {
+  font-size: clamp(1.75rem, 4vw, 2.2rem);
+  font-weight: 800;
   text-align: center;
-  background-size: cover; /* Adatta l'immagine */
-  background-position: center; /* Centra l'immagine */
-  color: #fff; /* Testo bianco per contrasto */
-  padding: 60px 20px;
+  color: var(--testo-primario);
+  margin-bottom: 48px;
 }
 
-/*Sezione cards */
-.cards {
+/* =====================================================
+   1. REPARTO CAROSELLO DINAMICO
+   ===================================================== */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 440px;
+  overflow: hidden;
+  background-color: #090d16;
+  border-bottom: 1px solid var(--colore-bordo);
+}
+
+.carousel-slides {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease-in-out, visibility 0.6s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Sfumatura scura per proteggere il contrasto dei testi */
+.slide::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.85));
+}
+
+.slide-content {
+  position: relative;
+  z-index: 2;
   text-align: center;
-  margin: 60px auto;
-  width: 90%;
+  color: var(--testo-primario);
+  padding: 0 24px;
+  max-width: 800px;
+  transform: translateY(16px);
+  transition: transform 0.6s ease;
 }
 
-/* Contenitore cards */
-.card-container {
+.slide.active .slide-content {
+  transform: translateY(0);
+}
+
+.slide-content h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.slide-content p {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--testo-secondario);
+  margin-bottom: 32px;
+  font-weight: 400;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Frecce carosello (Vetro Scuro) */
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--testo-primario);
+  border: 1px solid var(--colore-bordo);
+  width: 48px;
+  height: 48px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: var(--transizione);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-control:hover {
+  border-color: var(--colore-accent-soft);
+  color: var(--colore-accent-soft);
+  background: var(--colore-card);
+}
+
+.carousel-control.prev { left: 24px; }
+.carousel-control.next { right: 24px; }
+
+/* Indicatori a pillola animata */
+.carousel-indicators {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transizione);
+}
+
+.dot.active {
+  background-color: var(--colore-accent-soft);
+  width: 24px;
+  border-radius: var(--raggio-btn);
+}
+
+/* =====================================================
+   2. SEZIONE HERO (INTRODUTTIVA)
+   ===================================================== */
+.hero {
+  padding: 80px 24px;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px; /* Spazio tra le card */
+  border-bottom: 1px solid var(--colore-bordo);
 }
 
-/* Singola card */
+.hero-content {
+  text-align: center;
+  max-width: 720px;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 800;
+  color: var(--testo-primario);
+  margin-bottom: 18px;
+  line-height: 1.2;
+}
+
+.hero .subtitle {
+  color: var(--testo-secondario);
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+  line-height: 1.65;
+}
+
+/* =====================================================
+   3. SEZIONE VANTAGGI (ALLINEATA AL CATALOGO)
+   ===================================================== */
+.benefits {
+  padding: 80px 24px;
+  max-width: 1140px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
 .card {
-  background-color: #f5f4f4;
-  border-radius: 20px;
-  border-color: black;
-  width: 250px;
-  padding: 20px;
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio-card);
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform var(--transizione), box-shadow var(--transizione), border-color var(--transizione);
+  border-top: 3px solid transparent;
+  background-clip: padding-box;
 }
 
-/* Effetto hover */
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(124, 58, 237, 0.12);
+  border-top-color: var(--colore-accent);
+  border-color: var(--colore-bordo);
 }
 
-/* Immagine nella card */
-.card img {
-  width: 60px;
-  margin-bottom: 10px;
+.card-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 24px;
 }
 
-/* Titolo della card */
 .card h3 {
-  color: #1a73e8;
+  color: var(--testo-primario);
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.card p {
+  color: var(--testo-secondario);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* =====================================================
+   4. SEZIONE: COME FUNZIONA
+   ===================================================== */
+.how-it-works {
+  padding: 80px 24px;
+  max-width: 1140px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+}
+
+.step-card {
+  text-align: center;
+  padding: 16px;
+}
+
+.step-icon {
+  font-size: 3rem;
+  margin-bottom: 18px;
+  display: inline-block;
+}
+
+.step-card h3 {
+  font-size: 1.15rem;
+  color: var(--testo-primario);
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
-/* Testo della card */
-.card p {
-  color: #333;
-  font-size: 0.9em;
+.step-card p {
+  color: var(--testo-secondario);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* =====================================================
+   5. SEZIONE: CORSI IN EVIDENZA (GEMELLA DEL CATALOGO)
+   ===================================================== */
+.featured-courses {
+  padding: 80px 24px;
+  max-width: 1140px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* Sfrutta i medesimi stili strutturali definiti per la .corso-card del catalogo */
+.course-card {
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform var(--transizione), box-shadow var(--transizione), border-color var(--transizione);
+  border-top: 3px solid transparent;
+  background-clip: padding-box;
+  padding: 20px; /* Compatta la struttura interna delle card in home */
+}
+
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(124, 58, 237, 0.18);
+  border-top-color: var(--colore-accent);
+  border-color: var(--colore-bordo);
+}
+
+.course-tag {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--colore-accent-soft);
+  background: rgba(124, 58, 237, 0.15);
+  padding: 4px 10px;
+  border-radius: var(--raggio-btn);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  margin-bottom: 16px;
+}
+
+.course-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--testo-primario);
+  margin: 0 0 8px;
+}
+
+.course-teacher {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--colore-verde);
+  margin: 0 0 16px;
+}
+
+.course-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto; /* Spinge il footer sul fondo per pareggiare le altezze */
+  padding-top: 16px;
+  border-top: 1px solid var(--colore-bordo);
+}
+
+.course-footer .price {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--testo-primario);
+}
+
+.course-footer .price small {
+  font-size: 0.8rem;
+  color: var(--testo-muted);
+  font-weight: 400;
+}
+
+/* Pulsante "Vedi Corso" (Stile secondario Outline in linea con i filtri) */
+.btn-sm-primary {
+  padding: 8px 18px;
+  border-radius: var(--raggio-btn);
+  border: 1.5px solid var(--colore-accent);
+  background: transparent;
+  color: var(--colore-accent-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transizione);
+}
+
+.btn-sm-primary:hover {
+  background: var(--colore-accent);
+  color: #fff;
+}
+
+/* =====================================================
+   6. SEZIONE STATISTICHE (BACKGROUND SCURO NEON)
+   ===================================================== */
+.stats-section {
+  background-color: #090d16;
+  border-top: 1px solid var(--colore-bordo);
+  border-bottom: 1px solid var(--colore-bordo);
+  padding: 64px 24px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 32px;
+  text-align: center;
+}
+
+.stat-item {
+  min-width: 160px;
+}
+
+.stat-item h2 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: var(--colore-accent-soft);
+  margin: 0 0 6px;
+  text-shadow: 0 0 20px rgba(167, 139, 250, 0.25);
+}
+
+.stat-item p {
+  margin: 0;
+  color: var(--testo-secondario);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+   ===================================================== */
+@media (max-width: 768px) {
+  .carousel-container { height: 50vh; }
+  .hero, .benefits, .how-it-works, .featured-courses { padding: 48px 16px; }
+  
+  .stats-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
 }

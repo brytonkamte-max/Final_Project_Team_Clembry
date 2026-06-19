@@ -14,12 +14,14 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: Homepage },
   { path: 'courses', component: Courses },
-  { path: 'teachers', component: Teachers  },
-  // { path: 'howitworks', component: Homepage },
+  { path: 'teachers', component: Teachers },
   { path: 'contacts', component: ContactsComponent },
-  // { path: 'about', component: Homepage },
   { path: 'login', component: Login },
   { path: 'registration', component: Registration },
-  { path: 'personalArea', component: PersonalArea , },
-  { path: 'teacherPersonalArea', component: TeacherPersonalArea  },
+  
+  // Rotta protetta per lo Studente
+  { path: 'personalArea', component: PersonalArea, canActivate: [userGuard] },
+  
+  // Rotta protetta per il Docente
+  { path: 'teacherPersonalArea', component: TeacherPersonalArea, canActivate: [teacherGuard] },
 ];

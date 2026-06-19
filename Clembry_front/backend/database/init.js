@@ -11,69 +11,74 @@ async function initDatabase() {
   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\``);
   await connection.query(`USE \`${process.env.DB_NAME}\``);
 
-  // 1. DISABILITA I CONTROLLI SULLE CHIAVI ESTERNE
+  // 1. DISABILITA TEMPORANEAMENTE I CONTROLLI SULLE CHIAVI ESTERNE
   await connection.query('SET FOREIGN_KEY_CHECKS = 0');
 
-  // =========================
-  // 2. DROP TABLES (RESET)
-  // =========================
-  await connection.query(`DROP TABLE IF EXISTS users`);
-  await connection.query(`DROP TABLE IF EXISTS courses`);
-  await connection.query(`DROP TABLE IF EXISTS teachers`);
+  // ==========================================================================
+  // 2. DROP TABLES (RESET) - L'ordine corretto è inverso rispetto alla creazione!
+  // ==========================================================================
+  await connection.query(`DROP TABLE IF EXISTS courses`);  // Dipende da teachers
+  await connection.query(`DROP TABLE IF EXISTS teachers`); // Dipende da users
+  await connection.query(`DROP TABLE IF EXISTS users`);    // Tabella principale
 
+  // ==========================================================================
+  // 3. TABELLA UTENTI
+  // ==========================================================================
   await connection.query(`
+    CREATE TABLE users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      nome VARCHAR(150) NOT NULL,
+      cognome VARCHAR(255) NOT NULL,
+      username VARCHAR(255) NOT NULL UNIQUE,
+      password VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL UNIQUE,
+      role ENUM('student', 'teacher') DEFAULT 'student',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
 
-  CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(150) NOT NULL,
-  cognome VARCHAR(255) NOT NULL,
-  username VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL UNIQUE,
-
-  role ENUM('student', 'teacher') DEFAULT 'student',
-
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`);
-
+  // ==========================================================================
+  // 4. TABELLA DOCENTI (Legata 1:1 con Users)
+  // ==========================================================================
   await connection.query(`
+    CREATE TABLE teachers (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      user_id INT NOT NULL UNIQUE,
+      titolo VARCHAR(255) NOT NULL,
+      materie JSON NOT NULL, -- Array JSON delle materie trattate (es. ["Angular", "SQL"])
+      bio TEXT NOT NULL,
+      tariffaOraria INT NOT NULL,
+      stelle INT DEFAULT 5,
+      recensioni INT DEFAULT 0,
+      avatar VARCHAR(50) NOT NULL,
+      disponibileOggi BOOLEAN DEFAULT TRUE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
 
-  CREATE TABLE  teachers (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL UNIQUE,
-  titolo VARCHAR(255) NOT NULL,
-  materie JSON NOT NULL,
-  bio TEXT NOT NULL,
-  tariffaOraria INT NOT NULL,
-  stelle INT DEFAULT 5,
-  recensioni INT DEFAULT 0,
-  avatar VARCHAR(50) NOT NULL,
-  disponibileOggi BOOLEAN DEFAULT TRUE,
-
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-  FOREIGN KEY (user_id) REFERENCES users(id)
-  ON DELETE CASCADE
-)
-    `);
-
+  // ==========================================================================
+  // 5. TABELLA CORSI (Relazione 1-a-Molti: un Docente può avere MOLTI Corsi)
+  // ==========================================================================
   await connection.query(`
-  CREATE TABLE courses (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    titolo VARCHAR(255) NOT NULL,
-    descrizione TEXT,
-    teacher_id INT NOT NULL,
-    materia VARCHAR(100) NOT NULL,
-    prezzo DECIMAL(10,2) NOT NULL,
-    dataOra VARCHAR(100) NOT NULL,
-    stelle INT DEFAULT 5,
-    immagine VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CREATE TABLE courses (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      titolo VARCHAR(255) NOT NULL,
+      descrizione TEXT,
+      teacher_id INT NOT NULL, -- Indica a quale docente appartiene il corso
+      materia VARCHAR(100) NOT NULL,
+      prezzo DECIMAL(10,2) NOT NULL,
+      dataOra VARCHAR(100) NOT NULL,
+      stelle INT DEFAULT 5,
+      immagine VARCHAR(50) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (teacher_id) REFERENCES teachers(id) ON DELETE CASCADE ON UPDATE CASCADE
+    )
+  `);
 
-    FOREIGN KEY (teacher_id) REFERENCES teachers(id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE
-  )
-`);
+  // 6. RIATTIVA I CONTROLLI SULLE CHIAVI ESTERNE
+  await connection.query('SET FOREIGN_KEY_CHECKS = 1');
+  
   await connection.end();
 }
 
