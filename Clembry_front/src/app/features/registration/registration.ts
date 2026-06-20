@@ -11,38 +11,38 @@ import { Auth } from '../../services/auth-service';
   styleUrl: './registration.css',
 })
 export class Registration {
-  private authService:Auth = inject(Auth);
+  private authService: Auth = inject(Auth);
   private router = inject(Router);
   
   submitted = false;
 
   regForm: FormGroup = new FormGroup({
-    nome: new FormControl<string>('', Validators.required),         // Uniformato al backend (nome)
-    cognome: new FormControl<string>('', Validators.required),      // Uniformato al backend (cognome)
+    nome: new FormControl<string>('', Validators.required),
+    cognome: new FormControl<string>('', Validators.required),
     username: new FormControl<string>('', Validators.required),
     password: new FormControl<string>('', [Validators.required, Validators.minLength(6)]),
     email: new FormControl<string>('', [Validators.required, Validators.email]),
-    role: new FormControl<string>('student', Validators.required),  // 'student' invece di 'user'
+    role: new FormControl<string>('student', Validators.required),
     terms: new FormControl<boolean>(false, Validators.requiredTrue),
   });
 
   onSubmit(): void {
     this.submitted = true;
 
-    // Corretto: Procediamo solo se il form è VALIDO
+    // Procediamo all'invio solo se il form rispetta le validazioni client-side
     if (this.regForm.valid) {
-      // Estraiamo i dati escludendo il campo 'terms' che non serve al DB
+      // Estraiamo i dati escludendo il campo booleano 'terms' che non serve al database
       const { terms, ...payload } = this.regForm.value;
 
       this.authService.register(payload).subscribe({
         next: (res) => {
-          console.log('Registrazione completata con successo:', res);
-          alert('Registrazione avvenuta con successo! Verrai reindirizzato al login.');
-          this.router.navigate(['/login']);
+          // 'res' contiene i dati dell'utente autenticato
+          console.log('Procedura completata! Utente registrato e connesso all\'aula:', res);
+          // Non è necessaria alcuna navigazione router qui: viene eseguita dal tap del servizio
         },
         error: (err) => {
-          console.error('Errore durante la registrazione:', err);
-          alert(err.error?.error || 'Errore durante la registrazione.');
+          console.error('Errore durante la registrazione o il login automatico:', err);
+          alert(err.error?.error || 'Errore durante il completamento della registrazione.');
         }
       });
     }

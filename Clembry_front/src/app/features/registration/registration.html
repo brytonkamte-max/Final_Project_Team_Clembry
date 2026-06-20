@@ -1,88 +1,126 @@
-<div class="auth-page">
-  <form class="auth-card" [formGroup]="regForm" (ngSubmit)="onSubmit()">
-    <h2 class="auth-title">Crea il tuo account</h2>
-    <p class="auth-subtitle">Accedi ai corsi e inizia il tuo percorso</p>
+<div class="auth-shell">
 
-    <div class="row">
+  <aside class="brand-panel">
+    <div class="brand-mark"><span class="dot"></span> Aula</div>
+
+    <div>
+      <div class="brand-copy">
+        <h1>Entra a far parte dell'aula.</h1>
+        <p>Crea il tuo account e inizia a costruire la tua rete di corsi, docenti e compagni di studio.</p>
+      </div>
+
+      <svg class="network" viewBox="0 0 360 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="60" y1="50" x2="170" y2="100"></line>
+        <line x1="170" y1="100" x2="300" y2="60"></line>
+        <line x1="170" y1="100" x2="230" y2="180"></line>
+        <line x1="170" y1="100" x2="70" y2="170"></line>
+        <line x1="300" y1="60" x2="300" y2="150"></line>
+        <line x1="170" y1="100" x2="190" y2="40"></line>
+        <circle class="node" cx="60" cy="50" r="5"></circle>
+        <circle class="node" cx="300" cy="60" r="4"></circle>
+        <circle class="node" cx="230" cy="180" r="5"></circle>
+        <circle class="node" cx="70" cy="170" r="4"></circle>
+        <circle class="node" cx="300" cy="150" r="4"></circle>
+        <circle class="node-new" cx="190" cy="40" r="5"></circle>
+        <circle class="node-main" cx="170" cy="100" r="7"></circle>
+      </svg>
+    </div>
+
+    <p class="brand-footnote">Ogni nuovo account aggiunge un nodo alla rete: il tuo.</p>
+  </aside>
+
+  <section class="form-panel">
+    <form class="auth-card" [formGroup]="regForm" (ngSubmit)="onSubmit()">
+
+      <div class="mobile-mark"><span class="dot"></span> Aula</div>
+
+      <h2 class="auth-title">Crea il tuo account</h2>
+      <p class="auth-subtitle">Accedi ai corsi e inizia il tuo percorso</p>
+
+      <div class="row">
+        <div class="field">
+          <input formControlName="nome" placeholder="Nome" />
+          @if (regForm.get('nome')?.touched && regForm.get('nome')?.invalid) {
+            <small>Nome obbligatorio</small>
+          }
+        </div>
+
+        <div class="field">
+          <input formControlName="cognome" placeholder="Cognome" />
+          @if (regForm.get('cognome')?.touched && regForm.get('cognome')?.invalid) {
+            <small>Cognome obbligatorio</small>
+          }
+        </div>
+      </div>
+
       <div class="field">
-        <input formControlName="nome" placeholder="Nome"/>
-        @if (regForm.get('nome')?.touched && regForm.get('nome')?.invalid) {
-          <small>Nome obbligatorio</small>
+        <input formControlName="username" placeholder="Username" />
+        @if (regForm.get('username')?.touched && regForm.get('username')?.invalid) {
+          <small>Username obbligatorio</small>
         }
       </div>
 
       <div class="field">
-        <input formControlName="cognome" placeholder="Cognome" />
-        @if (regForm.get('cognome')?.touched && regForm.get('cognome')?.invalid) {
-          <small>Cognome obbligatorio</small>
+        <input formControlName="email" placeholder="Email" />
+        @if (regForm.get('email')?.touched && regForm.get('email')?.errors?.['required']) {
+          <small>Email obbligatoria</small>
+        }
+        @if (regForm.get('email')?.touched && regForm.get('email')?.errors?.['email']) {
+          <small>Email non valida</small>
         }
       </div>
-    </div>
 
-    <div class="field">
-      <input formControlName="username" placeholder="Username"/>
-      @if (regForm.get('username')?.touched && regForm.get('username')?.invalid) {
-        <small>Username obbligatorio</small>
-      }
-    </div>
-
-    <div class="field">
-      <input formControlName="email" placeholder="Email"/>
-
-      @if (regForm.get('email')?.touched && regForm.get('email')?.errors?.['required']) {
-        <small>Email obbligatoria</small>
-      }
-      @if (regForm.get('email')?.touched && regForm.get('email')?.errors?.['email']) {
-        <small>Email non valida</small>
-      }
-    </div>
-
-    <div class="field">
-      <input type="password" formControlName="password" placeholder="Password" />
-
-      @if (regForm.get('password')?.touched && regForm.get('password')?.errors?.['required']) {
-        <small>Password obbligatoria</small>
-      }
-      @if (regForm.get('password')?.touched && regForm.get('password')?.errors?.['minlength']) {
-        <small>Minimo 6 caratteri</small>
-      }
-    </div>
-
-    <div class="field">
-      <label>Sei un:</label>
-
-      <div class="radio-group">
-        <label>
-          <input type="radio" formControlName="role" value="student" />
-          Studente
-        </label>
-
-        <label>
-          <input type="radio" formControlName="role" value="teacher" />
-          Docente
-        </label>
+      <div class="field">
+        <input type="password" formControlName="password" placeholder="Password" />
+        @if (regForm.get('password')?.touched && regForm.get('password')?.errors?.['required']) {
+          <small>Password obbligatoria</small>
+        }
+        @if (regForm.get('password')?.touched && regForm.get('password')?.errors?.['minlength']) {
+          <small>Minimo 6 caratteri</small>
+        }
       </div>
 
-      @if (regForm.get('role')?.touched && regForm.get('role')?.invalid) {
-        <small>Seleziona un ruolo</small>
+      <div class="field">
+        <label class="field-label">Sei un:</label>
+
+        <div class="role-group">
+          <label class="role-option">
+            <input type="radio" formControlName="role" value="student" />
+            <span>🎓 Studente</span>
+          </label>
+
+          <label class="role-option">
+            <input type="radio" formControlName="role" value="teacher" />
+            <span>📘 Docente</span>
+          </label>
+        </div>
+
+        @if (regForm.get('role')?.touched && regForm.get('role')?.invalid) {
+          <small>Seleziona un ruolo</small>
+        }
+      </div>
+
+      <div class="field checkbox">
+        <label>
+          <input type="checkbox" formControlName="terms" />
+          <span>Accetto <a href="#">termini e condizioni</a></span>
+        </label>
+        @if (regForm.get('terms')?.touched && regForm.get('terms')?.invalid) {
+          <small>Devi accettare i termini</small>
+        }
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="regForm.invalid">Crea account</button>
+
+      @if (submitted && regForm.valid) {
+        <p class="success">Account creato con successo ✔</p>
       }
-    </div>
 
-    <div class="field checkbox">
-      <label>
-        <input type="checkbox" formControlName="terms" />
-        Accetto termini e condizioni
-      </label>
+      <div class="divider">oppure</div>
 
-      @if (regForm.get('terms')?.touched && regForm.get('terms')?.invalid) {
-        <small>Devi accettare i termini</small>
-      }
-    </div>
+      <button type="button" routerLink="/login" class="btn-secondary">Ho già un account</button>
 
-    <button type="submit" [disabled]="regForm.invalid">Crea account</button>
+    </form>
+  </section>
 
-    @if (submitted && regForm.valid) {
-      <p class="success">Account creato con successo ✔</p>
-    }
-  </form>
 </div>

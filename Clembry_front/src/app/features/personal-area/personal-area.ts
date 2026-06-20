@@ -4,7 +4,6 @@ import { Auth } from '../../services/auth-service';
 import { SubscriptionService } from '../../services/subscription-service';
 import { CommonModule } from '@angular/common';
 import { CoursesService } from '../../services/courses-service';
-import { TeacherService } from '../../services/teacher-service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -19,7 +18,6 @@ export class PersonalArea implements OnInit {
   private authService = inject(Auth);
   private subscriptionService = inject(SubscriptionService);
   private coursesService = inject(CoursesService);
-
   private router = inject(Router);
 
   // Esponiamo direttamente il Signal del servizio per il template
@@ -31,12 +29,11 @@ export class PersonalArea implements OnInit {
   // Stato UI
   activeSection: 'bio' | 'payments' | 'courses' | 'calendar' = 'bio';
 
-  // 1. Dati base dai servizi (segnali)
+  // Dati base dai servizi (segnali)
   private subs = this.subscriptionService.iscrizioni;
   private allCourses = this.coursesService.corsi;
 
-  // 2. LA FUNZIONE "COMPOSITORE" (Computed)
-  // Questa funzione si riesegue automaticamente se uno dei segnali sopra cambia
+  // LA FUNZIONE "COMPOSITORE" (Computed)
   mySubscriptionsDetailed = computed(() => {
     console.log('Esecuzione computed');
     const user = this.authService.getCurrentUser();
@@ -44,22 +41,13 @@ export class PersonalArea implements OnInit {
       console.log('Utente non loggato');
       return [];
     }
-    console.log('Utente loggato:', user.id);
-    console.log('Sottoscrizioni:', this.subs());
-    // Filtriamo le sole sottoscrizioni dell'utente
-
-    // Usa s.user_id invece di s.userId
+    
+    // Filtriamo le sole sottoscrizioni dell'utente usando s.user_id
     const userSubs = this.subs().filter((s: any) => s.user_id === user.id);
 
-    console.log('userSubs:', userSubs);
-    // Uniamo i dati
+    // Uniamo i dati delle iscrizioni con i dettagli del corso
     return userSubs.map((sub) => {
-      console.log(this.allCourses());
-      // personal-area.ts
       const corso = this.allCourses().find((c) => c.id === (sub as any).course_id);
-      // const corso = this.allCourses().find((c) => c.id === sub.courseId);
-      console.log('Subscrizione trovata:', sub);
-      console.log('Corso trovato:', corso);
 
       return {
         ...sub,
@@ -73,6 +61,26 @@ export class PersonalArea implements OnInit {
         immagine: corso?.immagine || 'N/A',
       };
     });
+  });
+
+  // COMPUTED CORRETTO: Forza la conversione da stringa a numero prima di fare calcoli
+  calcoloStatistichePagamenti = computed(() => {
+    const corsi = this.mySubscriptionsDetailed();
+    
+    // Eseguiamo la riduzione convertendo ogni stringa prezzo in un vero numero decimale
+    const totaleSpeso = corsi.reduce((acc, corso) => {
+      const prezzoNumerico = corso.prezzo ? Number(corso.prezzo) : 0;
+      return acc + (isNaN(prezzoNumerico) ? 0 : prezzoNumerico);
+    }, 0);
+
+    const numeroCorsi = corsi.length;
+    const spesaMedia = numeroCorsi > 0 ? (totaleSpeso / numeroCorsi) : 0;
+
+    return {
+      totaleSpeso,
+      numeroCorsi,
+      spesaMedia
+    };
   });
 
   ngOnInit(): void {
@@ -97,17 +105,12 @@ export class PersonalArea implements OnInit {
   disiscriviti(courseId: number) {
     const user = this.authService.getCurrentUser();
 
-    // 2. Controllo di sicurezza: se l'utente non esiste, non procediamo
     if (!user) {
       console.error('Impossibile disiscriversi: utente non trovato.');
       return;
     }
-    console.log('Utente loggato:', user.id);
-    console.log('Corso da disiscrivere:', courseId);
-    // 3. Conferma opzionale (ottima pratica UX)
+    
     if (confirm("Sei sicuro di voler rimuovere l'iscrizione a questo corso?")) {
-      // 4. Ora user.id è garantito (grazie al controllo !user)
-
       this.subscriptionService.deleteSubscription(user.id, courseId);
     }
   }

@@ -1,29 +1,67 @@
-<form class="login-card" [formGroup]="loginForm" (ngSubmit)="onLogin()">
-  <h2 class="auth-title">Accedi al tuo account</h2>
+<div class="auth-shell">
 
-  <div class="field">
-    <input formControlName="username" placeholder="Username" />
-    @if (loginForm.get('username')?.touched && loginForm.get('username')?.invalid) {
-      <small>Username obbligatorio</small>
-    }
-  </div>
+  <aside class="brand-panel">
+    <div class="brand-mark"><span class="dot"></span> Aula</div>
 
-  <div class="field">
-    <input formControlName="password" type="password" placeholder="Password" />
-    @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
-      <small>Password obbligatoria</small>
-    }
-  </div>
+    <div>
+      <div class="brand-copy">
+        <h1>Bentornato nella tua aula.</h1>
+        <p>Accedi per ritrovare i tuoi corsi, restare in contatto con la classe e continuare da dove avevi lasciato.</p>
+      </div>
 
-  <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">
-    Accedi
-  </button>
+      <svg class="network" viewBox="0 0 360 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="60" y1="50" x2="170" y2="100"></line>
+        <line x1="170" y1="100" x2="300" y2="60"></line>
+        <line x1="170" y1="100" x2="230" y2="180"></line>
+        <line x1="170" y1="100" x2="70" y2="170"></line>
+        <line x1="300" y1="60" x2="300" y2="150"></line>
+        <circle class="node" cx="60" cy="50" r="5"></circle>
+        <circle class="node" cx="300" cy="60" r="4"></circle>
+        <circle class="node" cx="230" cy="180" r="5"></circle>
+        <circle class="node" cx="70" cy="170" r="4"></circle>
+        <circle class="node" cx="300" cy="150" r="4"></circle>
+        <circle class="node-main" cx="170" cy="100" r="7"></circle>
+      </svg>
+    </div>
 
-  <button type="button" class="btn-text">Password dimenticata?</button>
+    <p class="brand-footnote">Più di una piattaforma: una rete di studenti e docenti che imparano insieme.</p>
+  </aside>
 
-  <hr>
+  <section class="form-panel">
+    <form class="login-card" [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
-  <button type="button" routerLink="/registration" class="btn-secondary">
-    Crea nuovo account
-  </button>
-</form>
+      <div class="mobile-mark"><span class="dot"></span> Aula</div>
+
+      <h2 class="auth-title">Accedi al tuo account</h2>
+      <p class="auth-subtitle">Inserisci le tue credenziali per continuare</p>
+
+      <div class="field">
+        <input formControlName="username" placeholder="Username" autocomplete="username" />
+        @if (loginForm.get('username')?.touched && loginForm.get('username')?.invalid) {
+          <small>Username obbligatorio</small>
+        }
+      </div>
+
+      <div class="field">
+        <input formControlName="password" type="password" placeholder="Password" autocomplete="current-password" />
+        @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+          <small>Password obbligatoria</small>
+        }
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">
+        Accedi
+      </button>
+
+      <button type="button" class="btn-text">Password dimenticata?</button>
+
+      <div class="divider">oppure</div>
+
+      <button type="button" routerLink="/registration" class="btn-secondary">
+        Crea nuovo account
+      </button>
+
+    </form>
+  </section>
+
+</div>

@@ -1,75 +1,216 @@
 /* =====================================================
-   RESET SICURO (evita overflow input/card)
+   FONT
    ===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
 * {
   box-sizing: border-box;
 }
 
+/* =====================================================
+   TOKEN DI DESIGN
+   ===================================================== */
 :host {
   --colore-sfondo: #0f172a;
+  --colore-sfondo-2: #0b1222;
   --colore-card: #1e293b;
   --colore-bordo: #334155;
   --colore-accent: #7c3aed;
   --colore-accent-soft: #a78bfa;
+  --colore-errore: #f87171;
   --testo-primario: #f1f5f9;
   --testo-secondario: #94a3b8;
   --testo-muted: #64748b;
-  --raggio-card: 16px;
+  --raggio-card: 20px;
   --raggio-btn: 999px;
   --transizione: 0.25s ease;
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
 
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body);
   color: var(--testo-primario);
   min-height: 100vh;
   background: var(--colore-sfondo);
 }
 
+/* =====================================================
+   LAYOUT GENERALE A DUE COLONNE
+   ===================================================== */
+.auth-shell {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  min-height: 100vh;
+}
 
 /* =====================================================
-   LAYOUT CARD LOGIN
+   PANNELLO BRAND (sinistra)
    ===================================================== */
+.brand-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 56px 64px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(124, 58, 237, 0.35), transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(124, 58, 237, 0.16), transparent 55%),
+    linear-gradient(160deg, var(--colore-sfondo-2), var(--colore-sfondo) 60%);
+  border-right: 1px solid var(--colore-bordo);
+}
+
+.brand-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.brand-mark {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.brand-mark .dot,
+.mobile-mark .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--colore-accent-soft);
+  box-shadow: 0 0 16px var(--colore-accent);
+}
+
+.brand-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 380px;
+}
+
+.brand-copy h1 {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 14px;
+}
+
+.brand-copy p {
+  color: var(--testo-secondario);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Rete di nodi: studenti/docenti connessi — il "tu" che accede è il nodo centrale */
+.network {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  margin: 32px 0;
+}
+
+.network line {
+  stroke: var(--colore-bordo);
+  stroke-width: 1;
+  opacity: 0.8;
+}
+
+.network circle.node {
+  fill: var(--colore-accent-soft);
+  opacity: 0.55;
+}
+
+.network circle.node-main {
+  fill: var(--colore-accent-soft);
+  filter: drop-shadow(0 0 10px var(--colore-accent));
+  animation: pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.9; r: 6; }
+  50% { opacity: 0.45; r: 8; }
+}
+
+.brand-footnote {
+  position: relative;
+  z-index: 1;
+  font-size: 0.8rem;
+  color: var(--testo-muted);
+  border-top: 1px solid var(--colore-bordo);
+  padding-top: 18px;
+}
+
+/* =====================================================
+   PANNELLO FORM (destra)
+   ===================================================== */
+.form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
 .login-card {
-  max-width: 420px;
-  margin: 80px auto;
-  padding: 28px;
+  width: 100%;
+  max-width: 400px;
+  padding: 36px 32px;
   border-radius: var(--raggio-card);
   background: var(--colore-card);
   border: 1px solid var(--colore-bordo);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
-
-  /* 🔥 evita qualsiasi overflow interno */
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
 
-/* =====================================================
-   TITOLO
-   ===================================================== */
+.mobile-mark {
+  display: none;
+}
+
 .auth-title {
+  font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--testo-primario);
   text-align: center;
-  margin-bottom: 24px;
+  margin: 0 0 6px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: var(--testo-secondario);
+  font-size: 0.88rem;
+  margin: 0 0 28px;
 }
 
 /* =====================================================
-   INPUT
+   CAMPI
    ===================================================== */
+.field {
+  margin-bottom: 16px;
+}
+
 input {
   width: 100%;
   display: block;
-  padding: 14px 16px;
-  margin-bottom: 14px;
-
+  padding: 13px 18px;
   border-radius: var(--raggio-btn);
   border: 1.5px solid var(--colore-bordo);
   background: var(--colore-sfondo);
   color: var(--testo-primario);
-
+  font-family: var(--font-body);
   font-size: 0.95rem;
   outline: none;
-
   transition: var(--transizione);
 }
 
@@ -79,29 +220,15 @@ input::placeholder {
 
 input:focus {
   border-color: var(--colore-accent-soft);
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.18);
   background: #243149;
 }
 
-/* =====================================================
-   LABEL + CHECKBOX
-   ===================================================== */
-label {
-  font-size: 0.85rem;
-  color: var(--testo-secondario);
-}
-
-.teacher-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 14px 0 18px;
-}
-
-.teacher-checkbox input {
-  width: auto;
-  margin: 0;
-  cursor: pointer;
+.field small {
+  display: block;
+  margin: 6px 4px 0;
+  color: var(--colore-errore);
+  font-size: 0.78rem;
 }
 
 /* =====================================================
@@ -113,47 +240,74 @@ button {
 
 .btn-primary {
   width: 100%;
-  padding: 12px;
-
+  padding: 13px;
+  margin-top: 6px;
   border-radius: var(--raggio-btn);
   border: none;
-
-  background: var(--colore-accent);
+  background: linear-gradient(135deg, var(--colore-accent), #6d28d9);
   color: #fff;
-
+  font-family: var(--font-body);
   font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #6d28d9;
-  transform: scale(1.03);
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.35);
 }
 
 .btn-primary:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: translateY(0) scale(0.99);
 }
 
 .btn-primary:disabled {
   background: var(--colore-bordo);
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
-/* =====================================================
-   SECONDARY BUTTON
-   ===================================================== */
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--testo-muted);
+  font-size: 0.83rem;
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+  margin: 14px auto 0;
+}
+
+.btn-text:hover {
+  color: var(--colore-accent-soft);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0;
+  color: var(--testo-muted);
+  font-size: 0.78rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--colore-bordo);
+}
+
 .btn-secondary {
   width: 100%;
   padding: 12px;
-  margin-top: 10px;
-
   border-radius: var(--raggio-btn);
   border: 1.5px solid var(--colore-bordo);
-
   background: transparent;
   color: var(--testo-secondario);
-
+  font-family: var(--font-body);
   font-weight: 500;
   cursor: pointer;
 }
@@ -164,22 +318,41 @@ button {
   background: rgba(124, 58, 237, 0.08);
 }
 
-/* =====================================================
-   TEXT BUTTON
-   ===================================================== */
-.btn-text {
-  background: none;
-  border: none;
-
-  color: var(--testo-muted);
-  font-size: 0.85rem;
-  text-decoration: underline;
-
-  cursor: pointer;
-  display: block;
-  margin: 16px auto 0;
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--colore-accent-soft);
+  outline-offset: 2px;
 }
 
-.btn-text:hover {
-  color: var(--colore-accent-soft);
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 880px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-panel {
+    display: none;
+  }
+
+  .mobile-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    margin-bottom: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .network circle.node-main {
+    animation: none;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: none;
+  }
 }

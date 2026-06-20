@@ -23,9 +23,8 @@
    ========================================================================== */
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0px 5%; /* Padding ridotto verticalmente per gestire l'altezza dal logo */
+  padding: 0px 5%; 
   background-color: var(--colore-sfondo-nav);
   border-bottom: 1px solid var(--colore-bordo);
   backdrop-filter: blur(12px); /* Effetto vetro sfocato premium */
@@ -34,41 +33,36 @@
 }
 
 /* ==========================================================================
-   LOGO
-   ========================================================================== */
-
-
-
-/* ==========================================================================
-   STILE LOGO TESTUALE NELLA NAVBAR
+   LOGO TESTUALE (BLOCCATO A SINISTRA)
    ========================================================================== */
 .logo {
   display: flex;
   align-items: center;
+  flex: 0 0 auto; /* Impedisce al logo di allargarsi */
 }
 
 .logo .brand-nome {
-  font-size: 3rem; /* Leggermente più compatto per la Navbar rispetto al footer */
+  font-size: 3rem; 
   font-weight: 800;
   letter-spacing: -0.03em;
   margin: 0;
-  color: #F1F5F9; /* --text-main */
+  color: #F1F5F9; 
   user-select: none;
   cursor: pointer;
   transition: text-shadow 0.25s ease;
 }
 
 .logo .brand-nome span {
-  color: #A78BFA; /* --colore-accent-soft: il viola di firma */
+  color: #A78BFA; 
 }
 
-/* Effetto interattivo discreto al passaggio del mouse sulla Navbar */
+/* Effetto interattivo al passaggio del mouse sul Logo */
 .logo:hover .brand-nome {
   text-shadow: 0 0 15px rgba(167, 139, 250, 0.35);
 }
 
 /* ==========================================================================
-   LINK DI NAVIGAZIONE
+   LINK DI NAVIGAZIONE (PERFETTAMENTE AL CENTRO)
    ========================================================================== */
 .navbar ul {
   display: flex;
@@ -76,12 +70,14 @@
   gap: 32px; 
   margin: 0;
   padding: 0;
+  flex: 1; /* Occupa tutto lo spazio disponibile per calcolare il centro */
+  justify-content: center; /* Forza i link di navigazione esattamente al centro della pagina */
 }
 
 .navbar ul li a {
   text-decoration: none;
   color: var(--testo-secondario);
-  font-size: 0.95rem; /* Dimensione coerente e moderna */
+  font-size: 0.95rem; 
   font-weight: 500;
   padding: 8px 0;
   position: relative;
@@ -96,7 +92,7 @@
 
 /* Stato Attivo gestito da Angular (routerLinkActive) */
 .navbar ul li a.active {
-  color: var(--colore-testo-primario);
+  color: var(--testo-primario);
   font-weight: 600;
 }
 
@@ -120,15 +116,16 @@
 }
 
 /* ==========================================================================
-   SEZIONE AZIONI / ICONA PROFILO (MATERIAL ICON)
+   SEZIONE AZIONI + USERNAME (ANCORATI SULLA DESTRA)
    ========================================================================== */
 .actions {
   display: flex;
   align-items: center;
   gap: 16px;
+  flex: 0 0 auto; /* Impedisce al blocco azioni di allargarsi */
 }
 
-/* Stile specifico per il link che avvolge l'icona account_circle di Material Icons */
+/* Stile per il link che avvolge l'icona account_circle */
 .actions a {
   display: flex;
   align-items: center;
@@ -156,7 +153,35 @@
 }
 
 .actions .material-icons {
-  font-size: 1.6rem; /* Dimensione bilanciata ed elegante per il cerchio */
+  font-size: 1.6rem; 
+  display: block;
+}
+
+/* ==========================================================================
+   STILE PER LO USERNAME POSIZIONATO *DOPO* IL CONTENITORE ACTIONS
+   ========================================================================== */
+.navbar-username-after {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--colore-accent-soft); 
+  margin-left: 16px; 
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  font-family: 'Inter', system-ui, sans-serif;
+  animation: fadeInUsername 0.3s ease-out;
+  flex: 0 0 auto;
+}
+
+/* Animazione fluida di comparsa dello username al login */
+@keyframes fadeInUsername {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* ==========================================================================
@@ -175,7 +200,12 @@
     font-size: 0.85rem;
   }
   
-  .logo img {
-    height: 45px;
+  .logo .brand-nome {
+    font-size: 2.2rem; 
+  }
+
+  .navbar-username-after {
+    font-size: 0.85rem;
+    margin-left: 10px;
   }
 }

@@ -14,21 +14,13 @@ export class Homepage implements OnInit, OnDestroy {
   private router = inject(Router);
   private coursesService = inject(CoursesService);
 
-  // Lettura del Signal originale dal Service
   private corsiDalServer = this.coursesService.corsi;
 
-  /* NUOVO REPARTO SICUREZZA:
-     Se il server risponde con una lista vuota, questo computed genera al volo
-     i corsi finti per non lasciare la vetrina della Home vuota!
-  */
   corsiSignal = computed(() => {
     const datiReali = this.corsiDalServer();
-
     if (datiReali && datiReali.length > 0) {
-      return datiReali; // Mostra i dati del database se presenti
+      return datiReali;
     }
-
-    // Dati simulati di backup se il backend è vuoto o spento
     return [
       { id: 1, titolo: 'Matematica Finanziaria e Algebra Lineare', docente: 'Prof.ssa Elena Bianchi', prezzo: 25.00, materia: 'Matematica' },
       { id: 2, titolo: 'Introduzione ad Angular e TypeScript', docente: 'Ing. Mario Rossi', prezzo: 30.00, materia: 'Programmazione' },
@@ -57,8 +49,8 @@ export class Homepage implements OnInit, OnDestroy {
   currentSlide = 0;
   private autoPlayInterval: any;
 
-  // Portato a 5000ms (5 secondi) per una lettura ottimale e rilassante delle slide
-  private readonly AUTOPLAY_MS = 5000;
+  // Richiesta esaudita: 2000ms (2 secondi) per lo scorrimento automatico continuo
+  private readonly AUTOPLAY_MS = 2000;
 
   titolo: string = 'Trova il docente per le tue ripetizioni online';
   sottotitolo: string = 'Prenota lezioni individuali o di gruppo, accedi ai materiali e monitora i tuoi progressi.';
@@ -90,19 +82,25 @@ export class Homepage implements OnInit, OnDestroy {
     this.router.navigate(['/courses']);
   }
 
+  // Slide successiva (gestisce il loop continuo alla fine)
   nextSlide() {
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
   }
 
-  // Permette di selezionare una slide specifica resettando in modo sicuro il timer da zero
+  // Slide precedente (gestisce il loop all'indietro se si è alla prima immagine)
+  prevSlide() {
+    this.currentSlide = this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
+    this.riavviaTimer();
+  }
+
+  // Selezione puntino indicatore
   setSlide(index: number) {
     this.currentSlide = index;
-    this.stopAutoPlay();
-    this.startAutoPlay();
+    this.riavviaTimer();
   }
 
   startAutoPlay() {
-    this.stopAutoPlay(); // Evita la sovrapposizione di timer multipli
+    this.stopAutoPlay();
     this.autoPlayInterval = setInterval(() => {
       this.nextSlide();
     }, this.AUTOPLAY_MS);
@@ -113,5 +111,10 @@ export class Homepage implements OnInit, OnDestroy {
       clearInterval(this.autoPlayInterval);
       this.autoPlayInterval = null;
     }
+  }
+
+  private riavviaTimer() {
+    this.stopAutoPlay();
+    this.startAutoPlay();
   }
 }
