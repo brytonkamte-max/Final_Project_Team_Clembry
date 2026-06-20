@@ -121,12 +121,19 @@ app.post('/api/courses', async (req, res) => {
 app.get('/api/subscriptions/:userId', async (req, res) => {
   try {
     const [rows] = await db.query(
-      `SELECT subscriptions.*, courses.titolo, courses.materia, courses.dataOra, courses.immagine, courses.prezzo, courses.descrizione, courses.stelle,
-              t.nome AS teacher_nome, t.cognome AS teacher_cognome
-       FROM subscriptions
-       JOIN courses ON subscriptions.course_id = courses.id
-       JOIN users AS t ON courses.teacher_id = t.id
-       WHERE subscriptions.user_id = ?`,
+      'SELECT user_id, course_id, data_iscrizione FROM subscriptions WHERE user_id = ?',
+      [req.params.userId]
+    );
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: 'Errore recupero iscrizioni' });
+  }
+});
+
+app.get('/api/subscriptions', async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      'SELECT user_id, course_id, data_iscrizione FROM subscriptions',
       [req.params.userId]
     );
     res.json(rows);
@@ -136,15 +143,23 @@ app.get('/api/subscriptions/:userId', async (req, res) => {
 });
 
 app.post('/api/subscriptions', async (req, res) => {
-  const { userId, courseId } = req.body;
+  const { user_id, course_id } = req.body;
   try {
-    const [result] = await db.query('INSERT INTO subscriptions (user_id, course_id) VALUES (?, ?)', [userId, courseId]);
+    const [result] = await db.query('INSERT INTO subscriptions (user_id, course_id) VALUES (?, ?)', [user_id, course_id]);
     res.status(201).json({ subscriptionId: result.insertId });
   } catch (error) {
     res.status(500).json({ error: 'Errore creazione iscrizione' });
   }
-})
+});
 
+app.delete('/api/subscriptions/:userId/:courseId', async (req, res) => {
+  try {
+    await db.query('DELETE FROM subscriptions WHERE user_id = ? AND course_id = ?', [req.params.userId, req.params.courseId]);
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({ error: 'Errore cancellazione iscrizione' });
+  }
+})
 // =====================================================
 // AVVIO SERVER
 // =====================================================

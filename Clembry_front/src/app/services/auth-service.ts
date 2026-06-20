@@ -11,7 +11,6 @@ export interface UserResponse {
   username: string;
   email: string;
   role: 'student' | 'teacher';
-  
 }
 
 @Injectable({
@@ -19,7 +18,7 @@ export interface UserResponse {
 })
 export class Auth {
   private http = inject(HttpClient);
-  private router= inject(Router);
+  private router = inject(Router);
 
   private readonly apiUrl = 'http://localhost:8080/api/auth';
 
@@ -39,9 +38,21 @@ export class Auth {
         this.role.set(user.role);
         this.currentUserData.set(user);
         const targetRoute = user.role === 'teacher' ? '/teacherPersonalArea' : '/personalArea';
-        this.router.navigateByUrl(targetRoute);      })
+        this.router.navigateByUrl(targetRoute);
+      }),
     );
   }
+
+  // login(credentials: { username: string; password: string }): Observable<UserResponse> {
+  //   return this.http.post<UserResponse>(`${this.apiUrl}/login`, credentials).pipe(
+  //     tap((user: UserResponse) => {
+  //       //
+  //       this.updateAuthState(user);
+  //       const targetRoute = user.role === 'teacher' ? '/teacherPersonalArea' : '/personalArea';
+  //       this.router.navigateByUrl(targetRoute);
+  //     })
+  //   );
+  // }
 
   /**
    * Registra un nuovo utente nel database remoto
@@ -55,20 +66,14 @@ export class Auth {
    */
   logout(): void {
     this.loggedIn.set(false);
+    this.role.set('student');
     this.currentUserData.set(null);
+    this.router.navigateByUrl('/login');
   }
 
   // --- I tuoi metodi originari basati su Signal (rimangono invariati per i componenti) ---
 
-  isLoggedIn(): boolean {
-    return this.loggedIn();
-  }
-
-  getRole(): 'teacher' | 'student' {
-    return this.role();
-  }
-
-  getCurrentUser(): UserResponse | null {
-    return this.currentUserData();
-  }
+  isLoggedIn = this.loggedIn.asReadonly();
+  getRole = this.role.asReadonly();
+  getCurrentUser = this.currentUserData.asReadonly();
 }

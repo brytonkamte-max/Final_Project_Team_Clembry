@@ -450,6 +450,19 @@ button, .btn-primary, .btn-secondary {
   color: var(--testo-primario);
 }
 
+.btn-disiscriviti {
+  background-color: transparent;
+  border: 1.5px solid var(--colore-rosso);
+  color: var(--colore-rosso);
+  margin-top: 8px;
+}
+
+.btn-disiscriviti:hover {
+  background-color: var(--colore-rosso);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.2);
+}
+
 .logout-btn {
   align-self: flex-start;
   background-color: transparent;

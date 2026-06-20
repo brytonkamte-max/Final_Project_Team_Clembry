@@ -1,13 +1,12 @@
 import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { Hero } from '../hero/hero';
 import { CoursesService } from '../../services/courses-service';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [CommonModule, RouterModule, Hero],
+  imports: [CommonModule, RouterModule],
   templateUrl: './homepage.html',
   styleUrl: './homepage.css',
 })
@@ -57,9 +56,9 @@ export class Homepage implements OnInit, OnDestroy {
 
   currentSlide = 0;
   private autoPlayInterval: any;
-  
+
   // Portato a 5000ms (5 secondi) per una lettura ottimale e rilassante delle slide
-  private readonly AUTOPLAY_MS = 5000; 
+  private readonly AUTOPLAY_MS = 5000;
 
   titolo: string = 'Trova il docente per le tue ripetizioni online';
   sottotitolo: string = 'Prenota lezioni individuali o di gruppo, accedi ai materiali e monitora i tuoi progressi.';

@@ -8,9 +8,9 @@
   <div class="search-container">
     <div class="search-box">
       <span class="search-icon">🔍</span>
-      <input 
-        type="text" 
-        placeholder="Cerca un docente per nome... (es. Edoardo)" 
+      <input
+        type="text"
+        placeholder="Cerca un docente per nome... (es. Edoardo)"
         [value]="ricercaNome()"
         (input)="onSearchChange($event)"
       />
@@ -37,7 +37,7 @@
         </div>
 
         <div class="card-info">
-          <h2>{{ docente.nome }}</h2>
+          <h2 class="teacher-name">{{ docente.nome }} {{ docente.cognome }}</h2>
           <p class="teacher-title">{{ docente.titolo }}</p>
           <p class="teacher-bio">{{ docente.bio }}</p>
           <div class="subjects-tags">

@@ -1,20 +1,19 @@
 <div class="catalogo-container">
-
   <header class="catalogo-header">
     <p class="header-label">Aula Virtuale</p>
     <h1 class="header-title">Corsi Disponibili</h1>
     <p class="header-subtitle">
-      Esplora le lezioni programmate dai nostri docenti qualificati
-      e prenota il tuo posto prima che si esaurisca.
+      Esplora le lezioni programmate dai nostri docenti qualificati e prenota il tuo posto prima che
+      si esaurisca.
     </p>
   </header>
 
   <div class="search-container">
     <div class="search-box">
       <span class="search-icon">🔍</span>
-      <input 
-        type="text" 
-        placeholder="Cerca un corso per titolo... (es. Angular)" 
+      <input
+        type="text"
+        placeholder="Cerca un corso per titolo... (es. Angular)"
         [value]="ricercaNome()"
         (input)="onSearchChange($event)"
       />
@@ -25,34 +24,36 @@
     <button
       class="filtro-btn"
       [class.active]="materiaSelezionata() === ''"
-      (click)="impostaFiltro('')">
+      (click)="impostaFiltro('')"
+    >
       Tutti
     </button>
     <button
       class="filtro-btn"
       [class.active]="materiaSelezionata() === 'Programmazione'"
-      (click)="impostaFiltro('Programmazione')">
+      (click)="impostaFiltro('Programmazione')"
+    >
       💻 Programmazione
     </button>
     <button
       class="filtro-btn"
       [class.active]="materiaSelezionata() === 'Matematica'"
-      (click)="impostaFiltro('Matematica')">
+      (click)="impostaFiltro('Matematica')"
+    >
       📐 Matematica
     </button>
     <button
       class="filtro-btn"
       [class.active]="materiaSelezionata() === 'Lingue'"
-      (click)="impostaFiltro('Lingue')">
+      (click)="impostaFiltro('Lingue')"
+    >
       🌍 Lingue
     </button>
   </div>
 
   <div class="corsi-grid">
-
     @for (corso of corsiFiltrati(); track corso.id) {
       <article class="corso-card">
-
         <div class="card-top">
           <span class="corso-emoji">{{ corso.immagine }}</span>
           <span class="materia-badge">{{ corso.materia }}</span>
@@ -74,23 +75,29 @@
           <p class="corso-data">📅 {{ corso.dataOra }}</p>
           <div class="card-azioni">
             <span class="corso-prezzo">{{ corso.prezzo }}€</span>
-            <button class="btn-prenota" (click)="iscrivitiAlCorso(corso.id)">
-              Prenota Posto
-            </button>
+
+            @if (!isLoggedIn()) {
+              <button class="btn-prenota" (click)="this.router.navigate(['/login'])">
+                Accedi per prenotare
+              </button>
+            } @else {
+              @if (mySubscribedCourseIds().includes(corso.id)) {
+                <button class="btn-prenota" disabled>Già Iscritto</button>
+              } @else {
+                <button class="btn-prenota" (click)="iscrivitiAlCorso(corso.id)">
+                  Prenota Posto
+                </button>
+              }
+            }
           </div>
         </div>
-
       </article>
-    }
-
-    @empty {
+    } @empty {
       <div class="stato-vuoto">
         <span class="vuoto-icona">🔍</span>
         <p class="vuoto-testo">Nessun corso corrisponde ai criteri di ricerca selezionati.</p>
         <button class="btn-reset" (click)="resetFiltri()">Reset filtri di ricerca</button>
       </div>
     }
-
   </div>
-
 </div>

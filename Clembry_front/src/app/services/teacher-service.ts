@@ -5,6 +5,7 @@ import { Observable, tap } from 'rxjs';
 export interface Docente {
   id: number;
   nome: string;
+  cognome: string;
   titolo: string;
   materie: string[];
   bio: string;
@@ -39,8 +40,8 @@ export class TeacherService {
         const docentiFormattati: Docente[] = datiDallApi.map(docente => ({
           ...docente,
           disponibileOggi: !!docente.disponibileOggi,
-          materie: typeof docente.materie === 'string' 
-            ? JSON.parse(docente.materie) 
+          materie: typeof docente.materie === 'string'
+            ? JSON.parse(docente.materie)
             : docente.materie
         }));
         this.docentiState.set(docentiFormattati);
@@ -56,7 +57,7 @@ export class TeacherService {
     return this.http.put(`http://localhost:8080/api/teachers/${id}`, dati).pipe(
       tap(() => {
         // Aggiorna lo stato locale del Signal per riflettere la modifica in tempo reale nell'app
-        this.docentiState.update(docenti => 
+        this.docentiState.update(docenti =>
           docenti.map(d => d.id === id ? { ...d, ...dati } : d)
         );
       })

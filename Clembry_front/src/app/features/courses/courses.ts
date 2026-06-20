@@ -10,20 +10,23 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './courses.html',
-  styleUrls: ['./courses.css']
+  styleUrls: ['./courses.css'],
 })
 export class Courses {
   private coursesService = inject(CoursesService);
   private authService = inject(Auth);
   private subscriptionService = inject(SubscriptionService);
-  private router = inject(Router);
+  router = inject(Router);
 
   // Filtri come Signals
   materiaSelezionata = signal<string>('');
   ricercaNome = signal<string>('');
 
+
   // Lista corsi
   listaCorsi = this.coursesService.corsi;
+
+  user = this.authService.getCurrentUser();
 
   // Signal calcolato per filtrare i corsi
   corsiFiltrati = computed(() => {
@@ -31,7 +34,7 @@ export class Courses {
     const filtroMateria = this.materiaSelezionata();
     const testo = this.ricercaNome().toLowerCase().trim();
 
-    return lista.filter(corso => {
+    return lista.filter((corso) => {
       const matchMateria = filtroMateria ? corso.materia === filtroMateria : true;
       const matchTesto = testo ? corso.titolo.toLowerCase().includes(testo) : true;
       return matchMateria && matchTesto;
@@ -52,41 +55,62 @@ export class Courses {
     this.materiaSelezionata.set('');
     this.ricercaNome.set('');
   }
-  /**
-   * Iscrizione al corso con gestione sicura del valore 'user'
-   */
-  iscrivitiAlCorso(corso: any): void {
+
+  // Aggiungi nel componente
+ isLoggedIn = this.authService.isLoggedIn;
+
+  // Nel componente
+  mySubscribedCourseIds = computed(() => {
+    console.log('mySubscribedCourseIds: Esecuzione computed');
+    const user = this.authService.getCurrentUser();
+    console.log('mySubscribedCourseIds: Utente loggato:', user);
+    if (!user) return [];
+
+    // Filtriamo le sole sottoscrizioni dell'utente
+    console.log('mySubscribedCourseIds: Sottoscrizioni:', this.subscriptionService.iscrizioni());
+    console.log('mySubscribedCourseIds: this.subscriptionService.iscrizioni().filter((s) => s.userId === user.id):', this.subscriptionService.iscrizioni().filter((s) => s.user_id === user.id));
+    console.log('mySubscribedCourseIds: this.subscriptionService.iscrizioni().filter((s) => s.userId === user.id).map((s) => s.courseId):', this.subscriptionService.iscrizioni().filter((s) => s.user_id === user.id).map((s) => s.course_id));
+    const userSubs = this.subscriptionService
+      .iscrizioni()
+      .filter((s) => (s as any).user_id === user.id)
+      .map((s) => (s as any).course_id);
+
+      // const corso = this.allCourses().find((c) => c.id === (sub as any).course_id);
+    console.log('mySubscribedCourseIds: userSubs:', userSubs);
+    return userSubs;
+  });
+
+  iscrivitiAlCorso(corsoId: number): void {
     const user = this.authService.getCurrentUser();
 
-    // Gestione sicura del possibile 'null'
+    
     if (!user) {
-      alert('Devi essere loggato per iscriverti!');
       this.router.navigate(['/login']);
       return;
     }
 
-    // Verifica esistenza iscrizione
-    if (this.subscriptionService.isSubscribed(corso.id, user.id)) {
+    // Verifica esistenza
+    if (this.subscriptionService.isSubscribed(corsoId, user.id)) {
       alert('Sei già iscritto a questo corso!');
       return;
     }
 
-    // Creazione oggetto coerente con l'interfaccia Subscription
+    // Creazione oggetto coerente
     const nuovaIscrizione: Subscription = {
-      userId: user.id,
-      courseId: corso.id,
-      subscriptionData: new Date().toISOString(),
-      titolo: corso.titolo,
-      materia: corso.materia,
-      dataOra: corso.dataOra,
-      immagine: corso.immagine,
-      teacherNome: corso.teacher_nome || 'N/A',
-      teacherCognome: corso.teacher_cognome || '',
-      studentNome: user.nome,
-      studentCognome: user.cognome
+      user_id: user.id,
+      course_id: corsoId,
     };
 
     this.subscriptionService.addSubscription(nuovaIscrizione);
-    alert(`Iscrizione effettuata con successo a: ${corso.titolo}`);
   }
+
+  ngOnInit() {
+  const user = this.authService.getCurrentUser();
+  console.log('ngOnInit: Utente loggato:', user);
+
+  if (user) {
+    console.log('Carico le iscrizioni per l\'utente:', user.id);
+    this.subscriptionService.caricaIscrizioniUser(user.id);
+  }
+}
 }
