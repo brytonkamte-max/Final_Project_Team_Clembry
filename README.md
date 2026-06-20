@@ -255,6 +255,7 @@ Per scongiurare disallineamenti dello stato e l'apparizione di avvisi visivi di 
 |---|---|
 | Bryton Junior | [@brytonkamte-max](https://github.com/brytonkamte-max) |
 | Emanuele Zeppa | [@Emanuele2325](https://github.com/Emanuele2325) |
+| Claudio Giacomo Esposito | [@clark1492](https://github.com/clark1492) |
 
 ---
 
