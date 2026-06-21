@@ -11,7 +11,7 @@
   --testo-secondario:   #94A3B8;
   --raggio-btn:         999px;
   --transizione:        0.25s ease;
-  
+
   display: block;
   position: sticky;
   top: 0;
@@ -48,14 +48,16 @@
 }
 
 .logo .brand-nome {
-  font-size: 3rem; /* Leggermente più compatto per la Navbar rispetto al footer */
+  font-size: 2rem; /* Leggermente più compatto per la Navbar rispetto al footer */
   font-weight: 800;
   letter-spacing: -0.03em;
   margin: 0;
-  color: #F1F5F9; /* --text-main */
+  /* color: #F1F5F9; --text-main */
+  color: var(--testo-primario);
   user-select: none;
   cursor: pointer;
   transition: text-shadow 0.25s ease;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .logo .brand-nome span {
@@ -73,7 +75,7 @@
 .navbar ul {
   display: flex;
   list-style: none;
-  gap: 32px; 
+  gap: 32px;
   margin: 0;
   padding: 0;
 }
@@ -96,7 +98,7 @@
 
 /* Stato Attivo gestito da Angular (routerLinkActive) */
 .navbar ul li a.active {
-  color: var(--colore-testo-primario);
+  color: var(--colore-accent-soft);
   font-weight: 600;
 }
 
@@ -166,15 +168,15 @@
   .navbar {
     padding: 0 4%;
   }
-  
+
   .navbar ul {
     gap: 16px;
   }
-  
+
   .navbar ul li a {
     font-size: 0.85rem;
   }
-  
+
   .logo img {
     height: 45px;
   }

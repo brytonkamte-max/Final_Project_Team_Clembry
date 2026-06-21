@@ -2,28 +2,27 @@
   <h2 class="auth-title">Accedi al tuo account</h2>
 
   <div class="field">
-    <input formControlName="username" placeholder="Username" />
-    @if (loginForm.get('username')?.touched && loginForm.get('username')?.invalid) {
-      <small>Username obbligatorio</small>
-    }
+    <input
+      formControlName="username"
+      [placeholder]="'Username'"
+      [class.invalid]="loginForm.get('username')?.touched && loginForm.get('username')?.invalid"
+    />
   </div>
 
   <div class="field">
-    <input formControlName="password" type="password" placeholder="Password" />
-    @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
-      <small>Password obbligatoria</small>
-    }
+    <input
+      formControlName="password"
+      type="password"
+      [placeholder]="'Password'"
+      [class.invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+    />
   </div>
 
-  <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">
-    Accedi
-  </button>
+  <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">Accedi</button>
 
   <button type="button" class="btn-text">Password dimenticata?</button>
 
-  <hr>
+  <hr />
 
-  <button type="button" routerLink="/registration" class="btn-secondary">
-    Crea nuovo account
-  </button>
+  <button type="button" routerLink="/registration" class="btn-secondary">Crea nuovo account</button>
 </form>

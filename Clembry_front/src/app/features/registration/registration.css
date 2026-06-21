@@ -1,73 +1,234 @@
-/* Layout principale */
-.auth-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+:host {
+  --colore-sfondo: #0f172a;
+  --colore-card: #1e293b;
+  --colore-bordo: #334155;
+  --colore-accent: #7c3aed;
+  --colore-accent-soft: #a78bfa;
+  --testo-primario: #f1f5f9;
+  --testo-secondario: #94a3b8;
+  --testo-muted: #64748b;
+  --colore-verde: #10b981;
+
+  --raggio-card: 16px;
+  --raggio-btn: 999px;
+  --transizione: 0.25s ease;
+
+  display: block;
   min-height: 100vh;
-  background-color: #f4f7f6;
-  padding: 20px;
+  background: var(--colore-sfondo);
+  font-family: 'Inter', sans-serif;
 }
 
-.auth-card {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font pulito */
-  background: white;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 450px;
-}
-
-.auth-title { margin-bottom: 0.5rem; color: #2d3436; }
-.auth-subtitle { color: #636e72; margin-bottom: 2rem; font-size: 0.9rem; }
-
-/* Gestione dei campi */
-.row { display: flex; gap: 15px; }
-.row .field { flex: 1; }
-
-.field { margin-bottom: 1.2rem; display: flex; flex-direction: column; }
-.field label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; color: #2d3436; }
-
-/* Input universali */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input:not([type="checkbox"]):not([type="radio"]) {
-  padding: 12px;
-  border: 1.5px solid #dfe6e9;
-  border-radius: 8px;
-  outline: none;
-  transition: border 0.3s;
-  width: 100%; /* Assicura che riempiano il contenitore */
+* {
   box-sizing: border-box;
 }
 
-input:focus { border-color: #0984e3; }
+/* ==========================
+   PAGINA
+========================== */
 
-/* Messaggi di errore */
-small { color: #d63031; font-size: 0.75rem; margin-top: 4px; }
-
-/* Radio e Checkbox */
-.radio-group { display: flex; gap: 20px; margin-top: 5px; }
-.radio-group label { font-weight: normal; display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.checkbox { flex-direction: row !important; align-items: center; gap: 10px; font-size: 0.85rem; }
-.checkbox input { width: auto; margin-bottom: 0; }
-
-/* Bottone */
-button {
-  width: 100%;
-  padding: 14px;
-  background-color: #0984e3;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s;
-  margin-top: 1rem;
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
 }
 
-button:disabled { background-color: #b2bec3; cursor: not-allowed; }
-button:hover:not(:disabled) { background-color: #74b9ff; }
+/* ==========================
+   CARD
+========================== */
 
-.success { color: #00b894; font-weight: bold; text-align: center; margin-top: 1rem; }
+.auth-card {
+  width: 100%;
+  max-width: 550px;
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio-card);
+  padding: 28px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+  border-top: 3px solid var(--colore-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.auth-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--testo-primario);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.auth-subtitle {
+  margin: 0;
+  text-align: center;
+  color: var(--testo-secondario);
+}
+
+/* ==========================
+   ROW
+========================== */
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ==========================
+   FIELD
+========================== */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field label {
+  color: var(--testo-secondario);
+  font-size: 0.9rem;
+}
+
+/* ==========================
+   INPUT
+========================== */
+
+input:not([type='radio']):not([type='checkbox']) {
+  width: 100%;
+  background: #243149;
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio-btn);
+  padding: 14px 18px;
+  color: var(--testo-primario);
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transizione);
+}
+
+input:not([type='radio']):not([type='checkbox']):focus {
+  border-color: var(--colore-accent-soft);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
+}
+
+input::placeholder {
+  color: var(--testo-muted);
+}
+
+input:focus {
+  border-color: var(--colore-accent-soft);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
+}
+
+.invalid {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+}
+
+.invalid::placeholder {
+  color: #ef4444;
+  opacity: 1;
+}
+/* ==========================
+   RADIO BUTTON
+========================== */
+
+.radio-group {
+  display: flex;
+  gap: 25px;
+  margin-top: 8px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--testo-secondario);
+  cursor: pointer;
+}
+
+/* ==========================
+   CHECKBOX
+========================== */
+
+.checkbox label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--testo-secondario);
+}
+
+.checkbox input {
+  width: auto;
+}
+
+/* ==========================
+   ERRORI
+========================== */
+
+small {
+  color: #ef4444;
+  font-size: 0.8rem;
+}
+
+/* ==========================
+   SUCCESS
+========================== */
+
+.success {
+  text-align: center;
+  color: var(--colore-verde);
+  font-weight: 600;
+}
+
+/* ==========================
+   BOTTONE
+========================== */
+
+button {
+  border: none;
+  cursor: pointer;
+
+  padding: 14px;
+
+  border-radius: var(--raggio-btn);
+
+  background: var(--colore-accent);
+  color: white;
+
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  transition: var(--transizione);
+}
+
+button:hover:not(:disabled) {
+  background: #6d28d9;
+  transform: scale(1.02);
+}
+
+button:disabled {
+  background: var(--colore-bordo);
+  color: var(--testo-muted);
+  cursor: not-allowed;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 700px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-card {
+    padding: 28px;
+  }
+}

@@ -40,14 +40,14 @@ await pool.query(`
   // 3. SEED TEACHERS
   const teacherProfiles = teachers.map((t, index) => {
   const data = [
-    ['Ingegnere del Software', JSON.stringify(['Programmazione', 'Database']), 'Esperto in Angular.', 30, 5, 28, '👨‍💻', true],
-    ['Docente Matematica', JSON.stringify(['Matematica']), 'Oltre 10 anni di esperienza.', 25, 5, 42, '👩‍🏫', true],
-    ['Madrelingua CELTA', JSON.stringify(['Lingue']), 'Lezioni interattive.', 28, 4, 19, '🇬🇧', false],
-    ['Data Scientist', JSON.stringify(['Data Science']), 'Analisi e ML.', 40, 5, 15, '📊', true],
-    ['Graphic Designer', JSON.stringify(['Design']), 'UI/UX specialist.', 35, 4, 10, '🎨', true],
-    ['Digital Strategist', JSON.stringify(['Marketing']), 'Growth hacker.', 45, 5, 20, '📈', true],
-    ['Cyber Expert', JSON.stringify(['Informatica']), 'Security Consultant.', 50, 5, 30, '🔐', true],
-    ['Insegnante Lingue', JSON.stringify(['Lingue']), 'Metodo comunicativo.', 25, 4, 12, '🇩🇪', true]
+    ['Ingegnere del Software', JSON.stringify(['Programmazione', 'Database']), 'Esperto in Angular.', 30, 5, 28, 'https://api.dicebear.com/10.x/lorelei/svg?seed=software-engineer', true],
+    ['Docente Matematica', JSON.stringify(['Matematica']), 'Oltre 10 anni di esperienza.', 25, 5, 42, 'https://api.dicebear.com/10.x/lorelei/svg?seed=math-teacher', true],
+    ['Madrelingua CELTA', JSON.stringify(['Lingue']), 'Lezioni interattive.', 28, 4, 19, 'https://api.dicebear.com/10.x/lorelei/svg?seed=english-native', false],
+    ['Data Scientist', JSON.stringify(['Data Science']), 'Analisi e ML.', 40, 5, 15, 'https://api.dicebear.com/10.x/lorelei/svg?seed=data-scientist', true],
+    ['Graphic Designer', JSON.stringify(['Design']), 'UI/UX specialist.', 35, 4, 10, 'https://api.dicebear.com/10.x/lorelei/svg?seed=graphic-designer', true],
+    ['Digital Strategist', JSON.stringify(['Marketing']), 'Growth hacker.', 45, 5, 20, 'https://api.dicebear.com/10.x/lorelei/svg?seed=digital-strategist', true],
+    ['Cyber Expert', JSON.stringify(['Informatica']), 'Security Consultant.', 50, 5, 30, 'https://api.dicebear.com/10.x/lorelei/svg?seed=cyber-expert', true],
+    ['Insegnante Lingue', JSON.stringify(['Lingue']), 'Metodo comunicativo.', 25, 4, 12, 'https://api.dicebear.com/10.x/lorelei/svg?seed=language-teacher', true]
   ][index];
 
   return [t.id, ...data];

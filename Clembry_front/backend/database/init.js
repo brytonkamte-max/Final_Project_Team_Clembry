@@ -44,7 +44,7 @@ async function initDatabase() {
       tariffaOraria INT NOT NULL,
       stelle INT DEFAULT 5,
       recensioni INT DEFAULT 0,
-      avatar VARCHAR(50) NOT NULL,
+      avatar VARCHAR(100) NOT NULL,
       disponibileOggi BOOLEAN DEFAULT TRUE,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE

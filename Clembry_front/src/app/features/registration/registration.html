@@ -5,47 +5,67 @@
 
     <div class="row">
       <div class="field">
-        <input formControlName="nome" placeholder="Nome"/>
-        @if (regForm.get('nome')?.touched && regForm.get('nome')?.invalid) {
-          <small>Nome obbligatorio</small>
-        }
+        <input
+          formControlName="nome"
+          [placeholder]="
+            regForm.get('nome')?.touched && regForm.get('nome')?.invalid
+              ? 'Nome obbligatorio'
+              : 'Nome'
+          "
+          [class.invalid]="regForm.get('nome')?.touched && regForm.get('nome')?.invalid"
+        />
       </div>
 
       <div class="field">
-        <input formControlName="cognome" placeholder="Cognome" />
-        @if (regForm.get('cognome')?.touched && regForm.get('cognome')?.invalid) {
-          <small>Cognome obbligatorio</small>
-        }
+        <input
+          formControlName="cognome"
+          [placeholder]="
+            regForm.get('cognome')?.touched && regForm.get('cognome')?.invalid
+              ? 'Cognome obbligatorio'
+              : 'Cognome'
+          "
+          [class.invalid]="regForm.get('cognome')?.touched && regForm.get('cognome')?.invalid"
+        />
       </div>
     </div>
 
     <div class="field">
-      <input formControlName="username" placeholder="Username"/>
-      @if (regForm.get('username')?.touched && regForm.get('username')?.invalid) {
-        <small>Username obbligatorio</small>
-      }
+      <input
+        formControlName="username"
+        [placeholder]="
+          regForm.get('username')?.touched && regForm.get('username')?.invalid
+            ? 'Username obbligatorio'
+            : 'Username'
+        "
+        [class.invalid]="regForm.get('username')?.touched && regForm.get('username')?.invalid"
+      />
     </div>
 
     <div class="field">
-      <input formControlName="email" placeholder="Email"/>
-
-      @if (regForm.get('email')?.touched && regForm.get('email')?.errors?.['required']) {
-        <small>Email obbligatoria</small>
-      }
-      @if (regForm.get('email')?.touched && regForm.get('email')?.errors?.['email']) {
-        <small>Email non valida</small>
-      }
+      <input
+        formControlName="email"
+        [placeholder]="
+          regForm.get('email')?.touched && regForm.get('email')?.invalid
+            ? 'Email non valida'
+            : 'Email'
+        "
+        [class.invalid]="regForm.get('email')?.touched && regForm.get('email')?.invalid"
+      />
     </div>
 
     <div class="field">
-      <input type="password" formControlName="password" placeholder="Password" />
-
-      @if (regForm.get('password')?.touched && regForm.get('password')?.errors?.['required']) {
-        <small>Password obbligatoria</small>
-      }
-      @if (regForm.get('password')?.touched && regForm.get('password')?.errors?.['minlength']) {
-        <small>Minimo 6 caratteri</small>
-      }
+      <input
+        type="password"
+        formControlName="password"
+        [placeholder]="
+          regForm.get('password')?.touched && regForm.get('password')?.hasError('required')
+            ? 'Password obbligatoria'
+            : regForm.get('password')?.hasError('minlength')
+              ? 'Minimo 6 caratteri'
+              : 'Password'
+        "
+        [class.invalid]="regForm.get('password')?.touched && regForm.get('password')?.invalid"
+      />
     </div>
 
     <div class="field">
