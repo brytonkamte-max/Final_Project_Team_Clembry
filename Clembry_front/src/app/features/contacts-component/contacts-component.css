@@ -1,17 +1,26 @@
+/* =====================================================
+   FONT
+   ===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   DESIGN SYSTEM (allineato al brand)
+   ===================================================== */
 :host {
   --colore-sfondo:      #0F172A;
   --colore-card:        #1E293B;
-  --colore-card-alt:    #243044;
   --colore-bordo:       #334155;
   --colore-accent:      #7C3AED;
   --colore-accent-soft: #A78BFA;
   --colore-verde:       #10B981;
-  --colore-linkedin:    #0A66C2;
   --testo-primario:     #F1F5F9;
   --testo-secondario:   #94A3B8;
   --testo-muted:        #64748B;
-  --raggio-card:        18px;
+  --raggio-card:        16px;
   --raggio-btn:         999px;
   --transizione:        0.25s ease;
 
@@ -23,85 +32,82 @@
 }
 
 /* =====================================================
-   LAYOUT PRINCIPALE
+   CONTAINER & HEADER
    ===================================================== */
 .contatti-container {
-  max-width: 1140px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 64px 24px 96px;
 }
 
-/* =====================================================
-   HEADER
-   ===================================================== */
 .contatti-header {
   text-align: center;
-  margin-bottom: 56px;
+  max-width: 680px;
+  margin: 0 auto 48px;
 }
 
 .header-tag {
   display: inline-block;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--colore-accent-soft);
-  margin-bottom: 14px;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  padding: 5px 14px;
+  border-radius: var(--raggio-btn);
+  margin-bottom: 18px;
 }
 
 .header-main-title {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
   font-weight: 800;
-  line-height: 1.15;
-  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
 }
 
 .header-sub {
-  font-size: 1.05rem;
   color: var(--testo-secondario);
-  max-width: 580px;
-  margin: 0 auto;
+  font-size: 1.02rem;
   line-height: 1.65;
+  margin: 0;
 }
 
 /* =====================================================
-   GRIGLIA CARD
+   GRID TEAM
    ===================================================== */
 .contatti-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
 }
 
-/* =====================================================
-   CARD MEMBRO
-   ===================================================== */
 .membro-card {
+  display: flex;
+  flex-direction: column;
   background: var(--colore-card);
   border: 1px solid var(--colore-bordo);
   border-radius: var(--raggio-card);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  padding: 24px;
   border-top: 3px solid transparent;
-  transition:
-    transform var(--transizione),
-    box-shadow var(--transizione),
-    border-top-color var(--transizione);
+  transition: transform var(--transizione), box-shadow var(--transizione), border-color var(--transizione);
 }
 
 .membro-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 48px rgba(124, 58, 237, 0.18);
+  box-shadow: 0 20px 48px rgba(124, 58, 237, 0.14);
   border-top-color: var(--colore-accent);
 }
 
-/* --- Top: foto + info base --- */
+/* =====================================================
+   TESTATA: foto + info base
+   ===================================================== */
 .membro-top-header {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 24px 22px 20px;
+  margin-bottom: 20px;
 }
 
 .contenitore-foto {
@@ -110,60 +116,59 @@
 }
 
 .avatar-sviluppatore {
-  width: 72px;
-  height: 72px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--colore-bordo);
-  background: var(--colore-card-alt);
 }
 
 .badge-online {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: -2px;
+  right: -2px;
   width: 14px;
   height: 14px;
   border-radius: 50%;
   background: var(--colore-verde);
-  border: 2.5px solid var(--colore-card);
+  border: 2px solid var(--colore-card);
   box-shadow: 0 0 6px var(--colore-verde);
 }
 
 .info-base h2 {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  line-height: 1.3;
-  margin: 0 0 4px;
+  margin: 0 0 2px;
+  color: var(--testo-primario);
 }
 
 .etichetta-ruolo {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--colore-accent-soft);
-  margin: 0 0 6px;
+  margin: 0 0 2px;
 }
 
 .testo-laurea {
   font-size: 0.78rem;
   color: var(--testo-muted);
-  line-height: 1.5;
   margin: 0;
 }
 
-/* --- Corpo: dettagli --- */
+/* =====================================================
+   CORPO: competenze, bio, recapiti
+   ===================================================== */
 .corpo-card-dettagli {
-  padding: 4px 22px 20px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 18px;
-  flex: 1;
 }
 
 .sezione-blocco h3 {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--testo-muted);
   margin: 0 0 10px;
@@ -176,63 +181,75 @@
 }
 
 .tag-tech {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--testo-secondario);
-  background: var(--colore-card-alt);
+  background: rgba(124, 58, 237, 0.1);
   border: 1px solid var(--colore-bordo);
   padding: 5px 12px;
   border-radius: var(--raggio-btn);
 }
 
-.blocco-presentazione .testo-presentazione {
-  font-size: 0.85rem;
-  color: var(--testo-secondario);
+.blocco-presentazione {
+  padding: 14px 16px;
+  background: rgba(124, 58, 237, 0.06);
+  border-radius: 12px;
+  border-left: 2px solid var(--colore-accent-soft);
+}
+
+.blocco-presentazione h3 {
+  margin-bottom: 6px;
+}
+
+.testo-presentazione {
+  font-size: 0.88rem;
   line-height: 1.6;
+  color: var(--testo-secondario);
   margin: 0;
 }
 
 .lista-recapiti-links {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .lista-recapiti-links li {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  font-size: 0.85rem;
 }
 
 .icona-canale {
   font-size: 0.9rem;
-  flex-shrink: 0;
-  width: 20px;
-  text-align: center;
+  opacity: 0.8;
 }
 
 .valore-canale {
-  font-size: 0.85rem;
   color: var(--testo-secondario);
 }
 
-.link-click {
-  text-decoration: none;
-  transition: color var(--transizione);
-}
-
-.link-click:hover {
+.valore-canale.link-click {
   color: var(--colore-accent-soft);
+  text-decoration: none;
 }
 
-/* --- Footer: social --- */
+.valore-canale.link-click:hover {
+  text-decoration: underline;
+}
+
+/* =====================================================
+   FOOTER: social
+   ===================================================== */
 .footer-social-azioni {
   display: flex;
   gap: 10px;
-  padding: 18px 22px;
+  margin-top: 20px;
+  padding-top: 18px;
   border-top: 1px solid var(--colore-bordo);
 }
 
@@ -242,55 +259,31 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 9px 0;
+  padding: 9px;
   border-radius: var(--raggio-btn);
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-decoration: none;
   border: 1.5px solid var(--colore-bordo);
   color: var(--testo-secondario);
-  transition:
-    background var(--transizione),
-    border-color var(--transizione),
-    color var(--transizione),
-    transform var(--transizione);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transizione);
 }
 
-.btn-social .social-icon {
+.social-icon {
   font-size: 0.85rem;
   font-weight: 800;
 }
 
 .btn-social:hover {
-  transform: translateY(-2px);
-}
-
-.btn-social.linkedin:hover {
-  background: rgba(10, 102, 194, 0.12);
-  border-color: var(--colore-linkedin);
-  color: #4F9DE8;
-}
-
-.btn-social.github:hover {
-  background: rgba(167, 139, 250, 0.12);
   border-color: var(--colore-accent-soft);
   color: var(--colore-accent-soft);
+  background: rgba(124, 58, 237, 0.08);
 }
 
 /* =====================================================
    RESPONSIVE
    ===================================================== */
 @media (max-width: 600px) {
-  .contatti-container {
-    padding: 40px 16px 64px;
-  }
-
-  .contatti-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .membro-top-header {
-    flex-direction: column;
-    text-align: center;
-  }
+  .contatti-container { padding: 48px 16px 64px; }
+  .footer-social-azioni { flex-direction: column; }
 }
