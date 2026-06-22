@@ -5,27 +5,10 @@
       <h3>{{ user?.username }}</h3>
     </div>
     <nav>
-      <a class="nav-item" [class.active]="activeSection === 'bio'" (click)="setActiveSection('bio')"
-        >Profilo</a
-      >
-      <a
-        class="nav-item"
-        [class.active]="activeSection === 'courses'"
-        (click)="setActiveSection('courses')"
-        >I miei Corsi</a
-      >
-      <a
-        class="nav-item"
-        [class.active]="activeSection === 'calendar'"
-        (click)="setActiveSection('calendar')"
-        >Calendario Lezioni</a
-      >
-      <a
-        class="nav-item"
-        [class.active]="activeSection === 'payments'"
-        (click)="setActiveSection('payments')"
-        >Pagamenti</a
-      >
+      <a class="nav-item" [class.active]="activeSection === 'bio'" (click)="setActiveSection('bio')">Profilo</a>
+      <a class="nav-item" [class.active]="activeSection === 'courses'" (click)="setActiveSection('courses')">I miei Corsi</a>
+      <a class="nav-item" [class.active]="activeSection === 'calendar'" (click)="setActiveSection('calendar')">Calendario Lezioni</a>
+      <a class="nav-item" [class.active]="activeSection === 'payments'" (click)="setActiveSection('payments')">Pagamenti</a>
     </nav>
   </aside>
 
@@ -55,7 +38,6 @@
                 <span>{{ sub.materia }}</span>
               </div>
               <div class="card-footer-meta">
-                <!-- <span class="price-badge">{{ sub.prezzo }}€</span> -->
                 <small class="time-tag">📅 {{ sub.dataOra }}</small>
                 <button class="btn-disiscriviti" (click)="disiscriviti(sub.course_id)">
                   Disiscriviti
@@ -103,11 +85,62 @@
 
     @if (activeSection === 'payments') {
       <section id="payments" class="card">
-        <h2>Pagamenti</h2>
+        <h2>Metodo di Pagamento</h2>
         <div class="payment-card">
-          <span>Visa •••• 4242</span>
-          <br />
-          <span>Scadenza: 12/24</span>
+          <div class="card-chip"></div>
+          <div class="card-details">
+            <span class="card-brand">Visa •••• 4242</span>
+            <span class="card-expiry">Scadenza: 12/30</span>
+          </div>
+        </div>
+
+        <h3 class="section-divider-title">Panoramica Spese</h3>
+        <div class="stats-finance-grid">
+          <div class="stat-box box-total">
+            <span class="stat-label">Totale Investito</span>
+            <span class="stat-value">{{ calcoloStatistichePagamenti().totaleSpeso | number:'1.2-2' }}€</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Corsi Attivi</span>
+            <span class="stat-value">{{ calcoloStatistichePagamenti().numeroCorsi }}</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Spesa Media</span>
+            <span class="stat-value">{{ calcoloStatistichePagamenti().spesaMedia | number:'1.2-2' }}€</span>
+          </div>
+        </div>
+
+        <h3 class="section-divider-title">Cronologia Transazioni</h3>
+        <div class="table-responsive">
+          <table class="payments-table">
+            <thead>
+              <tr>
+                <th>Corso</th>
+                <th>Docente</th>
+                <th>Stato</th>
+                <th>Prezzo</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (sub of mySubscriptionsDetailed(); track sub.course_id) {
+                <tr>
+                  <td>
+                    <div class="payment-course-cell">
+                      <span class="mini-emoji">{{ sub.immagine }}</span>
+                      <span>{{ sub.titolo }}</span>
+                    </div>
+                  </td>
+                  <td>{{ sub.nomeDocente }}</td>
+                  <td><span class="status-pill paid">Contabilizzato</span></td>
+                  <td class="price-cell"><strong>-{{ sub.prezzo }}€</strong></td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="empty-table">Nessuna transazione registrata nel sistema.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
       </section>
     }

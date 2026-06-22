@@ -117,28 +117,25 @@
   gap: 32px;
 }
 
-.success-alert {
+/* NUOVO MESSAGGIO INLINE VERDE SOTTO IL BOTTONE */
+.success-message-inline {
+  color: #2e7d32;
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  padding: 14px 20px;
+  border-radius: 8px;
+  margin-top: 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  background-color: rgba(16, 185, 129, 0.1);
-  border: 1px solid var(--colore-verde);
-  border-radius: var(--raggio-card);
-  padding: 14px 20px;
-  animation: slideDown 0.35s ease;
-}
-
-.success-icon {
-  color: var(--colore-verde);
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.success-alert p {
-  color: var(--testo-primario);
-  margin: 0;
-  font-size: 0.95rem;
+  gap: 10px;
+  font-size: 0.92rem;
   font-weight: 500;
+  animation: slideDown 0.3s ease;
+}
+
+.success-icon-inline {
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 /* CARDS */
@@ -233,7 +230,6 @@
   box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
 }
 
-/* Struttura orizzontale selettore DateTime */
 .form-row-datetime {
   display: flex;
   gap: 16px;
@@ -244,7 +240,6 @@
   flex: 1;
 }
 
-/* Inversione di colore icone native calendario/orologio su sfondo dark */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(0.9);

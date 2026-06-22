@@ -32,14 +32,14 @@ export class TeacherPersonalArea implements OnInit {
   editBioPayload = { bio: '', titolo: '' };
   newCoursePayload = { titolo: '', descrizione: '', materia: '', prezzo: 0, dataOra: '' };
 
-  // 1. RICAVIAMO IL DOCENTE CONNESSO DAL SIGNAL DI TEACHERSERVICE
+  // 1. Recupero del docente connesso dal Signal
   currentTeacher = computed(() => {
     const userLoggato = this.authService.getCurrentUser();
     if (!userLoggato) return null;
     return this.teacherService.docenti().find(t => t.email === userLoggato.email) || null;
   });
 
-  // 2. FILTRIAMO I CORSI DEL DOCENTE CONNESSO DAL SIGNAL DI COURSESSERVICE
+  // 2. Filtro dei corsi del docente connesso
   myCourses = computed(() => {
     const docente = this.currentTeacher();
     if (!docente) return [];
@@ -66,29 +66,31 @@ export class TeacherPersonalArea implements OnInit {
   }
 
   saveProfile(): void {
-    const docenteId = this.currentTeacher()?.id;
+    const docenteId = this.currentTeacher()?.id || this.authService.getCurrentUser()?.id;
     if (!docenteId) return;
 
     this.teacherService.updateDocente(docenteId, this.editBioPayload).subscribe({
       next: () => {
         this.isEditingBio = false;
+        this.teacherService.caricaDocenti();
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error('Errore aggiornamento profilo:', err)
     });
   }
 
   saveCourse(): void {
-    const docenteId = this.currentTeacher()?.id;
-    if (!docenteId || !this.tempData || !this.tempOra) return;
+    const docenteId = this.currentTeacher()?.id || this.authService.getCurrentUser()?.id;
+    
+    // Validazione silenziosa senza alert nativi: se manca qualcosa, interrompe il click
+    if (!this.tempData || !this.tempOra || !this.newCoursePayload.titolo || !docenteId) {
+      return;
+    }
 
-    // Formattazione data nativa (AAAA-MM-GG) -> "GG Mese" (es. 28 Giugno)
+    // Formattazione data nativa
     const opzioni: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
     const dataEletta = new Date(this.tempData).toLocaleDateString('it-IT', opzioni);
-    
-    // Capitalizza la prima lettera del mese (es: "giugno" -> "Giugno")
     const dataFormattata = dataEletta.replace(/^\d+\s+\w/, (match) => match.toUpperCase());
 
-    // Assegna la stringa finale combinata al payload
     this.newCoursePayload.dataOra = `${dataFormattata} - ${this.tempOra}`;
 
     const payloadCompleto = {
@@ -99,19 +101,24 @@ export class TeacherPersonalArea implements OnInit {
 
     this.coursesService.aggiungiNuovoCorso(payloadCompleto).subscribe({
       next: () => {
-        this.courseCreatedSuccess = true;
-        this.isCreatingCourse = false;
         
-        // Reset totale
+        
+        // 2. Svuota immediatamente tutti i campi input del form
         this.newCoursePayload = { titolo: '', descrizione: '', materia: '', prezzo: 0, dataOra: '' };
         this.tempData = '';
         this.tempOra = '';
         
-        setTimeout(() => {
-          this.courseCreatedSuccess = false;
-        }, 4000);
+        // 1. Attiva subito l'alert verde sotto i bottoni nell'HTML
+        this.courseCreatedSuccess = true;
+        
+        // 3. Mantiene visibile il feedback verde per 3 secondi, poi chiude la tab e refresha
+        
+          // this.courseCreatedSuccess = false;
+          // this.isCreatingCourse = false; 
+          // this.coursesService.caricaCorsiDati();
+        
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error('Errore creazione corso backend:', err)
     });
   }
 

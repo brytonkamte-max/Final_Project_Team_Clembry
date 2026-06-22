@@ -16,14 +16,27 @@
   </ul>
 
   <div class="actions">
-    @if (auth.isLoggedIn() && auth.getRole() === 'teacher') {
-      <a routerLink="/teacherPersonalArea"><span class="material-icons">account_circle</span></a>
-    }
-    @else if (auth.isLoggedIn()) {
-      <a routerLink="/personalArea"><span class="material-icons">account_circle</span></a>
-    }
-    @else {
-      <a routerLink="/login"><span class="material-icons">account_circle</span></a>
+    @if (auth.isLoggedIn()) {
+      @if (auth.getRole() === 'teacher') {
+        <a routerLink="/teacherPersonalArea" class="user-profile-link" title="Area Personale Docente">
+          <span class="material-icons">account_circle</span>
+        </a>
+      } @else {
+        <a routerLink="/personalArea" class="user-profile-link" title="Area Personale">
+          <span class="material-icons">account_circle</span>
+        </a>
+      }
+    } @else {
+      <a routerLink="/login" class="user-profile-link" title="Accedi">
+        <span class="material-icons">account_circle</span>
+      </a>
     }
   </div>
+
+  @if (auth.isLoggedIn()) {
+    <span class="navbar-username-after">
+      {{ auth.getCurrentUser()?.username }}
+    </span>
+  }
+
 </nav>

@@ -3,6 +3,10 @@
    ===================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
 /* =====================================================
    DESIGN SYSTEM UNIVERSALE ALLINEATO AL BRAND
    ===================================================== */
@@ -43,6 +47,7 @@
   color: #fff;
   font-size: 0.95rem;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   transition: background var(--transizione), transform var(--transizione), box-shadow var(--transizione);
   box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
@@ -68,7 +73,7 @@
 }
 
 /* =====================================================
-   1. CAROSELLO DINAMICO
+   1. CAROSELLO DINAMICO & CONTROLLI
    ===================================================== */
 .carousel-container {
   position: relative;
@@ -96,15 +101,18 @@
   background-position: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.8s ease-in-out, visibility 0.8s;
+  transform: scale(1);
+  transition: opacity 0.8s ease-in-out, visibility 0.8s, transform 7s ease-out;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Leggero effetto Ken Burns sulla slide attiva, per un look meno statico */
 .slide.active {
   opacity: 1;
   visibility: visible;
+  transform: scale(1.06);
 }
 
 /* Maschera di contrasto scura per rendere i testi ultra-leggibili */
@@ -116,6 +124,7 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(to bottom, rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.85));
+  z-index: 1;
 }
 
 .slide-content {
@@ -149,7 +158,49 @@
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-/* Indicatori inferiori intelligenti */
+/* PULSANTI FRECCE CAROUSEL (VIOLA COORDIDATO AD ALTA VISIBILITÀ) */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(124, 58, 237, 0.75); 
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  width: 60px;
+  height: 60px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s ease, transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  z-index: 25; 
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.carousel-btn:hover {
+  background-color: #6D28D9;
+  border-color: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
+}
+
+.carousel-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-btn.prev {
+  left: 30px;
+}
+
+.carousel-btn.next {
+  right: 30px;
+}
+
+/* Indicatori inferiori a puntini (ora <button>: reset degli stili nativi) */
 .carousel-indicators {
   position: absolute;
   bottom: 24px;
@@ -161,6 +212,8 @@
 }
 
 .dot {
+  border: none;
+  padding: 0;
   width: 8px;
   height: 8px;
   background-color: rgba(255, 255, 255, 0.25);
@@ -246,6 +299,17 @@
   width: 64px;
   height: 64px;
   margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.14);
+  color: var(--colore-accent-soft);
+}
+
+.card-icon svg {
+  width: 30px;
+  height: 30px;
 }
 
 .card h3 {
@@ -396,6 +460,7 @@
   color: var(--colore-accent-soft);
   font-size: 0.82rem;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   transition: var(--transizione);
 }
@@ -403,6 +468,16 @@
 .btn-sm-primary:hover {
   background: var(--colore-accent);
   color: #fff;
+}
+
+/* Stato vuoto vetrina corsi — FIX: usava var(--text-muted), inesistente nel design system */
+.empty-courses {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-style: italic;
+  color: var(--testo-muted);
+  padding: 32px 0;
+  margin: 0;
 }
 
 /* =====================================================
@@ -414,14 +489,24 @@
   border-bottom: 1px solid var(--colore-bordo);
   padding: 64px 24px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 32px;
-  text-align: center;
+  gap: 24px;
 }
 
 .stat-item {
-  min-width: 160px;
+  min-width: 180px;
+  text-align: center;
+  padding: 28px 32px;
+  border-radius: var(--raggio-card);
+  border: 1px solid var(--colore-bordo);
+  background: rgba(124, 58, 237, 0.05);
+  transition: transform var(--transizione), border-color var(--transizione);
+}
+
+.stat-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--colore-accent-soft);
 }
 
 .stat-item h2 {
@@ -441,15 +526,57 @@
 }
 
 /* =====================================================
-   RESPONSIVE DESIGN
+   ACCESSIBILITÀ: focus visibile su tutti i controlli interattivi
+   ===================================================== */
+.btn-primary:focus-visible,
+.btn-sm-primary:focus-visible,
+.carousel-btn:focus-visible,
+.dot:focus-visible {
+  outline: 2px solid var(--colore-accent-soft);
+  outline-offset: 3px;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
    ===================================================== */
 @media (max-width: 768px) {
   .carousel-container { height: 50vh; }
   .hero, .benefits, .how-it-works, .featured-courses { padding: 48px 16px; }
 
+  .carousel-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    border-width: 1.5px;
+  }
+  .carousel-btn.prev { left: 15px; }
+  .carousel-btn.next { right: 15px; }
+
   .stats-section {
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 16px;
+  }
+
+  .stat-item {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide,
+  .slide.active,
+  .slide-content {
+    transition: opacity 0.4s ease, visibility 0.4s;
+    transform: none;
+  }
+
+  .card:hover,
+  .course-card:hover,
+  .stat-item:hover,
+  .btn-primary:hover,
+  .carousel-btn:hover {
+    transform: none;
   }
 }

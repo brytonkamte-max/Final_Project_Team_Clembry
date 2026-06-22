@@ -1,16 +1,29 @@
+/* =====================================================
+   FONT
+   ===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   DESIGN SYSTEM (allineato al brand)
+   ===================================================== */
 :host {
-  --colore-sfondo: #0f172a;
-  --colore-card: #1e293b;
-  --colore-bordo: #334155;
-  --colore-accent: #7c3aed;
-  --colore-accent-soft: #a78bfa;
-  --colore-verde: #10b981;
-  --testo-primario: #f1f5f9;
-  --testo-secondario: #94a3b8;
-  --testo-muted: #64748b;
-  --raggio-card: 16px;
-  --raggio-btn: 999px;
-  --transizione: 0.25s ease;
+  --colore-sfondo:      #0F172A;
+  --colore-card:        #1E293B;
+  --colore-bordo:       #334155;
+  --colore-accent:      #7C3AED;
+  --colore-accent-soft: #A78BFA;
+  --colore-verde:       #10B981;
+  --colore-ambra:       #F59E0B;
+  --testo-primario:     #F1F5F9;
+  --testo-secondario:   #94A3B8;
+  --testo-muted:        #64748B;
+  --raggio-card:        16px;
+  --raggio-btn:         999px;
+  --transizione:        0.25s ease;
 
   display: block;
   font-family: 'Inter', system-ui, sans-serif;
@@ -20,87 +33,134 @@
 }
 
 /* =====================================================
-   LAYOUT PRINCIPALE
+   CONTAINER & HEADER
    ===================================================== */
 .catalogo-container {
-  max-width: 1140px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 64px 24px 96px;
 }
 
-/* =====================================================
-   HEADER
-   ===================================================== */
 .catalogo-header {
   text-align: center;
-  margin-bottom: 52px;
+  max-width: 680px;
+  margin: 0 auto 40px;
 }
 
 .header-label {
   display: inline-block;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--colore-accent-soft);
-  margin-bottom: 14px;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  padding: 5px 14px;
+  border-radius: var(--raggio-btn);
+  margin-bottom: 18px;
 }
 
 .header-title {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
   font-weight: 800;
-  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
   color: var(--testo-primario);
-  margin: 0 0 16px;
 }
 
 .header-subtitle {
-  font-size: 1.05rem;
   color: var(--testo-secondario);
-  max-width: 520px;
-  margin: 0 auto;
+  font-size: 1.02rem;
   line-height: 1.65;
+  margin: 0;
 }
 
 /* =====================================================
-   BARRA FILTRI
+   RICERCA
+   ===================================================== */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.95rem;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 13px 18px 13px 44px;
+  border-radius: var(--raggio-btn);
+  border: 1.5px solid var(--colore-bordo);
+  background: var(--colore-card);
+  color: var(--testo-primario);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transizione);
+}
+
+.search-box input::placeholder {
+  color: var(--testo-muted);
+}
+
+.search-box input:focus {
+  border-color: var(--colore-accent-soft);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.18);
+}
+
+/* =====================================================
+   FILTRI
    ===================================================== */
 .filtri-bar {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: center;
   margin-bottom: 48px;
 }
 
 .filtro-btn {
-  padding: 8px 20px;
+  padding: 9px 20px;
   border-radius: var(--raggio-btn);
   border: 1.5px solid var(--colore-bordo);
   background: transparent;
   color: var(--testo-secondario);
-  font-size: 0.875rem;
+  font-size: 0.88rem;
   font-weight: 500;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition:
-    background var(--transizione),
-    border-color var(--transizione),
-    color var(--transizione);
+  transition: var(--transizione);
 }
 
 .filtro-btn:hover {
   border-color: var(--colore-accent-soft);
-  color: var(--colore-accent-soft);
+  color: var(--testo-primario);
 }
 
 .filtro-btn.active {
   background: var(--colore-accent);
   border-color: var(--colore-accent);
   color: #fff;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
 }
 
 /* =====================================================
-   GRIGLIA CARD
+   GRID CORSI
    ===================================================== */
 .corsi-grid {
   display: grid;
@@ -108,108 +168,95 @@
   gap: 24px;
 }
 
-/* =====================================================
-   CARD SINGOLA
-   ===================================================== */
 .corso-card {
+  display: flex;
+  flex-direction: column;
   background: var(--colore-card);
   border: 1px solid var(--colore-bordo);
   border-radius: var(--raggio-card);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition:
-    transform var(--transizione),
-    box-shadow var(--transizione),
-    border-color var(--transizione);
-
-  /* Bordo superiore animato — la firma visiva del design */
   border-top: 3px solid transparent;
-  background-clip: padding-box;
+  overflow: hidden;
+  transition: transform var(--transizione), box-shadow var(--transizione), border-color var(--transizione);
 }
 
 .corso-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 48px rgba(124, 58, 237, 0.18);
+  box-shadow: 0 20px 48px rgba(124, 58, 237, 0.16);
   border-top-color: var(--colore-accent);
-  border-color: var(--colore-bordo);
 }
 
-/* Top della card */
 .card-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px 20px 0;
+  justify-content: space-between;
+  padding: 20px 24px 0;
 }
 
 .corso-emoji {
-  font-size: 2.25rem;
-  line-height: 1;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border-radius: 12px;
+  background: rgba(124, 58, 237, 0.14);
 }
 
 .materia-badge {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--colore-accent-soft);
   background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.25);
   padding: 4px 10px;
   border-radius: var(--raggio-btn);
-  border: 1px solid rgba(167, 139, 250, 0.25);
 }
 
-/* Corpo della card */
 .card-body {
-  padding: 18px 20px 16px;
+  padding: 18px 24px 0;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }
 
 .corso-titolo {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.35;
   color: var(--testo-primario);
-  margin: 0;
+  margin: 0 0 6px;
 }
 
 .corso-docente {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--colore-verde);
-  margin: 0;
+  margin: 0 0 10px;
 }
 
 .corso-descrizione {
-  font-size: 0.875rem;
-  color: var(--testo-secondario);
+  font-size: 0.88rem;
   line-height: 1.6;
-  margin: 0;
-  flex: 1;
+  color: var(--testo-secondario);
+  margin: 0 0 14px;
 }
 
 .corso-stelle {
-  display: flex;
-  gap: 3px;
-  margin-top: 4px;
-}
-
-.stella {
-  color: #fbbf24;
+  color: var(--colore-ambra);
+  letter-spacing: 2px;
   font-size: 0.95rem;
 }
 
-/* Footer della card */
 .card-footer {
-  padding: 16px 20px 20px;
-  border-top: 1px solid var(--colore-bordo);
   display: flex;
-  flex-direction: column;
-  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px 24px;
+  margin-top: 16px;
+  border-top: 1px solid var(--colore-bordo);
+  padding-top: 16px;
 }
 
 .corso-data {
@@ -220,79 +267,39 @@
 
 .card-azioni {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 14px;
 }
 
 .corso-prezzo {
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--testo-primario);
 }
 
-/* .btn-prenota {
-  padding: 9px 20px;
-  border-radius: var(--raggio-btn);
-  border: none;
-  background: var(--colore-accent);
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background var(--transizione),
-    transform var(--transizione);
-}
-
-.btn-prenota:hover {
-  background: #6d28d9;
-  transform: scale(1.03);
-}
-
-.btn-prenota:active {
-  transform: scale(0.98);
-}
-
-.btn-prenota:disabled {
-  background: var(--colore-bordo);
-  cursor: not-allowed;
-}
-
-.btn-prenota:disabled:hover {
-  background: var(--colore-bordo);
-} */
-
 .btn-prenota {
-  padding: 9px 20px;
+  padding: 9px 18px;
   border-radius: var(--raggio-btn);
   border: none;
   background: var(--colore-accent);
   color: #fff;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
-  /* Applichiamo la transizione solo al background */
-  transition: background var(--transizione);
+  white-space: nowrap;
+  transition: var(--transizione);
 }
 
-/* L'effetto di scala (animazione) avviene solo se NON è disabilitato */
 .btn-prenota:hover:not(:disabled) {
-  background: #6d28d9;
-  transform: scale(1.03);
-  transition:
-    background var(--transizione),
-    transform var(--transizione);
-}
-
-.btn-prenota:active:not(:disabled) {
-  transform: scale(0.98);
+  background: #6D28D9;
+  transform: translateY(-1px);
 }
 
 .btn-prenota:disabled {
   background: var(--colore-bordo);
+  color: var(--testo-muted);
   cursor: not-allowed;
-  /* Assicura che non ci sia alcuna trasformazione */
-  transform: none;
 }
 
 /* =====================================================
@@ -301,41 +308,40 @@
 .stato-vuoto {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 72px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
+  padding: 64px 24px;
+  border: 1.5px dashed var(--colore-bordo);
+  border-radius: var(--raggio-card);
 }
 
 .vuoto-icona {
-  font-size: 3rem;
-  opacity: 0.5;
+  display: inline-block;
+  font-size: 2rem;
+  margin-bottom: 14px;
+  opacity: 0.6;
 }
 
 .vuoto-testo {
   color: var(--testo-secondario);
-  font-size: 1rem;
-  margin: 0;
+  font-size: 0.95rem;
+  margin: 0 0 20px;
 }
 
 .btn-reset {
-  margin-top: 4px;
-  padding: 9px 22px;
+  padding: 10px 22px;
   border-radius: var(--raggio-btn);
-  border: 1.5px solid var(--colore-accent);
+  border: 1.5px solid var(--colore-accent-soft);
   background: transparent;
   color: var(--colore-accent-soft);
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition:
-    background var(--transizione),
-    color var(--transizione);
+  transition: var(--transizione);
 }
 
 .btn-reset:hover {
   background: var(--colore-accent);
+  border-color: var(--colore-accent);
   color: #fff;
 }
 
@@ -343,63 +349,9 @@
    RESPONSIVE
    ===================================================== */
 @media (max-width: 600px) {
-  .catalogo-container {
-    padding: 40px 16px 64px;
-  }
-
-  .corsi-grid {
-    grid-template-columns: 1fr;
-  }
-}
-/* =====================================================
-   BARRA DI RICERCA (.search-container)
-   ===================================================== */
-.search-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 32px;
-}
-
-.search-box {
-  position: relative;
-  width: 100%;
-  max-width: 520px;
-}
-
-.search-icon {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.15rem;
-  color: var(--testo-secondario);
-  pointer-events: none;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 14px 20px 14px 48px;
-  font-size: 0.95rem;
-  font-family: inherit;
-  border: 1.5px solid var(--colore-bordo);
-  border-radius: var(--raggio-btn);
-  outline: none;
-  color: var(--testo-primario);
-  background-color: var(--colore-card);
-  transition:
-    border-color var(--transizione),
-    box-shadow var(--transizione),
-    background-color var(--transizione);
-}
-
-/* Animazione di Focus allineata con i bottoni attivi */
-.search-box input:focus {
-  border-color: var(--colore-accent-soft);
-  background-color: #243149; /* Leggero schiarimento interno per profondità */
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
-}
-
-/* Stile segnaposto coerente */
-.search-box input::placeholder {
-  color: var(--testo-muted);
+  .catalogo-container { padding: 48px 16px 64px; }
+  .filtri-bar { gap: 8px; }
+  .filtro-btn { padding: 8px 14px; font-size: 0.82rem; }
+  .card-footer { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .card-azioni { width: 100%; justify-content: space-between; }
 }

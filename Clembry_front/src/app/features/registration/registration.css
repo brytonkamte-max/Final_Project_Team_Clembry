@@ -1,38 +1,178 @@
-:host {
-  --colore-sfondo: #0f172a;
-  --colore-card: #1e293b;
-  --colore-bordo: #334155;
-  --colore-accent: #7c3aed;
-  --colore-accent-soft: #a78bfa;
-  --testo-primario: #f1f5f9;
-  --testo-secondario: #94a3b8;
-  --testo-muted: #64748b;
-  --colore-verde: #10b981;
-
-  --raggio-card: 16px;
-  --raggio-btn: 999px;
-  --transizione: 0.25s ease;
-
-  display: block;
-  min-height: 100vh;
-  background: var(--colore-sfondo);
-  font-family: 'Inter', sans-serif;
-}
+/* =====================================================
+   FONT
+   ===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
-/* ==========================
-   PAGINA
-========================== */
+/* =====================================================
+   TOKEN DI DESIGN (stessi del login, per coerenza)
+   ===================================================== */
+:host {
+  --colore-sfondo: #0f172a;
+  --colore-sfondo-2: #0b1222;
+  --colore-card: #1e293b;
+  --colore-bordo: #334155;
+  --colore-accent: #7c3aed;
+  --colore-accent-soft: #a78bfa;
+  --colore-successo: #34d399;
+  --colore-errore: #f87171;
+  --testo-primario: #f1f5f9;
+  --testo-secondario: #94a3b8;
+  --testo-muted: #64748b;
+  --raggio-card: 20px;
+  --raggio-btn: 999px;
+  --transizione: 0.25s ease;
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
 
-.auth-page {
+  display: block;
+  font-family: var(--font-body);
+  color: var(--testo-primario);
   min-height: 100vh;
+  background: var(--colore-sfondo);
+}
+
+/* =====================================================
+   LAYOUT GENERALE A DUE COLONNE
+   ===================================================== */
+.auth-shell {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  min-height: 100vh;
+}
+
+/* =====================================================
+   PANNELLO BRAND (sinistra)
+   ===================================================== */
+.brand-panel {
+  position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 56px 64px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(124, 58, 237, 0.35), transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(124, 58, 237, 0.16), transparent 55%),
+    linear-gradient(160deg, var(--colore-sfondo-2), var(--colore-sfondo) 60%);
+  border-right: 1px solid var(--colore-bordo);
+}
+
+.brand-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.brand-mark {
+  position: relative;
+  z-index: 1;
+  display: flex;
   align-items: center;
-  padding: 40px 20px;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.brand-mark .dot,
+.mobile-mark .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--colore-accent-soft);
+  box-shadow: 0 0 16px var(--colore-accent);
+}
+
+.brand-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 380px;
+}
+
+.brand-copy h1 {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 14px;
+}
+
+.brand-copy p {
+  color: var(--testo-secondario);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Rete di nodi: qui appare un nodo in più (.node-new), per dire "ti stai aggiungendo" */
+.network {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  margin: 32px 0;
+}
+
+.network line {
+  stroke: var(--colore-bordo);
+  stroke-width: 1;
+  opacity: 0.8;
+}
+
+.network circle.node {
+  fill: var(--colore-accent-soft);
+  opacity: 0.55;
+}
+
+.network circle.node-new {
+  fill: var(--colore-accent-soft);
+  opacity: 0;
+  animation: appear 1.8s ease-out 0.3s forwards;
+}
+
+.network circle.node-main {
+  fill: var(--colore-accent-soft);
+  filter: drop-shadow(0 0 10px var(--colore-accent));
+  animation: pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.9; r: 6; }
+  50% { opacity: 0.45; r: 8; }
+}
+
+@keyframes appear {
+  0% { opacity: 0; r: 0; }
+  60% { opacity: 0.9; r: 7; }
+  100% { opacity: 0.55; r: 5; }
+}
+
+.brand-footnote {
+  position: relative;
+  z-index: 1;
+  font-size: 0.8rem;
+  color: var(--testo-muted);
+  border-top: 1px solid var(--colore-bordo);
+  padding-top: 18px;
+}
+
+/* =====================================================
+   PANNELLO FORM (destra)
+   ===================================================== */
+.form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
 }
 
 /* ==========================
@@ -41,80 +181,72 @@
 
 .auth-card {
   width: 100%;
-  max-width: 550px;
+  max-width: 460px;
+  padding: 36px 32px;
+  border-radius: var(--raggio-card);
   background: var(--colore-card);
   border: 1px solid var(--colore-bordo);
-  border-radius: var(--raggio-card);
-  padding: 28px;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
-  border-top: 3px solid var(--colore-accent);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
 }
 
-/* ==========================
-   HEADER
-========================== */
+.mobile-mark {
+  display: none;
+}
 
 .auth-title {
+  font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--testo-primario);
   text-align: center;
-  margin-bottom: 24px;
+  margin: 0 0 6px;
 }
 
 .auth-subtitle {
-  margin: 0;
   text-align: center;
   color: var(--testo-secondario);
+  font-size: 0.88rem;
+  margin: 0 0 28px;
 }
 
-/* ==========================
-   ROW
-========================== */
-
+/* =====================================================
+   CAMPI
+   ===================================================== */
 .row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  display: flex;
+  gap: 14px;
 }
 
-/* ==========================
-   FIELD
-========================== */
+.row .field {
+  flex: 1;
+  min-width: 0;
+}
 
 .field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  margin-bottom: 16px;
 }
 
-.field label {
+.field-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--testo-secondario);
-  font-size: 0.9rem;
+  margin-bottom: 8px;
 }
 
-/* ==========================
-   INPUT
-========================== */
-
-input:not([type='radio']):not([type='checkbox']) {
+input {
   width: 100%;
-  background: #243149;
-  border: 1px solid var(--colore-bordo);
+  display: block;
+  padding: 13px 18px;
   border-radius: var(--raggio-btn);
-  padding: 14px 18px;
+  border: 1.5px solid var(--colore-bordo);
+  background: var(--colore-sfondo);
   color: var(--testo-primario);
+  font-family: var(--font-body);
   font-size: 0.95rem;
   outline: none;
   transition: var(--transizione);
-}
-
-input:not([type='radio']):not([type='checkbox']):focus {
-  border-color: var(--colore-accent-soft);
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
 }
 
 input::placeholder {
@@ -123,112 +255,226 @@ input::placeholder {
 
 input:focus {
   border-color: var(--colore-accent-soft);
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.18);
+  background: #243149;
 }
 
-.invalid {
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+.field small {
+  display: block;
+  margin: 6px 4px 0;
+  color: var(--colore-errore);
+  font-size: 0.78rem;
 }
 
-.invalid::placeholder {
-  color: #ef4444;
-  opacity: 1;
-}
-/* ==========================
-   RADIO BUTTON
-========================== */
-
-.radio-group {
-  display: flex;
-  gap: 25px;
-  margin-top: 8px;
-}
-
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--testo-secondario);
-  cursor: pointer;
-}
-
-/* ==========================
-   CHECKBOX
-========================== */
-
-.checkbox label {
+/* =====================================================
+   TOGGLE RUOLO (pillole, non radio nudi)
+   ===================================================== */
+.role-group {
   display: flex;
   gap: 10px;
-  align-items: center;
-  color: var(--testo-secondario);
 }
 
-.checkbox input {
-  width: auto;
-}
-
-/* ==========================
-   ERRORI
-========================== */
-
-small {
-  color: #ef4444;
-  font-size: 0.8rem;
-}
-
-/* ==========================
-   SUCCESS
-========================== */
-
-.success {
-  text-align: center;
-  color: var(--colore-verde);
-  font-weight: 600;
-}
-
-/* ==========================
-   BOTTONE
-========================== */
-
-button {
-  border: none;
+.role-option {
+  flex: 1;
+  position: relative;
   cursor: pointer;
+}
 
-  padding: 14px;
+.role-option input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
 
-  border-radius: var(--raggio-btn);
-
-  background: var(--colore-accent);
-  color: white;
-
-  font-weight: 600;
-  font-size: 0.95rem;
-
+.role-option span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1.5px solid var(--colore-bordo);
+  background: var(--colore-sfondo);
+  color: var(--testo-secondario);
+  font-size: 0.88rem;
+  font-weight: 500;
   transition: var(--transizione);
 }
 
-button:hover:not(:disabled) {
-  background: #6d28d9;
-  transform: scale(1.02);
+.role-option:has(input:checked) span {
+  border-color: var(--colore-accent-soft);
+  background: rgba(124, 58, 237, 0.14);
+  color: var(--testo-primario);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.16);
 }
 
-button:disabled {
+.role-option:has(input:focus-visible) span {
+  outline: 2px solid var(--colore-accent-soft);
+  outline-offset: 2px;
+}
+
+/* =====================================================
+   CHECKBOX TERMINI
+   ===================================================== */
+.field.checkbox {
+  margin-top: 4px;
+}
+
+.field.checkbox label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--testo-secondario);
+  cursor: pointer;
+}
+
+.field.checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  flex-shrink: 0;
+  accent-color: var(--colore-accent);
+  cursor: pointer;
+}
+
+.field.checkbox a {
+  color: var(--colore-accent-soft);
+  text-decoration: underline;
+}
+
+/* =====================================================
+   BOTTONI
+   ===================================================== */
+button {
+  transition: var(--transizione);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  margin-top: 6px;
+  border-radius: var(--raggio-btn);
+  border: none;
+  background: linear-gradient(135deg, var(--colore-accent), #6d28d9);
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.35);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0) scale(0.99);
+}
+
+.btn-primary:disabled {
   background: var(--colore-bordo);
-  color: var(--testo-muted);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
-/* ==========================
-   RESPONSIVE
-========================== */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0;
+  color: var(--testo-muted);
+  font-size: 0.78rem;
+}
 
-@media (max-width: 700px) {
-  .row {
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--colore-bordo);
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--raggio-btn);
+  border: 1.5px solid var(--colore-bordo);
+  background: transparent;
+  color: var(--testo-secondario);
+  font-family: var(--font-body);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  border-color: var(--colore-accent-soft);
+  color: var(--colore-accent-soft);
+  background: rgba(124, 58, 237, 0.08);
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--colore-accent-soft);
+  outline-offset: 2px;
+}
+
+/* =====================================================
+   MESSAGGIO DI SUCCESSO
+   ===================================================== */
+.success {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  color: var(--colore-successo);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 880px) {
+  .auth-shell {
     grid-template-columns: 1fr;
   }
 
-  .auth-card {
-    padding: 28px;
+  .brand-panel {
+    display: none;
+  }
+
+  .mobile-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .network circle.node-main,
+  .network circle.node-new {
+    animation: none;
+    opacity: 0.55;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: none;
   }
 }

@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 
 export interface Docente {
   id: number;
+  user_id: number;
   nome: string;
   cognome: string;
   titolo: string;
@@ -14,7 +15,7 @@ export interface Docente {
   recensioni: number;
   avatar: string;
   disponibileOggi: boolean;
-  email?: string; // Opzionale, utile per i confronti
+  email?: string;
 }
 
 @Injectable({
@@ -34,7 +35,8 @@ export class TeacherService {
     return this.docentiState.asReadonly();
   }
 
-  private caricaDocenti(): void {
+  // Modificato in public per consentire il rinfresco manuale dal componente
+  public caricaDocenti(): void {
     this.http.get<any[]>(this.apiUrl).subscribe({
       next: (datiDallApi) => {
         const docentiFormattati: Docente[] = datiDallApi.map(docente => ({
@@ -51,14 +53,14 @@ export class TeacherService {
   }
 
   /**
-   * NUOVO: Aggiorna i dati del docente sul Backend e sincronizza il Signal dello stato
+   * Aggiorna i dati del docente sul Backend e sincronizza il Signal dello stato
    */
   updateDocente(id: number, dati: { bio: string; titolo: string }): Observable<any> {
     return this.http.put(`http://localhost:8080/api/teachers/${id}`, dati).pipe(
       tap(() => {
-        // Aggiorna lo stato locale del Signal per riflettere la modifica in tempo reale nell'app
+        // Aggiorna lo stato locale del Signal cercando sia per id docente che per user_id
         this.docentiState.update(docenti =>
-          docenti.map(d => d.id === id ? { ...d, ...dati } : d)
+          docenti.map(d => (d.id === id || d.user_id === id) ? { ...d, ...dati } : d)
         );
       })
     );

@@ -1,358 +1,49 @@
 /* =====================================================
-   DESIGN SYSTEM LOCALIZZATO (VARIABILI CORE)
+   FONT
+   ===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   DESIGN SYSTEM (allineato al brand)
    ===================================================== */
 :host {
   --colore-sfondo:      #0F172A;
-  --colore-sfondo-alt:  #090D16;
   --colore-card:        #1E293B;
   --colore-bordo:       #334155;
   --colore-accent:      #7C3AED;
   --colore-accent-soft: #A78BFA;
-  --colore-verde:       #10B981;
   --testo-primario:     #F1F5F9;
   --testo-secondario:   #94A3B8;
+  --testo-muted:        #64748B;
   --raggio-card:        16px;
   --raggio-btn:         999px;
   --transizione:        0.25s ease;
 
   display: block;
-  background-color: var(--colore-sfondo);
-  color: var(--testo-primario);
   font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--colore-sfondo);
+  min-height: 100vh;
+  color: var(--testo-primario);
 }
 
 .page-layout {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  overflow-x: hidden;
 }
 
-/* Contenitori e Sezioni Strutturali */
-.section-container {
-  padding: 100px 24px;
-  width: 100%;
-}
-
-.bg-alt {
-  background-color: var(--colore-sfondo-alt);
-  border-top: 1px solid var(--colore-bordo);
-  border-bottom: 1px solid var(--colore-bordo);
-}
-
-.inner-container {
-  max-width: 1140px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.max-width-md {
-  max-width: 800px !important;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.section-header h2 {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 14px;
-}
-
-.section-header p {
-  color: var(--testo-secondario);
-  font-size: 1.05rem;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* =====================================================
-   1. HERO SECTION
-   ===================================================== */
-.hero {
-  padding: 120px 24px 80px 24px;
-  text-align: center;
-  border-bottom: 1px solid var(--colore-bordo);
-  background: radial-gradient(circle at top center, rgba(124, 58, 237, 0.08) 0%, transparent 60%);
-}
-
-.hero-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.hero-badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--colore-accent-soft);
-  background: rgba(124, 58, 237, 0.15);
-  padding: 6px 16px;
-  border-radius: var(--raggio-btn);
-  border: 1px solid rgba(167, 139, 250, 0.2);
-  margin-bottom: 24px;
-}
-
-.hero h1 {
-  font-size: clamp(2.25rem, 6vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  margin-bottom: 20px;
-}
-
-.hero p {
-  color: var(--testo-secondario);
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  line-height: 1.6;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-/* =====================================================
-   2. SEZIONE FLOW STEP-LIST
-   ===================================================== */
-.step-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
-  max-width: 1140px;
-  margin: 0 auto;
-}
-
-.step-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.step-top {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.step-numero {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--colore-accent-soft);
-  font-variant-numeric: llining-nums;
-  line-height: 1;
-  text-shadow: 0 0 20px rgba(167, 139, 250, 0.2);
-}
-
-.step-line {
-  flex-grow: 1;
-  height: 2px;
-  background: linear-gradient(to right, var(--colore-bordo) 70%, transparent);
-}
-
-.step-grid .step-item:last-child .step-line {
-  background: transparent; /* Nasconde la linea nell'ultimo step */
-}
-
-.step-item h3 {
-  font-size: 1.35rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-  letter-spacing: -0.01em;
-}
-
-.step-item p {
-  color: var(--testo-secondario);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* =====================================================
-   3. SEZIONE VANTAGGI CARDS
-   ===================================================== */
-.vantaggi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-}
-
-.vantaggio-card {
-  background: var(--colore-card);
-  border: 1px solid var(--colore-bordo);
-  border-radius: var(--raggio-card);
-  padding: 40px 30px;
-  transition: transform var(--transizione), box-shadow var(--transizione);
-}
-
-.vantaggio-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  border-color: rgba(167, 139, 250, 0.3);
-}
-
-.vantaggio-icon {
-  font-size: 2.5rem;
-  margin-bottom: 24px;
-  line-height: 1;
-}
-
-.vantaggio-card h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.vantaggio-card p {
-  color: var(--testo-secondario);
-  font-size: 0.92rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* =====================================================
-   4. SEZIONE FAQ-ACCORDION CON TRANSIZIONE FLUIDA
-   ===================================================== */
-.faq-accordion {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.faq-item {
-  background: var(--colore-card);
-  border: 1px solid var(--colore-bordo);
-  border-radius: 12px;
-  cursor: pointer;
-  overflow: hidden;
-  transition: border-color var(--transizione), background-color var(--transizione);
-}
-
-.faq-item:hover {
-  border-color: rgba(167, 139, 250, 0.3);
-  background-color: rgba(30, 41, 59, 0.8);
-}
-
-.faq-trigger {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 22px 28px;
-  gap: 20px;
-}
-
-.faq-domanda {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--testo-primario);
-}
-
-/* Icona freccia + / - dinamica in CSS puro */
-.faq-icon {
-  position: relative;
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-
-.faq-icon::before, .faq-icon::after {
-  content: '';
-  position: absolute;
-  background-color: var(--testo-secondario);
-  transition: transform 0.25s ease;
-}
-
-/* Linea Orizzontale */
-.faq-icon::before {
-  top: 7px;
-  left: 0;
-  width: 16px;
-  height: 2px;
-}
-
-/* Linea Verticale */
-.faq-icon::after {
-  top: 0;
-  left: 7px;
-  width: 2px;
-  height: 16px;
-}
-
-/* Stati di Apertura dell'accordion */
-.faq-item.is-open {
-  border-color: var(--colore-accent);
-}
-
-.faq-item.is-open .faq-icon::after {
-  transform: rotate(90deg);
-  opacity: 0; /* scompare la linea verticale formando un meno (-) */
-}
-
-.faq-item.is-open .faq-icon::before {
-  background-color: var(--colore-accent-soft);
-}
-
-/* Animazione fluida del contenuto interno */
-.faq-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0, 1, 0, 1); /* Trucco CSS per transizione altezza su elementi dinamici */
-  padding: 0 28px;
-}
-
-.faq-item.is-open .faq-content {
-  max-height: 1000px; /* Valore arbitrario alto per permettere lo scorrimento completo */
-  transition: max-height 0.35s cubic-bezier(1, 0, 1, 0);
-  padding-bottom: 24px;
-}
-
-.faq-risposta {
-  color: var(--testo-secondario);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* =====================================================
-   5. CTA FINALE
-   ===================================================== */
-.cta-finale {
-  padding: 100px 24px;
-  background: linear-gradient(to top, rgba(124, 58, 237, 0.08) 0%, transparent 100%);
-  border-top: 1px solid var(--colore-bordo);
-  text-align: center;
-}
-
-.cta-content {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.cta-finale h2 {
-  font-size: clamp(1.75rem, 4vw, 2.4rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 14px;
-}
-
-.cta-finale p {
-  color: var(--testo-secondario);
-  font-size: 1.05rem;
-  margin-bottom: 32px;
-  line-height: 1.6;
-}
-
-/* Bottone Primario standardizzato con l'estetica della Homepage */
 .btn-primary {
-  padding: 14px 36px;
+  padding: 12px 28px;
   border-radius: var(--raggio-btn);
   border: none;
   background: var(--colore-accent);
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   transition: background var(--transizione), transform var(--transizione), box-shadow var(--transizione);
   box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
@@ -368,11 +59,343 @@
   transform: translateY(0);
 }
 
-/* Responsive Tablet & Mobile */
+/* =====================================================
+   1. HERO
+   ===================================================== */
+.hero {
+  padding: 96px 24px 80px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border-bottom: 1px solid var(--colore-bordo);
+}
+
+.hero-content {
+  max-width: 680px;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--colore-accent-soft);
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  padding: 5px 14px;
+  border-radius: var(--raggio-btn);
+  margin-bottom: 20px;
+}
+
+.hero-content h1 {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 16px;
+}
+
+.hero-content p {
+  color: var(--testo-secondario);
+  font-size: 1.1rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* =====================================================
+   SEZIONI GENERICHE
+   ===================================================== */
+.section-container {
+  padding: 80px 24px;
+  max-width: 1140px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section-container.bg-alt {
+  max-width: none;
+  margin: 0;
+  background: #090d16;
+  border-top: 1px solid var(--colore-bordo);
+  border-bottom: 1px solid var(--colore-bordo);
+}
+
+.inner-container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.inner-container.max-width-md {
+  max-width: 720px;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 48px;
+}
+
+.section-header h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+
+.section-header p {
+  color: var(--testo-secondario);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* =====================================================
+   2. STEP DEL PERCORSO (sequenza reale: 1 → 2 → 3)
+   ===================================================== */
+.step-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.step-item {
+  text-align: center;
+  padding: 0 20px;
+  position: relative;
+}
+
+.step-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.step-numero {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--colore-accent);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 800;
+  box-shadow: 0 0 0 6px rgba(124, 58, 237, 0.14);
+}
+
+.step-line {
+  position: absolute;
+  top: 24px;
+  left: calc(50% + 24px);
+  right: calc(-50% + 24px);
+  height: 1.5px;
+  background: var(--colore-bordo);
+}
+
+.step-item:last-child .step-line {
+  display: none;
+}
+
+.step-item h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--testo-primario);
+}
+
+.step-item p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--testo-secondario);
+  margin: 0;
+}
+
+/* =====================================================
+   3. VANTAGGI / STRUMENTI
+   ===================================================== */
+.vantaggi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.vantaggio-card {
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: var(--raggio-card);
+  padding: 28px 24px;
+  text-align: center;
+  transition: transform var(--transizione), border-color var(--transizione);
+}
+
+.vantaggio-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--colore-accent);
+}
+
+.vantaggio-icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.vantaggio-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--testo-primario);
+}
+
+.vantaggio-card p {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--testo-secondario);
+  margin: 0;
+}
+
+/* =====================================================
+   4. FAQ ACCORDION
+   ===================================================== */
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background: var(--colore-card);
+  border: 1px solid var(--colore-bordo);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color var(--transizione);
+  overflow: hidden;
+}
+
+.faq-item:hover {
+  border-color: var(--colore-accent-soft);
+}
+
+.faq-item.is-open {
+  border-color: var(--colore-accent);
+}
+
+.faq-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+}
+
+.faq-domanda {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--testo-primario);
+}
+
+.faq-icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.faq-icon::before,
+.faq-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--colore-accent-soft);
+  transition: var(--transizione);
+}
+
+.faq-icon::before {
+  width: 12px;
+  height: 2px;
+  transform: translate(-50%, -50%);
+}
+
+.faq-icon::after {
+  width: 2px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+}
+
+.faq-item.is-open .faq-icon::after {
+  opacity: 0;
+}
+
+.faq-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0 22px;
+  transition: max-height 0.3s ease, opacity 0.25s ease;
+}
+
+.faq-item.is-open .faq-content {
+  max-height: 320px;
+  opacity: 1;
+  padding: 0 22px 20px;
+}
+
+.faq-risposta {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--testo-secondario);
+  margin: 0;
+  border-top: 1px solid var(--colore-bordo);
+  padding-top: 14px;
+}
+
+/* =====================================================
+   5. CTA FINALE
+   ===================================================== */
+.cta-finale {
+  padding: 80px 24px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.18), transparent 60%),
+    var(--colore-sfondo);
+}
+
+.cta-content {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.cta-content h2 {
+  font-size: clamp(1.7rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+
+.cta-content p {
+  color: var(--testo-secondario);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
 @media (max-width: 768px) {
-  .section-container, .hero, .cta-finale { padding: 60px 16px; }
-  .step-top { margin-bottom: 16px; }
-  .step-line { display: none; } /* Rimuove le linee orizzontali del flusso su mobile */
-  .faq-trigger { padding: 18px 20px; }
-  .faq-item.is-open .faq-content { padding: 0 20px 20px 20px; }
+  .hero { padding: 72px 16px 56px; }
+  .section-container { padding: 56px 16px; }
+  .cta-finale { padding: 56px 16px; }
+
+  .step-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .step-line {
+    display: none;
+  }
 }

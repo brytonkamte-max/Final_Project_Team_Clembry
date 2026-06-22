@@ -63,12 +63,140 @@
   line-height: 1.65;
 }
 
-/* <div class="teachers-container">
-  <div class="teachers-header">
-    <p class="header-label">Aula Docenti</p>
-    <h1 class="header-title">I nostri Docenti</h1>
-    <p class="header-subtitle">Trova il tutor perfetto per le tue lezioni private online.</p>
-  </div> */
+/* Stile del pannello nascosto */
+.courses-dropdown-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+  opacity: 0;
+  width: 100%;
+}
+
+/* Classe dinamica applicata quando il signal è attivo */
+.courses-dropdown-panel.show {
+  max-height: 500px; /* Limite massimo per lo scorrimento */
+  opacity: 1;
+  overflow-y: auto;
+  padding-top: 12px;
+}
+
+.panel-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 12px;
+}
+
+.panel-title {
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+  color: #a78bfa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Singola riga corso integrata */
+.embedded-course-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+}
+
+.embedded-course-row:last-child {
+  margin-bottom: 0;
+}
+
+.inline-emoji {
+  font-size: 1.4rem;
+}
+
+.inline-course-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.inline-course-details h5 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+.inline-course-details p {
+  margin: 2px 0 0 0;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.inline-price {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: auto;
+}
+
+.no-courses-text {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-style: italic;
+  margin: 8px 0 0 0;
+}
+
+/* Extra dettagli e bottoni */
+.teacher-extra-details {
+  margin: 12px 0;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.rating-row .stars {
+  color: #f59e0b;
+}
+
+.card-action-footer-full {
+  width: 100%;
+  padding-top: 8px;
+}
+
+.btn-courses-view-full {
+  width: 100%;
+  background: #7c3aed;
+  border: none;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+}
+
+.btn-courses-view-full:hover {
+  background: #6d28d9;
+}
+
 /* =====================================================
    SEARCH (uniformata al primo CSS)
    ===================================================== */

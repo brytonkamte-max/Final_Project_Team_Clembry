@@ -1,6 +1,5 @@
 <div class="contatti-container">
 
-  <!-- Header -->
   <header class="contatti-header">
     <p class="header-tag">Il Nostro Team</p>
     <h1 class="header-main-title">Contatta i Nostri Sviluppatori</h1>
@@ -10,13 +9,11 @@
     </p>
   </header>
 
-  <!-- Griglia membri team -->
   <div class="contatti-grid">
 
     @for (membro of team(); track membro.id) {
       <article class="membro-card">
 
-        <!-- Top: foto + info base -->
         <div class="membro-top-header">
           <div class="contenitore-foto">
             <img [src]="membro.avatar" [alt]="membro.nome" class="avatar-sviluppatore" />
@@ -29,7 +26,6 @@
           </div>
         </div>
 
-        <!-- Corpo: competenze, bio, recapiti -->
         <div class="corpo-card-dettagli">
 
           <div class="sezione-blocco">
@@ -65,7 +61,6 @@
 
         </div>
 
-        <!-- Footer: social -->
         <div class="footer-social-azioni">
           <a [href]="membro.recapiti.linkedin" target="_blank" rel="noopener" class="btn-social linkedin">
             <span class="social-icon">in</span> LinkedIn

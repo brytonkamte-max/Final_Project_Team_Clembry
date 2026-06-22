@@ -42,8 +42,8 @@
   </div>
 
   <div class="teachers-grid">
-    @for (docente of docentiFiltrati(); track docente.id) {
-      <div class="teacher-card">
+    @for (docente of docentsFiltrati(); track docente.id) {
+      <div class="teacher-card" [class.expanded]="idDocenteEspanso() === docente.id">
         <div class="card-header-top">
           <div class="avatar-circle">
             <img src="{{ docente.avatar }}" alt="Avatar" class="avatar-img" />
@@ -60,38 +60,59 @@
           </div>
         </div>
 
-        <div class="corpo-card-dettagli">
-          <div class="sezione-blocco">
-            <h3>Competenze</h3>
-            <div class="tag-competenze-container">
-              @for (materia of docente.materie; track materia) {
-                <span class="tag-tech">{{ materia }}</span>
-              }
-            </div>
+        <div class="card-info">
+          <h2 class="teacher-name">{{ docente.nome }} {{ docente.cognome }}</h2>
+          <p class="teacher-title">{{ docente.titolo }}</p>
+          <p class="teacher-bio">{{ docente.bio }}</p>
+
+          <div class="teacher-extra-details">
+            @if (docente.stelle) {
+              <div class="detail-row rating-row">
+                <span class="stars">
+                  @for (stella of [].constructor(docente.stelle); track $index) { ★ }
+                </span>
+                <span class="reviews-count">({{ docente.recensioni || 0 }} recensioni)</span>
+              </div>
+            }
+            @if (docente.email) {
+              <div class="detail-row email-row">
+                <span class="detail-icon">✉️</span>
+                <span class="detail-text">{{ docente.email }}</span>
+              </div>
+            }
           </div>
 
-          <div class="sezione-blocco">
-            <h3>Recapiti</h3>
-            <ul class="lista-recapiti-links">
-              <li>
-                <span class="icona-canale">✉️</span>
-                <a [href]="'mailto:' + docente.email" class="valore-canale link-click">
-                  {{ docente.email }}
-                </a>
-              </li>
-            </ul>
+          <div class="subjects-tags">
+            @for (materia of docente.materie; track materia) {
+              <span class="subject-tag">{{ materia }}</span>
+            }
           </div>
         </div>
 
-        <div class="card-action-footer">
-          <div class="price-box">
-            <span class="amount">{{ docente.tariffaOraria }}€</span>
-            <span class="unit">/ ora</span>
-          </div>
-          <button class="btn-contact" (click)="prenotaLezione(docente.nome)">
-            Prenota Lezione
+        <div class="card-action-footer-full">
+          <button class="btn-courses-view-full" (click)="toggleCorsiDocente(docente.id)">
+            {{ idDocenteEspanso() === docente.id ? 'Nascondi i corsi ▲' : 'Vedi i suoi corsi ▼' }}
           </button>
         </div>
+
+        <div class="courses-dropdown-panel" [class.show]="idDocenteEspanso() === docente.id">
+          <div class="panel-divider"></div>
+          <h4 class="panel-title">Corsi Programmati:</h4>
+
+          @for (corso of getCorsiPerDocente(docente.id, docente.nome, docente.cognome); track corso.id) {
+            <div class="embedded-course-row">
+              <span class="inline-emoji">{{ corso.immagine }}</span>
+              <div class="inline-course-details">
+                <h5>{{ corso.titolo }}</h5>
+                <p>📅 {{ corso.dataOra }}</p>
+                <span class="inline-price">{{ corso.prezzo }}€</span>
+              </div>
+            </div>
+          } @empty {
+            <p class="no-courses-text">Nessun corso programmato al momento per questo docente.</p>
+          }
+        </div>
+
       </div>
     } @empty {
       <div class="empty-state">

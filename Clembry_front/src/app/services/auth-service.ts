@@ -1,9 +1,8 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 
-// Interfaccia per tipizzare la risposta del server
 export interface UserResponse {
   id: number;
   nome: string;
@@ -22,7 +21,7 @@ export class Auth {
 
   private readonly apiUrl = 'http://localhost:8080/api/auth';
 
-  // Manteniamo i tuoi Signals per gestire lo stato dell'app in tempo reale
+  // State Management tramite Signals
   private loggedIn = signal<boolean>(false);
   private role = signal<'teacher' | 'student'>('student');
   private currentUserData = signal<UserResponse | null>(null);
@@ -33,36 +32,36 @@ export class Auth {
   login(credentials: { username: string; password: string }): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap((user: UserResponse) => {
-        // Se il server risponde con successo, aggiorniamo i Signals
+        // Aggiorna lo stato reattivo globale dell'applicazione
         this.loggedIn.set(true);
         this.role.set(user.role);
         this.currentUserData.set(user);
+        
+        // Reindirizza l'utente in base al ruolo restituito dal database
         const targetRoute = user.role === 'teacher' ? '/teacherPersonalArea' : '/personalArea';
         this.router.navigateByUrl(targetRoute);
       }),
     );
   }
 
-  // login(credentials: { username: string; password: string }): Observable<UserResponse> {
-  //   return this.http.post<UserResponse>(`${this.apiUrl}/login`, credentials).pipe(
-  //     tap((user: UserResponse) => {
-  //       //
-  //       this.updateAuthState(user);
-  //       const targetRoute = user.role === 'teacher' ? '/teacherPersonalArea' : '/personalArea';
-  //       this.router.navigateByUrl(targetRoute);
-  //     })
-  //   );
-  // }
-
   /**
-   * Registra un nuovo utente nel database remoto
+   * Registra un nuovo utente nel database remoto ed esegue il LOGIN AUTOMATICO immediato
    */
   register(userData: any): Observable<UserResponse> {
-    return this.http.post<UserResponse>(`${this.apiUrl}/register`, userData);
+    return this.http.post<UserResponse>(`${this.apiUrl}/register`, userData).pipe(
+      switchMap(() => {
+        console.log('Registrazione completata con successo. Avvio il login automatico...');
+        // Esegue il login usando i dati appena inseriti dall'utente nel form
+        return this.login({
+          username: userData.username,
+          password: userData.password
+        });
+      })
+    );
   }
 
   /**
-   * Reset dello stato al logout
+   * Reset dello stato dell'applicazione al logout
    */
   logout(): void {
     this.loggedIn.set(false);
@@ -71,8 +70,7 @@ export class Auth {
     this.router.navigateByUrl('/login');
   }
 
-  // --- I tuoi metodi originari basati su Signal (rimangono invariati per i componenti) ---
-
+  // Esposizione dei Signals in modalità ReadOnly per i componenti della bacheca
   isLoggedIn = this.loggedIn.asReadonly();
   getRole = this.role.asReadonly();
   getCurrentUser = this.currentUserData.asReadonly();

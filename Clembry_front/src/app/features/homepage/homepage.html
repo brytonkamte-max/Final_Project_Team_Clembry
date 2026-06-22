@@ -1,6 +1,11 @@
 <main class="homepage-layout">
 
-  <section class="carousel-container">
+  <section class="carousel-container"
+           role="region"
+           aria-roledescription="carosello"
+           aria-label="Presentazione in evidenza"
+           (mouseenter)="pauseAutoPlay()"
+           (mouseleave)="resumeAutoPlay()">
     <div class="carousel-slides">
       @for (slide of slides; track $index) {
         <div class="slide"
@@ -15,12 +20,21 @@
       }
     </div>
 
+    <button class="carousel-btn prev" (click)="prevSlide(); $event.stopPropagation()" aria-label="Slide precedente">
+      &#10094;
+    </button>
+    <button class="carousel-btn next" (click)="nextSlide(); $event.stopPropagation()" aria-label="Slide successiva">
+      &#10095;
+    </button>
+
     <div class="carousel-indicators">
       @for (slide of slides; track $index) {
-        <span class="dot"
-              [class.active]="$index === currentSlide"
-              (click)="setSlide($index)">
-        </span>
+        <button class="dot"
+                [class.active]="$index === currentSlide"
+                [attr.aria-current]="$index === currentSlide ? 'true' : null"
+                [attr.aria-label]="'Vai alla slide ' + ($index + 1)"
+                (click)="setSlide($index)">
+        </button>
       }
     </div>
   </section>
@@ -37,13 +51,12 @@
 
   <section class="benefits">
     <h2>I nostri vantaggi</h2>
-
     <div class="card-container">
       <div class="card">
         <div class="card-icon">
-          <svg class="c-icon" viewBox="0 0 100 100">
-            <path d="M70,20 C50,0 10,20 10,50 C10,80 50,100 70,80" stroke="#7C3AED" fill="none" stroke-width="8"/>
-            <text x="42" y="65" font-family="'Inter', sans-serif" font-size="38" font-weight="bold" fill="#7C3AED">I</text>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 5.5C3 4.5 4 4 6 4c2.5 0 4 1 5 2v13c-1-1-2.5-1.8-5-1.8-2 0-3 .4-3 1.3z"/>
+            <path d="M21 5.5C21 4.5 20 4 18 4c-2.5 0-4 1-5 2v13c1-1 2.5-1.8 5-1.8 2 0 3 .4 3 1.3z"/>
           </svg>
         </div>
         <h3>Apprendimento</h3>
@@ -52,9 +65,9 @@
 
       <div class="card">
         <div class="card-icon">
-          <svg class="c-icon" viewBox="0 0 100 100">
-            <path d="M70,20 C50,0 10,20 10,50 C10,80 50,100 70,80" stroke="#7C3AED" fill="none" stroke-width="8"/>
-            <text x="35" y="65" font-family="'Inter', sans-serif" font-size="38" font-weight="bold" fill="#7C3AED">C</text>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="5"/>
+            <path d="M8.5 12.5L7 21l5-2.5 5 2.5-1.5-8.5"/>
           </svg>
         </div>
         <h3>Certificazione</h3>
@@ -63,9 +76,10 @@
 
       <div class="card">
         <div class="card-icon">
-          <svg class="c-icon" viewBox="0 0 100 100">
-            <path d="M70,20 C50,0 10,20 10,50 C10,80 50,100 70,80" stroke="#7C3AED" fill="none" stroke-width="8"/>
-            <text x="35" y="65" font-family="'Inter', sans-serif" font-size="38" font-weight="bold" fill="#7C3AED">R</text>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="12" cy="12" r="0.7" fill="currentColor" stroke="none"/>
           </svg>
         </div>
         <h3>Competenze Professionali</h3>
@@ -101,7 +115,7 @@
           </div>
         </div>
       } @empty {
-        <p style="grid-column: 1/-1; color: var(--text-muted); text-align: center; font-style: italic;">
+        <p class="empty-courses">
           Nessun corso attualmente disponibile in vetrina.
         </p>
       }
