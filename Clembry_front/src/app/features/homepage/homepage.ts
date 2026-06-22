@@ -23,20 +23,41 @@ interface Passo {
   styleUrl: './homepage.css',
 })
 export class Homepage implements OnInit, OnDestroy {
+  // iniettiamo i servizi come dipendenze
   private router = inject(Router);
   private coursesService = inject(CoursesService);
 
+  //carica i corsi dal server
   private corsiDalServer = this.coursesService.corsi;
 
+  //creiamo la lista di corsi recuperata dal server se no usiamo i corsi di default
   corsiSignal = computed(() => {
     const datiReali = this.corsiDalServer();
     if (datiReali && datiReali.length > 0) {
       return datiReali;
     }
     return [
-      { id: 1, titolo: 'Matematica Finanziaria e Algebra Lineare', docente: 'Prof.ssa Elena Bianchi', prezzo: 25.00, materia: 'Matematica' },
-      { id: 2, titolo: 'Introduzione ad Angular e TypeScript', docente: 'Ing. Mario Rossi', prezzo: 30.00, materia: 'Programmazione' },
-      { id: 3, titolo: 'Fisica Quantistica e Meccanica', docente: 'Prof.ssa Elena Bianchi', prezzo: 25.00, materia: 'Fisica' }
+      {
+        id: 1,
+        titolo: 'Matematica Finanziaria e Algebra Lineare',
+        docente: 'Prof.ssa Elena Bianchi',
+        prezzo: 25.0,
+        materia: 'Matematica',
+      },
+      {
+        id: 2,
+        titolo: 'Introduzione ad Angular e TypeScript',
+        docente: 'Ing. Mario Rossi',
+        prezzo: 30.0,
+        materia: 'Programmazione',
+      },
+      {
+        id: 3,
+        titolo: 'Fisica Quantistica e Meccanica',
+        docente: 'Prof.ssa Elena Bianchi',
+        prezzo: 25.0,
+        materia: 'Fisica',
+      },
     ];
   });
 
@@ -44,40 +65,56 @@ export class Homepage implements OnInit, OnDestroy {
     {
       image: 'img/img1.jpg',
       title: 'Studio Online',
-      description: 'Impara dove e quando vuoi con i nostri docenti certificati.'
+      description: 'Impara dove e quando vuoi con i nostri docenti certificati.',
     },
     {
       image: 'img/img2.jpg',
       title: 'Materiale Didattico',
-      description: 'Accedi a migliaia di risorse e documenti condivisi.'
+      description: 'Accedi a migliaia di risorse e documenti condivisi.',
     },
     {
       image: 'img/img3.jpg',
       title: 'Progressi Monitorati',
-      description: 'Visualizza i tuoi risultati e ricevi feedback costanti.'
-    }
+      description: 'Visualizza i tuoi risultati e ricevi feedback costanti.',
+    },
   ];
 
   currentSlide = 0;
+  // intervallo per l'autoplay
   private autoPlayInterval: ReturnType<typeof setInterval> | null = null;
 
   // 6 secondi: tempo comodo per leggere titolo + descrizione prima del cambio slide
   private readonly AUTOPLAY_MS = 3000;
 
   titolo: string = 'Trova il docente per le tue ripetizioni online';
-  sottotitolo: string = 'Prenota lezioni individuali o di gruppo, accedi ai materiali e monitora i tuoi progressi.';
+  sottotitolo: string =
+    'Prenota lezioni individuali o di gruppo, accedi ai materiali e monitora i tuoi progressi.';
 
   passaggi: Passo[] = [
-    { icon: '🔍', titolo: '1. Cerca il Docente', desc: 'Filtra per materia, disponibilità e recensioni.' },
-    { icon: '📅', titolo: '2. Prenota la Lezione', desc: 'Scegli l\'orario perfetto direttamente dal calendario.' },
-    { icon: '💻', titolo: '3. Accedi all\'Aula', desc: 'Segui la lezione online nella nostra aula virtuale interattiva.' }
+    {
+      icon: '🔍',
+      titolo: '1. Cerca il Docente',
+      desc: 'Filtra per materia, disponibilità e recensioni.',
+    },
+    {
+      icon: '📅',
+      titolo: '2. Prenota la Lezione',
+      desc: "Scegli l'orario perfetto direttamente dal calendario.",
+    },
+    {
+      icon: '💻',
+      titolo: "3. Accedi all'Aula",
+      desc: 'Segui la lezione online nella nostra aula virtuale interattiva.',
+    },
   ];
 
+  // carosello e inizzializzazione
   ngOnInit() {
     this.startAutoPlay();
     this.coursesService.caricaCorsiDati();
   }
 
+  //stop timer del carosello
   ngOnDestroy() {
     this.stopAutoPlay();
   }
@@ -98,7 +135,7 @@ export class Homepage implements OnInit, OnDestroy {
   }
 
   // --- Carosello ---
-
+  // avanza al prossimo slide
   private goToSlide(index: number) {
     const totale = this.slides.length;
     this.currentSlide = ((index % totale) + totale) % totale;
@@ -113,26 +150,27 @@ export class Homepage implements OnInit, OnDestroy {
     this.goToSlide(this.currentSlide + 1);
   }
 
+  // avanza e riavvia il timer
   nextSlide() {
     this.advanceSlide();
     this.riavviaTimer();
   }
-
+  // va indietro e riavvia il timer
   prevSlide() {
     this.goToSlide(this.currentSlide - 1);
     this.riavviaTimer();
   }
-
+  // va al slide specificato e riavvia il timer
   setSlide(index: number) {
     this.goToSlide(index);
     this.riavviaTimer();
   }
-
+  // inizia l'autoplay
   startAutoPlay() {
     this.stopAutoPlay();
     this.autoPlayInterval = setInterval(() => this.advanceSlide(), this.AUTOPLAY_MS);
   }
-
+  // ferma l'autoplay
   stopAutoPlay() {
     if (this.autoPlayInterval) {
       clearInterval(this.autoPlayInterval);

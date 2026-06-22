@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./courses.css'],
 })
 export class Courses {
+  // Servizi
   private coursesService = inject(CoursesService);
   private authService = inject(Auth);
   private subscriptionService = inject(SubscriptionService);
@@ -40,11 +41,11 @@ export class Courses {
       return matchMateria && matchTesto;
     });
   });
-
+// Funzione per impostare il filtro
   impostaFiltro(materia: string): void {
     this.materiaSelezionata.set(materia);
   }
-
+// Funzione per la ricerca
   onSearchChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.ricercaNome.set(input.value);
@@ -83,7 +84,7 @@ export class Courses {
   iscrivitiAlCorso(corsoId: number): void {
     const user = this.authService.getCurrentUser();
 
-    
+
     if (!user) {
       this.router.navigate(['/login']);
       return;
